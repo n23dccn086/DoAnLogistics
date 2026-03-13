@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Vận Tải - Đồ Án</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #eef2f7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; }
+        h2 { color: #1a73e8; text-align: center; margin-bottom: 20px; }
+        label { display: block; margin: 10px 0 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #1557b0; }
+        #result { margin-top: 20px; padding: 15px; background: #e8f0fe; border-radius: 8px; text-align: center; color: #1a73e8; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Logistics Calc</h2>
+    
+    <label>Tuyến đường:</label>
+    <select id="route">
+        <option value="noi-thanh">Nội thành (15.000đ/kg)</option>
+        <option value="lien-tinh">Liên tỉnh (30.000đ/kg)</option>
+    </select>
+
+    <label>Trọng lượng (kg):</label>
+    <input type="number" id="weight" placeholder="VD: 10">
+
+    <button onclick="calculate()">TÍNH GIÁ CƯỚC</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    async function calculate() {
+        const weight = document.getElementById('weight').value;
+        const route = document.getElementById('route').value;
+
+        if(!weight || weight <= 0) {
+            alert("Vui lòng nhập trọng lượng hợp lệ!");
+            return;
+        }
+
+        // Gửi yêu cầu sang Server Node.js
+        const response = await fetch('/tinh-gia', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ weight: weight, route: route })
+        });
+
+        const data = await response.json();
+        
+        // Hiển thị kết quả nhận về từ Server
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = "Tổng cước phí:<br><span style='font-size: 20px;'>" + data.result + " VNĐ</span>";
+    }
+</script>
+
+</body>
+</html>
