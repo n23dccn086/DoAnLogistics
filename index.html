@@ -1,116 +1,159 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Quản Lý Vận Tải - Đồ Án</title>
-    <style>
-      body {
-        font-family: "Segoe UI", sans-serif;
-        background: #eef2f7;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-      .container {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        width: 350px;
-      }
-      h2 {
-        color: #1a73e8;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      label {
-        display: block;
-        margin: 10px 0 5px;
-        font-weight: bold;
-      }
-      input,
-      select {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 15px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-sizing: border-box;
-      }
-      button {
-        width: 100%;
-        padding: 12px;
-        background: #1a73e8;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-      }
-      button:hover {
-        background: #1557b0;
-      }
-      #result {
-        margin-top: 20px;
-        padding: 15px;
-        background: #e8f0fe;
-        border-radius: 8px;
-        text-align: center;
-        color: #1a73e8;
-        font-weight: bold;
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Hoàng N23-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HHH - Hệ Thống Quản Lý Đơn Hàng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
     <div class="container">
-      <h2>Logistics Calc</h2>
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="./logo.png" alt="Logo">
+                <div>HHH <span class="sub-logo">Logistics</span></div>
+            </div>
+            
+            <nav class="menu">
+                <div class="menu-group">
+                    <p class="menu-label">Tổng quan</p>
+                    <a href="#" class="menu-item" data-tab="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                </div>
+                <div class="menu-group">
+                    <p class="menu-label">Báo giá</p>
+                    <a href="#" class="menu-item" data-tab="quotation-list"><i class="fa-solid fa-list-check"></i> Danh sách Báo Giá</a>
+                    <a href="#" class="menu-item active" data-tab="quotation-create"><i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá</a>
+                </div>
+                <div class="menu-group">
+                    <p class="menu-label">Vận đơn</p>
+                    <a href="#" class="menu-item" data-tab="shipping-list"><i class="fa-solid fa-boxes-stacked"></i> Danh sách Vận Đơn</a>
+                </div>
+                <div class="menu-group">
+                    <p class="menu-label">Thu tiền</p>
+                    <a href="#" class="menu-item" data-tab="receipt-list"><i class="fa-solid fa-file-invoice"></i> Danh sách Phiếu Thu</a>
+                    <a href="#" class="menu-item" data-tab="receipt-create"><i class="fa-solid fa-file-circle-plus"></i> Tạo Phiếu Thu</a>
+                </div>
+                <div class="menu-group">
+                    <p class="menu-label">Danh mục</p>
+                    <a href="#" class="menu-item" data-tab="customer-list"><i class="fa-solid fa-user-group"></i> Khách Hàng</a>
+                    <a href="#" class="menu-item" data-tab="rate-card"><i class="fa-solid fa-money-bill-transfer"></i> Bảng Giá Cước</a>
+                </div>
+            </nav>
+        </aside>
 
-      <label>Tuyến đường:</label>
-      <select id="route">
-        <option value="noi-thanh">Nội thành (15.000đ/kg)</option>
-        <option value="lien-tinh">Liên tỉnh (30.000đ/kg)</option>
-      </select>
+        <main class="main-content">
+            
+            <div id="quotation-create" class="tab-content active">
+                <header class="content-header">
+                    <nav class="breadcrumb">HHH > Tạo Báo Giá > Chốt Đơn</nav>
+                    <h1>Tạo Báo Giá Mới</h1>
+                </header>
 
-      <label>Trọng lượng (kg):</label>
-      <input type="number" id="weight" placeholder="VD: 10" />
+                <div class="content-grid">
+                    <div class="left-column">
+                        <section class="card">
+                            <h2 class="card-title"><i class="fa-regular fa-clipboard"></i> Thông tin chung</h2>
+                            <div class="form-row">
+                                <div class="form-group flex-2">
+                                    <label>Tên khách hàng / SĐT <span class="req">*</span></label>
+                                    <input type="text" id="cust-info" placeholder="Nhập SĐT hoặc tên..." class="input-light">
+                                    <div class="customer-info-box">
+                                        <i class="fa-solid fa-user-check"></i> <strong>Khách hàng hiện hữu</strong>
+                                    </div>
+                                </div>
+                                <div class="form-group flex-1">
+                                    <label>Ngày lập</label>
+                                    <input type="date" id="date-start" value="2026-03-17">
+                                    <label style="margin-top:10px">Hạn hiệu lực <span class="req">*</span></label>
+                                    <input type="date" id="date-end" value="2026-03-24">
+                                </div>
+                            </div>
+                            <div class="file-upload-section">
+                                <label><i class="fa-solid fa-paperclip"></i> Ảnh hợp đồng (Tối đa 5MB)</label>
+                                <input type="file" id="fileAttachment" accept="image/*,.pdf">
+                                <p id="fileError" class="error-text"></p>
+                            </div>
+                        </section>
 
-      <button onclick="calculate()">TÍNH GIÁ CƯỚC</button>
+                        <section class="card">
+                            <div class="card-header-flex">
+                                <h2 class="card-title"><i class="fa-solid fa-truck-moving"></i> Tuyến vận chuyển</h2>
+                                <button class="btn-outline">+ Thêm tuyến</button>
+                            </div>
+                            <div class="route-item">
+                                <div class="route-grid">
+                                    <div class="form-group">
+                                        <label>Điểm đi <span class="req">*</span></label>
+                                        <select id="loc-start">
+                                            <option value="">-- Chọn điểm đi --</option>
+                                            <option value="HCM">Hồ Chí Minh</option>
+                                            <option value="HN">Hà Nội</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Điểm đến <span class="req">*</span></label>
+                                        <select id="loc-end">
+                                            <option value="">-- Chọn điểm đến --</option>
+                                            <option value="DN">Đà Nẵng</option>
+                                            <option value="HP">Hải Phòng</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Trọng lượng (kg)</label>
+                                        <input type="number" id="weight-input" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Đơn giá (VNĐ)</label>
+                                        <input type="text" class="price-format" placeholder="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
 
-      <div id="result"></div>
+                    <div class="right-column">
+                        <section class="card summary-card">
+                            <h2 class="card-title"><i class="fa-solid fa-sack-dollar"></i> Tổng kết</h2>
+                            <div class="summary-total">
+                                <span class="total-label">Tổng cộng</span>
+                                <div class="total-value"><strong>0đ</strong></div>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h2 class="card-title"><i class="fa-solid fa-hand-pointer"></i> Hành động</h2>
+                            <div class="action-buttons" style="display: flex; flex-direction: column; gap: 12px;">
+                                <button class="btn-primary" id="btnSave">
+                                    <i class="fa-solid fa-floppy-disk"></i> Lưu báo giá
+                                </button>
+                                <button class="btn-secondary" style="background: white; border: 1px solid #d1d5db; color: #1e293b; padding: 12px; border-radius: 12px; font-weight: bold;">
+                                    <i class="fa-regular fa-file-lines"></i> Xem trước PDF
+                                </button>
+                                <button class="btn-outline" style="border: 1px solid #d1d5db; color: #1e293b; padding: 12px; border-radius: 12px; font-weight: bold;">
+                                    <i class="fa-solid fa-arrow-rotate-left"></i> Hủy thay đổi
+                                </button>
+                            </div>
+                            <p style="font-size: 11px; color: var(--text-muted); margin-top: 15px; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-circle-info"></i> Cần lưu dữ liệu trước khi xuất file.
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dashboard" class="tab-content"><h1>Dashboard</h1></div>
+            <div id="quotation-list" class="tab-content"><h1>Danh sách Báo Giá</h1></div>
+            <div id="shipping-list" class="tab-content"><h1>Danh sách Vận Đơn</h1></div>
+            <div id="receipt-list" class="tab-content"><h1>Danh sách Phiếu Thu</h1></div>
+            <div id="receipt-create" class="tab-content"><h1>Tạo Phiếu Thu</h1></div>
+            <div id="customer-list" class="tab-content"><h1>Khách Hàng</h1></div>
+            <div id="rate-card" class="tab-content"><h1>Bảng Giá Cước</h1></div>
+
+        </main>
     </div>
-
-    <script>
-      async function calculate() {
-        const weight = document.getElementById("weight").value;
-        const route = document.getElementById("route").value;
-
-        if (!weight || weight <= 0) {
-          alert("Vui lòng nhập trọng lượng hợp lệ!");
-          return;
-        }
-
-        // Gửi yêu cầu sang Server Node.js
-        const response = await fetch("/tinh-gia", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ weight: weight, route: route }),
-        });
-
-        const data = await response.json();
-
-        // Hiển thị kết quả nhận về từ Server
-        const resultDiv = document.getElementById("result");
-        resultDiv.style.display = "block";
-        resultDiv.innerHTML =
-          "Tổng cước phí:<br><span style='font-size: 20px;'>" +
-          data.result +
-          " VNĐ</span>";
-      }
-    </script>
-  </body>
+    <script src="script.js"></script>
+</body>
 </html>
