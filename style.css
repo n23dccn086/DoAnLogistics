@@ -82,9 +82,34 @@ body {
   max-width: 1200px;
   margin: 0 auto;
 }
+/* Ẩn tất cả nội dung tab ngay lập tức */
 .tab-content {
-  display: none;
-  animation: fadeIn 0.3s ease;
+  display: none !important;
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Chỉ hiện tab nào có class active */
+.tab-content.active {
+  display: block !important;
+  opacity: 1;
+  visibility: visible;
+  height: auto;
+  overflow: visible;
+  animation: fadeIn 0.4s ease; /* Thêm hiệu ứng hiện ra cho đẹp */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .tab-content.active {
   display: block;
@@ -393,3 +418,110 @@ table tr:hover {
   background: #fee2e2;
   color: #991b1b;
 } /* Đã hủy */
+
+/* --- BỔ SUNG GIAO DIỆN THEO MOCKUP --- */
+.breadcrumb {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+.content-header h1 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Skeleton Effect (Hiệu ứng khung xám trong hình) */
+.skeleton {
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 6px;
+  width: 80%;
+  margin: 5px 0;
+}
+.skeleton-btn {
+  height: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  width: 60px;
+}
+.skeleton-box {
+  background: #f5f5f5;
+  border-radius: 8px;
+  width: 100%;
+}
+.stat-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-top: 8px;
+}
+.stat-bar.short {
+  width: 40%;
+}
+.stat-bar.long {
+  width: 70%;
+}
+
+/* Grid cho Dashboard */
+.dashboard-middle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+.table-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.table-card h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #555;
+  border-bottom: none;
+}
+
+/* Sub Menu Tabs (Tất cả, Chờ duyệt...) */
+.tab-sub-menu {
+  display: flex;
+  gap: 25px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 15px;
+  padding-left: 10px;
+}
+.sub-item {
+  padding: 10px 0;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+}
+.sub-item.active {
+  color: #333;
+  font-weight: bold;
+}
+.sub-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #333;
+}
+
+/* Layout cho Lập phiếu thu */
+.receipt-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 25px;
+  margin-top: 20px;
+}
