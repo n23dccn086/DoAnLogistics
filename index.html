@@ -26,15 +26,47 @@
           <img src="./logo.png" alt="Logo" />
           <div>HHH <span class="sub-logo">Logistics</span></div>
         </div>
+        <div
+          class="user-info-header"
+          style="
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 10px;
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 10px">
+            <i
+              class="fa-solid fa-circle-user"
+              style="font-size: 24px; color: #3b82f6"
+            ></i>
+            <div>
+              <p
+                id="user-display-name"
+                style="font-weight: 700; font-size: 14px; margin: 0"
+              >
+                Người dùng
+              </p>
+              <a
+                href="#"
+                onclick="logout()"
+                style="font-size: 12px; color: #ff4d4f; text-decoration: none"
+                >Đăng xuất</a
+              >
+            </div>
+          </div>
+        </div>
 
         <nav class="menu">
-          <div class="menu-group">
+          <!-- Dashboard: Ai cũng thấy -->
+          <div class="menu-group" data-role="ALL">
             <p class="menu-label">Tổng quan</p>
             <a href="#" class="menu-item" data-tab="dashboard"
               ><i class="fa-solid fa-chart-pie"></i> Dashboard</a
             >
           </div>
-          <div class="menu-group">
+
+          <!-- Báo giá: Chỉ SALE và MANAGER thấy -->
+          <div class="menu-group" data-role="SALE">
             <p class="menu-label">Báo giá</p>
             <a href="#" class="menu-item" data-tab="quotation-list"
               ><i class="fa-solid fa-list-check"></i> Danh sách Báo Giá</a
@@ -43,13 +75,9 @@
               ><i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá</a
             >
           </div>
-          <div class="menu-group">
-            <p class="menu-label">Vận đơn</p>
-            <a href="#" class="menu-item" data-tab="shipping-list"
-              ><i class="fa-solid fa-boxes-stacked"></i> Danh sách Vận Đơn</a
-            >
-          </div>
-          <div class="menu-group">
+
+          <!-- Thu tiền: Chỉ ACCOUNTANT và MANAGER thấy -->
+          <div class="menu-group" data-role="ACCOUNTANT">
             <p class="menu-label">Thu tiền</p>
             <a href="#" class="menu-item" data-tab="receipt-list"
               ><i class="fa-solid fa-file-invoice"></i> Danh sách Phiếu Thu</a
@@ -58,8 +86,10 @@
               ><i class="fa-solid fa-file-circle-plus"></i> Tạo Phiếu Thu</a
             >
           </div>
-          <div class="menu-group">
-            <p class="menu-label">Danh mục</p>
+
+          <!-- Cấu hình/Phê duyệt: Chỉ MANAGER thấy -->
+          <div class="menu-group" data-role="MANAGER">
+            <p class="menu-label">Danh mục & Hệ thống</p>
             <a href="#" class="menu-item" data-tab="customer-list"
               ><i class="fa-solid fa-user-group"></i> Khách Hàng</a
             >
@@ -676,7 +706,7 @@
                   id="cfg-threshold"
                   value="100"
                   min="0"
-                  oninput="if(this.value<0) this.value=0"
+                  oninput="if (this.value < 0) this.value = 0;"
                   style="
                     width: 100%;
                     padding: 10px;
@@ -693,7 +723,10 @@
                   value="20"
                   min="0"
                   max="100"
-                  oninput="if(this.value<0) this.value=0; else if(this.value>100) this.value=100;"
+                  oninput="
+                    if (this.value < 0) this.value = 0;
+                    else if (this.value > 100) this.value = 100;
+                  "
                   style="
                     width: 100%;
                     padding: 10px;
