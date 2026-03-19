@@ -57,48 +57,60 @@
         </div>
 
         <nav class="menu">
-          <!-- Dashboard: Ai cũng thấy -->
+          <!-- Nhóm 1: Tổng quan (Giữ nguyên) -->
           <div class="menu-group" data-role="ALL">
             <p class="menu-label">Tổng quan</p>
-            <a href="#" class="menu-item" data-tab="dashboard"
-              ><i class="fa-solid fa-chart-pie"></i> Dashboard</a
-            >
+            <a href="#" class="menu-item" data-tab="dashboard">
+              <i class="fa-solid fa-chart-pie"></i> Dashboard
+            </a>
           </div>
 
-          <!-- Báo giá: Chỉ SALE và MANAGER thấy -->
+          <!-- Nhóm 2: Báo giá (Giữ nguyên) -->
           <div class="menu-group" data-role="SALE">
             <p class="menu-label">Báo giá</p>
-            <a href="#" class="menu-item" data-tab="quotation-list"
-              ><i class="fa-solid fa-list-check"></i> Danh sách Báo Giá</a
-            >
-            <a href="#" class="menu-item active" data-tab="quotation-create"
-              ><i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá</a
-            >
+            <a href="#" class="menu-item" data-tab="quotation-list">
+              <i class="fa-solid fa-list-check"></i> Danh sách Báo Giá
+            </a>
+            <a href="#" class="menu-item active" data-tab="quotation-create">
+              <i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá
+            </a>
           </div>
 
-          <!-- Thu tiền: Chỉ ACCOUNTANT và MANAGER thấy -->
+          <!-- NHÓM 3: VẬN ĐƠN (ĐÂY LÀ ĐOẠN MỚI CHÈN VÀO) -->
+          <!-- NHÓM VẬN ĐƠN -->
+          <div class="menu-group" data-role="SALE">
+            <p class="menu-label">Vận đơn</p>
+            <a href="#" class="menu-item" data-tab="shipping-list">
+              <i class="fa-solid fa-truck-fast"></i> Danh sách Vận Đơn
+            </a>
+            <a href="#" class="menu-item" data-tab="shipping-create">
+              <i class="fa-solid fa-circle-plus"></i> Tạo Vận Đơn
+            </a>
+          </div>
+
+          <!-- Nhóm 4: Thu tiền (Phần cũ của bạn, mình bỏ dấu "..." đi rồi đấy) -->
           <div class="menu-group" data-role="ACCOUNTANT">
             <p class="menu-label">Thu tiền</p>
-            <a href="#" class="menu-item" data-tab="receipt-list"
-              ><i class="fa-solid fa-file-invoice"></i> Danh sách Phiếu Thu</a
-            >
-            <a href="#" class="menu-item" data-tab="receipt-create"
-              ><i class="fa-solid fa-file-circle-plus"></i> Tạo Phiếu Thu</a
-            >
+            <a href="#" class="menu-item" data-tab="receipt-list">
+              <i class="fa-solid fa-file-invoice"></i> Danh sách Phiếu Thu
+            </a>
+            <a href="#" class="menu-item" data-tab="receipt-create">
+              <i class="fa-solid fa-file-circle-plus"></i> Tạo Phiếu Thu
+            </a>
           </div>
 
-          <!-- Cấu hình/Phê duyệt: Chỉ MANAGER thấy -->
+          <!-- Nhóm 5: Hệ thống (Giữ nguyên) -->
           <div class="menu-group" data-role="MANAGER">
             <p class="menu-label">Danh mục & Hệ thống</p>
-            <a href="#" class="menu-item" data-tab="customer-list"
-              ><i class="fa-solid fa-user-group"></i> Khách Hàng</a
-            >
-            <a href="#" class="menu-item" data-tab="rate-card"
-              ><i class="fa-solid fa-money-bill-transfer"></i> Bảng Giá Cước</a
-            >
-            <a href="#" class="menu-item" data-tab="approval-center"
-              ><i class="fa-solid fa-user-shield"></i> Trung tâm phê duyệt</a
-            >
+            <a href="#" class="menu-item" data-tab="customer-list">
+              <i class="fa-solid fa-user-group"></i> Khách Hàng
+            </a>
+            <a href="#" class="menu-item" data-tab="rate-card">
+              <i class="fa-solid fa-money-bill-transfer"></i> Bảng Giá Cước
+            </a>
+            <a href="#" class="menu-item" data-tab="approval-center">
+              <i class="fa-solid fa-user-shield"></i> Trung tâm phê duyệt
+            </a>
           </div>
         </nav>
       </aside>
@@ -282,304 +294,399 @@
             </div>
           </div>
         </div>
+        <!-- BẮT ĐẦU THAY THẾ TỪ ĐÂY (Sau khi đóng thẻ div của quotation-create) -->
 
-        <div class="breadcrumb">HHH > Dashboard</div>
-        <header
-          class="content-header"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h1>Dashboard title</h1>
-          <div class="header-actions">
-            <button class="btn-outline" style="width: auto">Action A</button>
-            <button class="btn-outline" style="width: auto">Action B</button>
+        <!-- TAB DASHBOARD -->
+        <div id="dashboard" class="tab-content">
+          <div class="breadcrumb">HHH > Dashboard</div>
+          <header
+            class="content-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <h1>Dashboard title</h1>
+            <div class="header-actions">
+              <button
+                class="btn-primary"
+                style="width: auto; background-color: #0ea5e9"
+                onclick="switchTab('quotation-create')"
+              >
+                <i class="fa-solid fa-plus-circle"></i> Tạo Báo Giá
+              </button>
+
+              <!-- Nút phụ: Lấy dữ liệu -->
+              <button
+                class="btn-outline"
+                style="width: auto"
+                onclick="alert('Đang chuẩn bị file Excel báo cáo...')"
+              >
+                <i class="fa-solid fa-download"></i> Xuất Báo cáo
+              </button>
+            </div>
+          </header>
+          <div class="stats-grid">
+            <div class="card">
+              Doanh thu tháng này
+              <div class="stat-bar short"></div>
+              <div class="stat-bar long"></div>
+            </div>
+            <div class="card">
+              Vận đơn đang đi
+              <div class="stat-bar short"></div>
+              <div class="stat-bar long"></div>
+            </div>
+            <div class="card">
+              Khách hàng mới
+              <div class="stat-bar short"></div>
+              <div class="stat-bar long"></div>
+            </div>
+            <div class="card">
+              Tỷ lệ duyệt BG
+              <div class="stat-bar short"></div>
+              <div class="stat-bar long"></div>
+            </div>
           </div>
-        </header>
-        <div class="stats-grid">
-          <div class="card">
-            Stat 1 title
-            <div class="stat-bar short"></div>
-            <div class="stat-bar long"></div>
-          </div>
-          <div class="card">
-            Stat 2 title
-            <div class="stat-bar short"></div>
-            <div class="stat-bar long"></div>
-          </div>
-          <div class="card">
-            Stat 3 title
-            <div class="stat-bar short"></div>
-            <div class="stat-bar long"></div>
-          </div>
-          <div class="card">
-            Stat 4 title
-            <div class="stat-bar short"></div>
-            <div class="stat-bar long"></div>
+          <div class="dashboard-middle-grid">
+            <div class="table-card">
+              <h3>Báo giá sắp hết hạn</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Mã BG</th>
+                    <th>Khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Hạn</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="skeleton"></div></td>
+                    <td><div class="skeleton"></div></td>
+                    <td><div class="skeleton"></div></td>
+                    <td><div class="skeleton-btn"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-card">
+              <h3>Công nợ cần thu</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Khách hàng</th>
+                    <th>Vận đơn</th>
+                    <th>Còn nợ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="skeleton"></div></td>
+                    <td><div class="skeleton"></div></td>
+                    <td><div class="skeleton"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        <div class="dashboard-middle-grid">
-          <div class="table-card">
-            <h3>Báo giá sắp hết hạn</h3>
+
+        <!-- TAB DANH SÁCH BÁO GIÁ -->
+        <div id="quotation-list" class="tab-content">
+          <div class="breadcrumb">HHH > Danh sách Báo Giá</div>
+          <header class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>Quản lý Báo Giá</h1>
+            <div class="header-actions">
+              <button class="btn-outline" style="width: auto">Lọc</button>
+              <button class="btn-primary" style="width: auto" onclick="switchTab('quotation-create')">
+                + Tạo báo giá
+              </button>
+            </div>
+          </header>
+          
+          <div class="tab-sub-menu">
+            <span class="sub-item active">Tất cả</span>
+            <span class="sub-item">Chờ chốt</span>
+            <span class="sub-item">Đã chốt</span>
+            <span class="sub-item">Đã hủy</span>
+          </div>
+
+          <div class="table-card"> <!-- Đã xóa bỏ thẻ div thừa ở đây -->
             <table>
               <thead>
                 <tr>
                   <th>Mã BG</th>
+                  <th>Ngày lập</th>
                   <th>Khách hàng</th>
-                  <th>Tổng tiền</th>
-                  <th>Hạn</th>
+                  <th>Nhân viên</th>
+                  <th>Tổng tiền tạm</th>
+                  <th>Hạn hiệu lực</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                  <th style="color: #ef4444;">Xóa</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="quotation-table-body">
+                <!-- Hàng mẫu 1 -->
                 <tr>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton-btn"></div></td>
-                </tr>
-                <tr>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton-btn"></div></td>
+                  <td>#BQ-4830</td>
+                  <td>17/03/2026</td>
+                  <td><strong>Cty Logistics ABC</strong></td>
+                  <td>Nguyễn Văn A</td>
+                  <td style="color: #10b981; font-weight: bold;">1.366.160.000đ</td>
+                  <td>24/03/2026</td>
+                  <td><span class="badge-status success">Đã chốt</span></td>
+                  <td>
+                    <button class="btn-view"><i class="fa-solid fa-eye"></i> Xem</button>
+                  </td>
+                  <td>
+                    <button class="btn-delete" onclick="confirmDelete('#BQ-4830')">
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+
+        <!-- TAB DANH SÁCH VẬN ĐƠN -->
+        <div id="shipping-list" class="tab-content">
+          <div class="breadcrumb">HHH > Danh sách Vận Đơn</div>
+          <header class="content-header">
+            <h1>Quản lý Vận Đơn</h1>
+          </header>
           <div class="table-card">
-            <h3>Công nợ cần thu</h3>
             <table>
               <thead>
                 <tr>
+                  <th>Mã VĐ</th>
                   <th>Khách hàng</th>
-                  <th>Vận đơn</th>
-                  <th>Còn nợ</th>
+                  <th>Tuyến đường</th>
+                  <th>Loại hàng</th>
+                  <th>Thành tiền</th>
+                  <th>Trạng thái</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="shipping-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- TAB TẠO VẬN ĐƠN -->
+        <div id="shipping-create" class="tab-content">
+          <div class="breadcrumb">HHH > Vận đơn > Tạo vận đơn mới</div>
+          <header class="content-header">
+            <h1>Tạo Vận Đơn Từ Báo Giá</h1>
+            <div class="search-bar-container" style="margin-top: 15px">
+              <label style="font-weight: 600">1. Chọn Báo giá đã duyệt:</label>
+              <div style="display: flex; gap: 10px; margin-top: 5px">
+                <input
+                  type="text"
+                  id="search-quotation"
+                  placeholder="Nhập mã báo giá (Ví dụ: BG-2024...)"
+                  style="flex: 1"
+                />
+                <button
+                  class="btn-primary"
+                  onclick="loadQuotationData()"
+                  style="width: auto"
+                >
+                  <i class="fa-solid fa-magnifying-glass"></i> Lấy thông tin
+                </button>
+              </div>
+            </div>
+          </header>
+
+          <div class="content-grid">
+            <!-- CỘT TRÁI: THÔNG TIN TỪ BÁO GIÁ (READ-ONLY) -->
+            <div class="left-column">
+              <section class="card" style="background: #f8fafc">
+                <h2 class="card-title">
+                  <i class="fa-solid fa-file-contract"></i> Thông tin từ Báo giá
+                </h2>
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label>Khách hàng</label>
+                    <input
+                      type="text"
+                      id="ship-cust-name"
+                      readonly
+                      placeholder="Tự động điền..."
+                    />
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Giá thống nhất (VNĐ)</label>
+                    <input
+                      type="text"
+                      id="ship-price"
+                      readonly
+                      style="font-weight: bold; color: #10b981"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label>Tuyến đường</label>
+                    <input type="text" id="ship-route" readonly />
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Trọng lượng & Loại hàng</label>
+                    <input type="text" id="ship-cargo" readonly />
+                  </div>
+                </div>
+              </section>
+
+              <section class="card">
+                <h2 class="card-title">
+                  <i class="fa-solid fa-location-dot"></i> 2. Bổ sung địa chỉ
+                  chi tiết
+                </h2>
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label
+                      >Địa chỉ lấy hàng chi tiết
+                      <span class="req">*</span></label
+                    >
+                    <textarea
+                      id="pickup-addr"
+                      placeholder="Số nhà, tên đường, phường/xã..."
+                    ></textarea>
+                  </div>
+                  <div class="form-group flex-1">
+                    <label
+                      >Địa chỉ giao hàng chi tiết
+                      <span class="req">*</span></label
+                    >
+                    <textarea
+                      id="delivery-addr"
+                      placeholder="Số nhà, tên đường, phường/xã..."
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group flex-1">
+                    <label>Người gửi & SĐT</label>
+                    <input
+                      type="text"
+                      id="sender-info"
+                      placeholder="Nguyễn Văn A - 090xxx"
+                    />
+                  </div>
+                  <div class="form-group flex-1">
+                    <label>Người nhận & SĐT</label>
+                    <input
+                      type="text"
+                      id="receiver-info"
+                      placeholder="Trần Thị B - 091xxx"
+                    />
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- CỘT PHẢI: XÁC NHẬN & MÃ VẬN ĐƠN -->
+            <div class="right-column">
+              <section class="card">
+                <h2 class="card-title">
+                  <i class="fa-solid fa-barcode"></i> Thông tin vận hành
+                </h2>
+                <div class="form-group">
+                  <label>Mã Vận Đơn dự kiến</label>
+                  <div
+                    id="generated-vd-code"
+                    style="
+                      font-size: 1.2rem;
+                      font-weight: 800;
+                      color: #3b82f6;
+                      padding: 10px;
+                      background: #eff6ff;
+                      border-radius: 8px;
+                      border: 1px dashed #3b82f6;
+                      text-align: center;
+                    "
+                  >
+                    VD-20260319-XXXX
+                  </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px">
+                  <label>Ghi chú đặc biệt</label>
+                  <textarea id="ship-note" style="height: 100px"></textarea>
+                </div>
+                <div class="action-buttons" style="margin-top: 20px">
+                  <button
+                    class="btn-primary"
+                    id="btnConfirmShipping"
+                    style="width: 100%; padding: 15px"
+                  >
+                    <i class="fa-solid fa-check-double"></i> XÁC NHẬN TẠO VẬN
+                    ĐƠN
+                  </button>
+                  <p
+                    style="
+                      font-size: 11px;
+                      color: #64748b;
+                      margin-top: 10px;
+                      text-align: center;
+                    "
+                  >
+                    * Hệ thống sẽ tự động gửi Email & PDF cho khách hàng sau khi
+                    xác nhận.
+                  </p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!-- TAB DANH SÁCH PHIẾU THU -->
+        <div id="receipt-list" class="tab-content">
+          <div class="breadcrumb">HHH > Thu tiền > Danh sách Phiếu Thu</div>
+          <header
+            class="content-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
+            <h1>Quản lý Phiếu Thu</h1>
+            <button class="btn-primary" style="width: auto">
+              + Lập phiếu thu
+            </button>
+          </header>
+          <div class="table-card">
+            <table>
+              <thead>
                 <tr>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
+                  <th>Mã PT</th>
+                  <th>Ngày thu</th>
+                  <th>Khách hàng</th>
+                  <th>Tổng thu</th>
+                  <th>Hình thức</th>
+                  <th>Trạng thái</th>
                 </tr>
-                <tr>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                  <td><div class="skeleton"></div></td>
-                </tr>
-              </tbody>
+              </thead>
+              <tbody></tbody>
             </table>
           </div>
         </div>
 
-        <div class="breadcrumb">HHH > Danh sách Báo Giá</div>
-        <header
-          class="content-header"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h1>Quản lý Báo Giá</h1>
-          <div class="header-actions">
-            <button class="btn-outline" style="width: auto">Lọc</button>
-            <button class="btn-primary" style="width: auto">
-              + Tạo báo giá
-            </button>
-          </div>
-        </header>
-        <div class="tab-sub-menu">
-          <span class="sub-item active">Tất cả</span>
-          <span class="sub-item">Chờ duyệt</span>
-          <span class="sub-item">Đã duyệt</span>
-          <span class="sub-item">Từ chối</span>
-          <span class="sub-item">Hết hạn</span>
-        </div>
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>Mã BG</th>
-                <th>Ngày lập</th>
-                <th>Khách hàng</th>
-                <th>Nhân viên</th>
-                <th>Số tuyến</th>
-                <th>Tổng tiền tạm</th>
-                <th>Hạn hiệu lực</th>
-                <th>Trạng thái</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- JS render -->
-            </tbody>
-          </table>
-        </div>
-
-        <div id="shipping-list" class="tab-content">
-          <header class="content-header"><h1>Danh Sách Vận Đơn</h1></header>
-          <div class="card" style="text-align: center; padding: 60px">
-            <i
-              class="fa-solid fa-truck-fast"
-              style="font-size: 40px; color: #cbd5e1; margin-bottom: 15px"
-            ></i>
-            <p style="color: var(--text-muted)">
-              Đang tải dữ liệu hành trình thời gian thực...
-            </p>
-          </div>
-        </div>
-        <div class="breadcrumb">HHH > Danh sách Vận Đơn</div>
-        <h1>Quản lý Vận Đơn</h1>
-        <p style="color: #888; font-size: 13px; margin-bottom: 20px">
-          Tất cả vận đơn đã tạo từ báo giá được duyệt
-        </p>
-        <div class="tab-sub-menu">
-          <span class="sub-item active">Tất cả</span>
-          <span class="sub-item">Chờ nhận hàng</span>
-          <span class="sub-item">Đã nhận hàng</span>
-          <span class="sub-item">Hoàn thành</span>
-          <span class="sub-item">Hủy</span>
-        </div>
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>Mã VĐ</th>
-                <th>Từ BG</th>
-                <th>Khách hàng</th>
-                <th>Tuyến</th>
-                <th>Loại hàng</th>
-                <th>Giá tạm</th>
-                <th>Giá chính thức</th>
-                <th>Công nợ</th>
-                <th>Trạng thái</th>
-                <th>Xem</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- JS render -->
-            </tbody>
-          </table>
-        </div>
-
-        <header
-          class="content-header"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h1>Quản lý Phiếu Thu</h1>
-          <button class="btn-primary" style="width: auto">
-            + Lập phiếu thu
-          </button>
-        </header>
-        <div class="stats-grid">
-          <div class="card">
-            Tổng thu tháng này
-            <div class="skeleton"></div>
-          </div>
-          <div class="card">
-            Số phiếu thu
-            <div class="skeleton"></div>
-          </div>
-          <div class="card">
-            Tổng công nợ còn lại
-            <div class="skeleton"></div>
-          </div>
-        </div>
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>Mã PT</th>
-                <th>Ngày thu</th>
-                <th>Khách hàng</th>
-                <th>Các vận đơn</th>
-                <th>Tổng thu</th>
-                <th>Hình thức</th>
-                <th>Kế toán</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- JS render -->
-            </tbody>
-          </table>
-        </div>
-
-        <header
-          class="content-header"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <h1>Lập Phiếu Thu</h1>
-          <button class="btn-outline" style="width: auto">← Quay lại</button>
-        </header>
-        <div class="receipt-grid">
-          <div class="left-col">
-            <div class="table-card">
-              <h3>Thông tin khách hàng</h3>
-              <input
-                type="text"
-                placeholder="Tìm khách hàng..."
-                style="margin-bottom: 15px"
-              />
-              <div class="skeleton-box" style="height: 80px"></div>
-            </div>
-            <div class="table-card">
-              <h3>Chọn vận đơn cần thanh toán</h3>
-              <div class="skeleton-box" style="height: 150px"></div>
-            </div>
-          </div>
-          <div class="right-col">
-            <div class="table-card">
-              <h3>Hình thức thanh toán</h3>
-              <select style="margin-bottom: 10px">
-                <option>Tiền mặt</option>
-              </select>
-              <input type="date" />
-            </div>
-            <div class="table-card">
-              <h3>Tổng kết phiếu thu</h3>
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  margin-bottom: 10px;
-                "
-              >
-                <span>Khách hàng</span><span>--</span>
-              </div>
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  font-weight: bold;
-                  font-size: 18px;
-                "
-              >
-                <span>Tổng thu</span><span>0đ</span>
-              </div>
-              <button class="btn-primary" style="margin-top: 20px">
-                Xác nhận lập phiếu thu
-              </button>
-            </div>
+        <!-- TAB TẠO PHIẾU THU -->
+        <div id="receipt-create" class="tab-content">
+          <div class="breadcrumb">HHH > Thu tiền > Lập Phiếu Thu</div>
+          <header class="content-header"><h1>Lập Phiếu Thu</h1></header>
+          <div class="receipt-grid">
+            <!-- Nội dung lập phiếu thu -->
+            <div class="card">Đang cập nhật giao diện lập phiếu...</div>
           </div>
         </div>
 
+        <!-- TAB KHÁCH HÀNG -->
         <div id="customer-list" class="tab-content">
-          <header class="content-header">
-            <h1>Danh Mục Khách Hàng</h1>
-          </header>
+          <header class="content-header"><h1>Danh Mục Khách Hàng</h1></header>
           <div class="card">
-            <table style="width: 100%">
+            <table>
               <thead>
                 <tr>
                   <th>Tên Khách Hàng</th>
@@ -588,11 +695,12 @@
                   <th>Thao tác</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="customer-table-body"></tbody> <!-- Thêm ID ở đây -->
             </table>
           </div>
         </div>
 
+        <!-- KẾT THÚC THAY THẾ (Trước khi đến tab rate-card) -->
         <div id="rate-card" class="tab-content">
           <header class="content-header">
             <nav class="breadcrumb">HHH > Danh mục > Bảng Giá Cước</nav>

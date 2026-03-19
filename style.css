@@ -525,3 +525,109 @@ table tr:hover {
   gap: 25px;
   margin-top: 20px;
 }
+/* Đảm bảo các tab ẩn không chiếm diện tích */
+.tab-content {
+  display: none !important;
+}
+
+/* Chỉ hiện tab có class active */
+.tab-content.active {
+  display: block !important;
+}
+
+/* Badge trạng thái cho chuyên nghiệp */
+.badge-status {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-status.success {
+  background: #dcfce7;
+  color: #166534;
+}
+.badge-status.warning {
+  background: #fef9c3;
+  color: #854d0e;
+}
+.badge-status.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Định dạng các nút trong bảng */
+.btn-action {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.btn-action.view {
+  color: #3b82f6; /* Màu xanh dương cho Xem */
+}
+
+.btn-action.view:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.btn-action.delete {
+  color: #ef4444; /* Màu đỏ cho Xóa */
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.btn-action.delete:hover {
+  background-color: #fee2e2;
+  transform: scale(1.1);
+}
+
+/* Đảm bảo căn giữa cho cột Xóa */
+td:last-child,
+th:last-child {
+  text-align: center;
+}
+
+/* Badge trạng thái */
+.badge-status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-status.success {
+  background: #dcfce7;
+  color: #166534;
+}
+.badge-status.warning {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+/* Nút Xem chi tiết */
+.btn-view {
+  border: 1px solid #e2e8f0;
+  background: white;
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: #0ea5e9;
+  cursor: pointer;
+}
+
+/* Nút Xóa (Thùng rác) */
+.btn-delete {
+  color: #ef4444;
+  border: none;
+  background: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-delete:hover {
+  transform: scale(1.2);
+}
