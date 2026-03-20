@@ -18,6 +18,10 @@
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Thư viện tạo PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Thư viện gửi Email -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -57,7 +61,7 @@
         </div>
 
         <nav class="menu">
-          <!-- Nhóm 1: Tổng quan (Giữ nguyên) -->
+          <!-- Nhóm 1: Tổng quan-->
           <div class="menu-group" data-role="ALL">
             <p class="menu-label">Tổng quan</p>
             <a href="#" class="menu-item" data-tab="dashboard">
@@ -65,7 +69,7 @@
             </a>
           </div>
 
-          <!-- Nhóm 2: Báo giá (Giữ nguyên) -->
+          <!-- Nhóm 2: Báo giá-->
           <div class="menu-group" data-role="SALE">
             <p class="menu-label">Báo giá</p>
             <a href="#" class="menu-item" data-tab="quotation-list">
@@ -95,7 +99,7 @@
               <i class="fa-solid fa-file-invoice"></i> Danh sách Phiếu Thu
             </a>
             <a href="#" class="menu-item" data-tab="receipt-create">
-              <i class="fa-solid fa-file-circle-plus"></i> Tạo Phiếu Thu
+              <i class="fa-solid fa-circle-plus"></i> Tạo Phiếu Thu
             </a>
           </div>
 
@@ -106,7 +110,7 @@
               <i class="fa-solid fa-user-group"></i> Khách Hàng
             </a>
             <a href="#" class="menu-item" data-tab="rate-card">
-              <i class="fa-solid fa-money-bill-transfer"></i> Bảng Giá Cước
+              <i class="fa-solid fa-file-invoice-dollar"></i> Bảng Giá Cước
             </a>
             <a href="#" class="menu-item" data-tab="approval-center">
               <i class="fa-solid fa-user-shield"></i> Trung tâm phê duyệt
@@ -276,6 +280,7 @@
                   </button>
                   <button
                     class="btn-outline"
+                    onclick="resetTabInput(this)"
                     style="
                       width: 100%;
                       margin-top: 10px;
@@ -327,26 +332,73 @@
               </button>
             </div>
           </header>
+          <!-- Tìm thẻ div có class="stats-grid" bên trong tab-content id="dashboard" -->
           <div class="stats-grid">
-            <div class="card">
-              Doanh thu tháng này
-              <div class="stat-bar short"></div>
-              <div class="stat-bar long"></div>
+            <div class="card" style="border-top: 4px solid #3b82f6">
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  font-weight: 600;
+                "
+              >
+                DOANH THU THÁNG
+              </p>
+              <h2 id="total-revenue" style="font-size: 24px; margin-top: 10px">
+                0đ
+              </h2>
+              <div class="stat-bar long" style="background: #3b82f6"></div>
             </div>
-            <div class="card">
-              Vận đơn đang đi
-              <div class="stat-bar short"></div>
-              <div class="stat-bar long"></div>
+
+            <div class="card" style="border-top: 4px solid #10b981">
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  font-weight: 600;
+                "
+              >
+                VẬN ĐƠN ĐANG ĐI
+              </p>
+              <h2 id="total-shipping" style="font-size: 24px; margin-top: 10px">
+                0
+              </h2>
+              <div class="stat-bar short" style="background: #10b981"></div>
             </div>
-            <div class="card">
-              Khách hàng mới
-              <div class="stat-bar short"></div>
-              <div class="stat-bar long"></div>
+
+            <div class="card" style="border-top: 4px solid #f59e0b">
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  font-weight: 600;
+                "
+              >
+                KHÁCH HÀNG MỚI
+              </p>
+              <h2
+                id="total-customers"
+                style="font-size: 24px; margin-top: 10px"
+              >
+                0
+              </h2>
+              <div class="stat-bar long" style="background: #f59e0b"></div>
             </div>
-            <div class="card">
-              Tỷ lệ duyệt BG
-              <div class="stat-bar short"></div>
-              <div class="stat-bar long"></div>
+
+            <div class="card" style="border-top: 4px solid #06b6d4">
+              <p
+                style="
+                  color: var(--text-muted);
+                  font-size: 13px;
+                  font-weight: 600;
+                "
+              >
+                TỶ LỆ DUYỆT BG
+              </p>
+              <h2 id="approval-rate" style="font-size: 24px; margin-top: 10px">
+                100%
+              </h2>
+              <div class="stat-bar short" style="background: #06b6d4"></div>
             </div>
           </div>
           <div class="dashboard-middle-grid">
@@ -396,16 +448,27 @@
         <!-- TAB DANH SÁCH BÁO GIÁ -->
         <div id="quotation-list" class="tab-content">
           <div class="breadcrumb">HHH > Danh sách Báo Giá</div>
-          <header class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <header
+            class="content-header"
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            "
+          >
             <h1>Quản lý Báo Giá</h1>
             <div class="header-actions">
               <button class="btn-outline" style="width: auto">Lọc</button>
-              <button class="btn-primary" style="width: auto" onclick="switchTab('quotation-create')">
+              <button
+                class="btn-primary"
+                style="width: auto"
+                onclick="switchTab('quotation-create')"
+              >
                 + Tạo báo giá
               </button>
             </div>
           </header>
-          
+
           <div class="tab-sub-menu">
             <span class="sub-item active">Tất cả</span>
             <span class="sub-item">Chờ chốt</span>
@@ -413,7 +476,8 @@
             <span class="sub-item">Đã hủy</span>
           </div>
 
-          <div class="table-card"> <!-- Đã xóa bỏ thẻ div thừa ở đây -->
+          <div class="table-card">
+            <!-- Đã xóa bỏ thẻ div thừa ở đây -->
             <table>
               <thead>
                 <tr>
@@ -425,7 +489,7 @@
                   <th>Hạn hiệu lực</th>
                   <th>Trạng thái</th>
                   <th>Thao tác</th>
-                  <th style="color: #ef4444;">Xóa</th>
+                  <th style="color: #ef4444">Xóa</th>
                 </tr>
               </thead>
               <tbody id="quotation-table-body">
@@ -435,14 +499,21 @@
                   <td>17/03/2026</td>
                   <td><strong>Cty Logistics ABC</strong></td>
                   <td>Nguyễn Văn A</td>
-                  <td style="color: #10b981; font-weight: bold;">1.366.160.000đ</td>
+                  <td style="color: #10b981; font-weight: bold">
+                    1.366.160.000đ
+                  </td>
                   <td>24/03/2026</td>
                   <td><span class="badge-status success">Đã chốt</span></td>
                   <td>
-                    <button class="btn-view"><i class="fa-solid fa-eye"></i> Xem</button>
+                    <button class="btn-view">
+                      <i class="fa-solid fa-eye"></i> Xem
+                    </button>
                   </td>
                   <td>
-                    <button class="btn-delete" onclick="confirmDelete('#BQ-4830')">
+                    <button
+                      class="btn-delete"
+                      onclick="confirmDelete('#BQ-4830')"
+                    >
                       <i class="fa-solid fa-trash-can"></i>
                     </button>
                   </td>
@@ -464,10 +535,11 @@
                 <tr>
                   <th>Mã VĐ</th>
                   <th>Khách hàng</th>
-                  <th>Tuyến đường</th>
                   <th>Loại hàng</th>
                   <th>Thành tiền</th>
                   <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                  <th>Xóa</th>
                 </tr>
               </thead>
               <tbody id="shipping-table-body"></tbody>
@@ -635,6 +707,22 @@
                     xác nhận.
                   </p>
                 </div>
+                <button
+                    class="btn-outline"
+                    onclick="resetTabInput(this)"
+                    style="
+                      width: 100%;
+                      margin-top: 20px;
+                      padding: 12px;
+                      border-radius: 8px;
+                      border: 1px solid #ff4d4f;
+                      color: #ff4d4f;
+                      background: white;
+                      cursor: pointer;
+                    "
+                  >
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Hủy thay đổi
+                  </button>
               </section>
             </div>
           </div>
@@ -651,7 +739,11 @@
             "
           >
             <h1>Quản lý Phiếu Thu</h1>
-            <button class="btn-primary" style="width: auto">
+            <button
+              class="btn-primary"
+              style="width: auto"
+              onclick="switchTab('receipt-create')"
+            >
               + Lập phiếu thu
             </button>
           </header>
@@ -665,20 +757,253 @@
                   <th>Tổng thu</th>
                   <th>Hình thức</th>
                   <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                  <th>Xóa</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody id="receipt-table-body"></tbody>
             </table>
           </div>
         </div>
 
         <!-- TAB TẠO PHIẾU THU -->
         <div id="receipt-create" class="tab-content">
-          <div class="breadcrumb">HHH > Thu tiền > Lập Phiếu Thu</div>
-          <header class="content-header"><h1>Lập Phiếu Thu</h1></header>
-          <div class="receipt-grid">
-            <!-- Nội dung lập phiếu thu -->
-            <div class="card">Đang cập nhật giao diện lập phiếu...</div>
+          <!-- Đường dẫn điều hướng nhỏ -->
+          <div
+            style="
+              font-size: 12px;
+              color: var(--text-muted);
+              margin-bottom: 15px;
+            "
+          >
+            HHH &nbsp; > &nbsp; Thu tiền &nbsp; > &nbsp;
+            <strong>Lập Phiếu Thu</strong>
+          </div>
+
+          <header
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 20px;
+            "
+          >
+            <h1 style="margin: 0; font-size: 24px">Lập Phiếu Thu</h1>
+            <button
+              class="btn-outline"
+              style="width: auto; padding: 8px 15px"
+              onclick="switchTab('receipt-list')"
+            >
+              <i class="fas fa-arrow-left"></i> Quay lại danh sách
+            </button>
+          </header>
+
+          <!-- Bố cục chia 2 cột: 7 phần trái - 5 phần phải -->
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1.4fr 1fr;
+              gap: 20px;
+              align-items: start;
+            "
+          >
+            <!-- CỘT TRÁI: THÔNG TIN CHI TIẾT -->
+            <div style="display: flex; flex-direction: column; gap: 20px">
+              <!-- Khối Khách hàng -->
+              <section class="card" style="padding: 20px">
+                <h3
+                  style="
+                    margin-top: 0;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 10px;
+                  "
+                >
+                  <i class="fas fa-user"></i> Thông tin khách hàng
+                </h3>
+                <div class="form-group">
+                  <label
+                    >Tìm chọn khách hàng
+                    <span style="color: red">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="receipt-cust-search"
+                    placeholder="Nhập tên, số điện thoại hoặc mã khách..."
+                    style="width: 100%"
+                  />
+                </div>
+                <div
+                  style="
+                    background: #f1f5f9;
+                    padding: 15px;
+                    border-radius: 8px;
+                    margin-top: 10px;
+                    min-height: 60px;
+                  "
+                >
+                  <p
+                    id="cust-info-preview"
+                    style="margin: 0; color: var(--text-muted); font-size: 14px"
+                  >
+                    Chưa có thông tin khách hàng. Vui lòng chọn phía trên.
+                  </p>
+                </div>
+              </section>
+
+              <!-- Khối Chọn Vận Đơn -->
+              <section class="card" style="padding: 20px">
+                <h3
+                  style="
+                    margin-top: 0;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 10px;
+                  "
+                >
+                  <i class="fas fa-file-invoice-dollar"></i> Chọn vận đơn cần
+                  thanh toán
+                </h3>
+                <div
+                  style="
+                    max-height: 250px;
+                    overflow-y: auto;
+                    border: 1px solid var(--border-color);
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <table
+                    style="
+                      width: 100%;
+                      border-collapse: collapse;
+                      font-size: 14px;
+                    "
+                  >
+                    <thead
+                      style="background: #f8fafc; position: sticky; top: 0"
+                    >
+                      <tr>
+                        <th style="padding: 10px; text-align: left">
+                          <input type="checkbox" />
+                        </th>
+                        <th style="padding: 10px; text-align: left">Mã VD</th>
+                        <th style="padding: 10px; text-align: right">Còn nợ</th>
+                      </tr>
+                    </thead>
+                    <tbody id="receipt-bill-list">
+                      <tr>
+                        <td
+                          colspan="3"
+                          style="
+                            text-align: center;
+                            padding: 20px;
+                            color: var(--text-muted);
+                          "
+                        >
+                          Chọn khách hàng để xem danh sách nợ
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Tìm đến phần nhập số tiền trong Tab Lập phiếu thu -->
+                <div class="form-group">
+                  <label>Số tiền thu lần này (VNĐ)</label>
+                  <input
+                    type="number"
+                    id="receipt-amount"
+                    class="form-control"
+                    min="0"
+                    placeholder="Nhập số tiền..."
+                    oninput="if (this.value < 0) this.value = 0;"
+                  />
+                </div>
+              </section>
+            </div>
+
+            <!-- CỘT PHẢI: HÌNH THỨC & XÁC NHẬN -->
+            <div style="display: flex; flex-direction: column; gap: 20px">
+              <!-- Khối Hình thức -->
+              <section class="card" style="padding: 20px">
+                <h3
+                  style="
+                    margin-top: 0;
+                    margin-bottom: 15px;
+                    border-bottom: 1px solid var(--border-color);
+                    padding-bottom: 10px;
+                  "
+                >
+                  <i class="fas fa-credit-card"></i> Thanh toán
+                </h3>
+                <div class="form-group">
+                  <label>Phương thức</label>
+                  <select
+                    id="receipt-method"
+                    style="width: 100%; padding: 10px"
+                  >
+                    <option value="cash">Tiền mặt</option>
+                    <option value="bank">Chuyển khoản</option>
+                    <option value="other">Khác</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Ngày lập phiếu</label>
+                  <input type="date" id="receipt-date" style="width: 100%" />
+                </div>
+                <div class="form-group">
+                  <label>Ghi chú</label>
+                  <textarea
+                    id="receipt-note"
+                    rows="3"
+                    placeholder="Ví dụ: Khách thanh toán nợ tháng 3..."
+                    style="width: 100%"
+                  ></textarea>
+                </div>
+              </section>
+
+              <!-- Khối Tổng kết & Nút bấm -->
+              <butt
+                class="card"
+                style="
+                  padding: 20px;
+                  background: #fffbeb;
+                  border: 1px solid #fde68a;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 15px;
+                  "
+                >
+                  <span style="font-weight: 500">Tổng cộng thu:</span>
+                  <span
+                    id="display-total-receipt"
+                    style="
+                      font-size: 24px;
+                      font-weight: 800;
+                      color: var(--color-green);
+                    "
+                    >0đ</span
+                  >
+                </div>
+                <button
+                  class="btn-outline"
+                  onclick="resetTabInput(this)"
+                  style="
+                    width: 100%;
+                    margin-top: 10px;
+                    border: none;
+                    color: var(--color-red);
+                  "
+                >
+                  Hủy bỏ
+                </button>
+              </section>
+            </div>
           </div>
         </div>
 
@@ -692,10 +1017,11 @@
                   <th>Tên Khách Hàng</th>
                   <th>Ngày Tham Gia</th>
                   <th>Loại Khách</th>
-                  <th>Thao tác</th>
+                  <th>Xóa</th>
                 </tr>
               </thead>
-              <tbody id="customer-table-body"></tbody> <!-- Thêm ID ở đây -->
+              <tbody id="customer-table-body"></tbody>
+              <!-- Thêm ID ở đây -->
             </table>
           </div>
         </div>
@@ -870,6 +1196,8 @@
         </div>
       </main>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

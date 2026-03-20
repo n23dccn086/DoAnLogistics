@@ -8,6 +8,7 @@
   --text-muted: #64748b;
   --bg-main: #f8fafc;
   --border-color: #e2e8f0;
+  --color-bg-hover: #f1f5f9;
 }
 
 * {
@@ -67,7 +68,7 @@ body {
   cursor: pointer;
 }
 .menu-item:hover {
-  background: #f1f5f9;
+  background: var(--color-bg-hover);
 }
 .menu-item.active {
   background: var(--color-cyan);
@@ -84,7 +85,7 @@ body {
 }
 /* Ẩn tất cả nội dung tab ngay lập tức */
 .tab-content {
-  display: none !important;
+  display: none;
   opacity: 0;
   visibility: hidden;
   height: 0;
@@ -113,17 +114,6 @@ body {
 }
 .tab-content.active {
   display: block;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Grid chia cột cho Tạo Báo Giá */
@@ -524,10 +514,6 @@ table tr:hover {
   grid-template-columns: 1fr 350px;
   gap: 25px;
   margin-top: 20px;
-}
-/* Đảm bảo các tab ẩn không chiếm diện tích */
-.tab-content {
-  display: none !important;
 }
 
 /* Chỉ hiện tab có class active */
