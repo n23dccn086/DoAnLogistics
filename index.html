@@ -64,9 +64,9 @@
           <!-- Nhóm 1: Tổng quan-->
           <div class="menu-group" data-role="ALL">
             <p class="menu-label">Tổng quan</p>
-            <a href="#" class="menu-item" data-tab="dashboard">
-              <i class="fa-solid fa-chart-pie"></i> Dashboard
-            </a>
+            <a href="#" class="menu-item active" data-tab="dashboard">
+    <i class="fa-solid fa-chart-pie"></i> Dashboard
+</a>
           </div>
 
           <!-- Nhóm 2: Báo giá-->
@@ -75,10 +75,9 @@
             <a href="#" class="menu-item" data-tab="quotation-list">
               <i class="fa-solid fa-list-check"></i> Danh sách Báo Giá
             </a>
-            <a href="#" class="menu-item active" data-tab="quotation-create">
-              <i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá
-            </a>
-          </div>
+            <a href="#" class="menu-item" data-tab="quotation-create">
+    <i class="fa-solid fa-pen-to-square"></i> Tạo Báo Giá
+</a>
 
           <!-- NHÓM 3: VẬN ĐƠN (ĐÂY LÀ ĐOẠN MỚI CHÈN VÀO) -->
           <!-- NHÓM VẬN ĐƠN -->
@@ -211,8 +210,14 @@
 
                   <div class="form-group">
                     <label>Trọng lượng (kg)</label>
-                    <input type="number" id="weight-input" value="1" min="1" />
-                  </div>
+                    <input 
+  type="number" 
+  id="weight-input" 
+  value="1" 
+  min="0" 
+  step="0.1"
+  oninput="if(this.value<0) this.value=0"
+/></div>
 
                   <div class="form-group">
                     <label>Quãng đường (km)</label>
@@ -458,7 +463,9 @@
           >
             <h1>Quản lý Báo Giá</h1>
             <div class="header-actions">
-              <button class="btn-outline" style="width: auto">Lọc</button>
+<button class="btn-outline" onclick="handleFilterByCode()">
+    <i class="fa-solid fa-filter"></i> Lọc
+</button>
               <button
                 class="btn-primary"
                 style="width: auto"
@@ -470,14 +477,14 @@
           </header>
 
           <div class="tab-sub-menu">
-            <span class="sub-item active">Tất cả</span>
-            <span class="sub-item">Chờ chốt</span>
-            <span class="sub-item">Đã chốt</span>
-            <span class="sub-item">Đã hủy</span>
+            <span class="filter-tab active" onclick="renderCustomerTables('Tất cả')">Tất cả</span>
+    <span class="filter-tab" onclick="renderCustomerTables('Chờ chốt')">Chờ chốt</span>
+    <span class="filter-tab" onclick="renderCustomerTables('Đã chốt')">Đã chốt</span>
+    <span class="filter-tab" onclick="renderCustomerTables('Chờ duyệt')">Chờ duyệt</span>
+    <span class="filter-tab" onclick="renderCustomerTables('Đã hủy')">Đã hủy</span>
           </div>
 
           <div class="table-card">
-            <!-- Đã xóa bỏ thẻ div thừa ở đây -->
             <table>
               <thead>
                 <tr>
@@ -493,31 +500,6 @@
                 </tr>
               </thead>
               <tbody id="quotation-table-body">
-                <!-- Hàng mẫu 1 -->
-                <tr>
-                  <td>#BQ-4830</td>
-                  <td>17/03/2026</td>
-                  <td><strong>Cty Logistics ABC</strong></td>
-                  <td>Nguyễn Văn A</td>
-                  <td style="color: #10b981; font-weight: bold">
-                    1.366.160.000đ
-                  </td>
-                  <td>24/03/2026</td>
-                  <td><span class="badge-status success">Đã chốt</span></td>
-                  <td>
-                    <button class="btn-view">
-                      <i class="fa-solid fa-eye"></i> Xem
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      class="btn-delete"
-                      onclick="confirmDelete('#BQ-4830')"
-                    >
-                      <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -575,40 +557,30 @@
             <!-- CỘT TRÁI: THÔNG TIN TỪ BÁO GIÁ (READ-ONLY) -->
             <div class="left-column">
               <section class="card" style="background: #f8fafc">
-                <h2 class="card-title">
-                  <i class="fa-solid fa-file-contract"></i> Thông tin từ Báo giá
-                </h2>
-                <div class="form-row">
-                  <div class="form-group flex-1">
-                    <label>Khách hàng</label>
-                    <input
-                      type="text"
-                      id="ship-cust-name"
-                      readonly
-                      placeholder="Tự động điền..."
-                    />
-                  </div>
-                  <div class="form-group flex-1">
-                    <label>Giá thống nhất (VNĐ)</label>
-                    <input
-                      type="text"
-                      id="ship-price"
-                      readonly
-                      style="font-weight: bold; color: #10b981"
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group flex-1">
-                    <label>Tuyến đường</label>
-                    <input type="text" id="ship-route" readonly />
-                  </div>
-                  <div class="form-group flex-1">
-                    <label>Trọng lượng & Loại hàng</label>
-                    <input type="text" id="ship-cargo" readonly />
-                  </div>
-                </div>
-              </section>
+    <h2 class="card-title">
+      <i class="fa-solid fa-file-contract"></i> Thông tin từ Báo giá
+    </h2>
+    <div class="form-row">
+      <div class="form-group flex-1">
+        <label>Khách hàng</label>
+        <input type="text" id="ship-cust-name" readonly placeholder="Tự động..." />
+      </div>
+      <div class="form-group flex-1">
+        <label>Giá thống nhất (VNĐ)</label>
+        <input type="text" id="ship-price" readonly style="font-weight: bold; color: #10b981" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group flex-1">
+        <label>Trọng lượng (kg)</label>
+        <input type="text" id="ship-weight" readonly /> 
+      </div>
+      <div class="form-group flex-1">
+        <label>Loại hàng</label>
+        <input type="text" id="ship-cargo" readonly />
+      </div>
+    </div>
+  </section>
 
               <section class="card">
                 <h2 class="card-title">
@@ -687,14 +659,9 @@
                   <textarea id="ship-note" style="height: 100px"></textarea>
                 </div>
                 <div class="action-buttons" style="margin-top: 20px">
-                  <button
-                    class="btn-primary"
-                    id="btnConfirmShipping"
-                    style="width: 100%; padding: 15px"
-                  >
-                    <i class="fa-solid fa-check-double"></i> XÁC NHẬN TẠO VẬN
-                    ĐƠN
-                  </button>
+                  <button class="btn-primary" id="btnConfirmShipping" onclick="saveNewShipping()" style="width: 100%; padding: 15px">
+    <i class="fa-solid fa-check-double"></i> XÁC NHẬN TẠO VẬN ĐƠN
+</button>
                   <p
                     style="
                       font-size: 11px;
@@ -963,46 +930,17 @@
               </section>
 
               <!-- Khối Tổng kết & Nút bấm -->
-              <butt
-                class="card"
-                style="
-                  padding: 20px;
-                  background: #fffbeb;
-                  border: 1px solid #fde68a;
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 15px;
-                  "
-                >
-                  <span style="font-weight: 500">Tổng cộng thu:</span>
-                  <span
-                    id="display-total-receipt"
-                    style="
-                      font-size: 24px;
-                      font-weight: 800;
-                      color: var(--color-green);
-                    "
-                    >0đ</span
-                  >
-                </div>
-                <button
-                  class="btn-outline"
-                  onclick="resetTabInput(this)"
-                  style="
-                    width: 100%;
-                    margin-top: 10px;
-                    border: none;
-                    color: var(--color-red);
-                  "
-                >
-                  Hủy bỏ
-                </button>
-              </section>
+              <section class="card" style="padding: 20px; background: #fffbeb; border: 1px solid #fde68a;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <span style="font-weight: 500">Tổng cộng thu:</span>
+        <span id="display-total-receipt" style="font-size: 24px; font-weight: 800; color: var(--color-green);">0đ</span>
+    </div>
+    <!-- Thêm nút Xác nhận nếu thiếu -->
+    <button class="btn-primary" onclick="saveReceipt()">Xác nhận thu tiền</button>
+    <button class="btn-outline" onclick="resetTabInput(this)" style="width: 100%; margin-top: 10px; border: none; color: var(--color-red);">
+        Hủy bỏ
+    </button>
+</section>
             </div>
           </div>
         </div>
@@ -1179,22 +1117,28 @@
             </button>
           </div>
         </div>
-
-        <div id="approval-center" class="tab-content">
-          <header class="content-header">
-            <h1>Trung tâm phê duyệt</h1>
-          </header>
-          <div class="card" style="text-align: center; padding: 40px">
-            <i
-              class="fa-solid fa-user-shield"
-              style="font-size: 40px; color: #cbd5e1; margin-bottom: 15px"
-            ></i>
-            <p style="color: var(--text-muted)">
-              Không có yêu cầu nào cần phê duyệt lúc này.
-            </p>
-          </div>
-        </div>
-      </main>
+<!-- Tab Trung tâm phê duyệt -->
+        <div id="approval-center" class="tab-content" style="display: none;">
+    <div class="card">
+        <h3><i class="fa-solid fa-user-check"></i> Trung tâm phê duyệt báo giá</h3>
+        <p>Hiển thị các báo giá đang trạng thái "Chờ duyệt"</p>
+        <table class="main-table">
+            <thead>
+                <tr>
+                    <th>Mã BG</th>
+                    <th>Khách Hàng</th>
+                    <th>Tổng Tiền</th>
+                    <th>Nhân Viên</th>
+                    <th>Trạng Thái</th>
+                    <th style="width: 200px;">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody id="approval-table-body">
+                <!-- Dữ liệu Chờ duyệt sẽ đổ vào đây -->
+            </tbody>
+        </table>
+    </div>
+</div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
