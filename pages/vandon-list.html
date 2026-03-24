@@ -1,0 +1,101 @@
+<div class="page" id="page-vandon-list">
+    <div class="filter-bar">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Tìm mã vận đơn, khách hàng...">
+        </div>
+        <select class="filter-select">
+            <option>Tất cả trạng thái</option>
+            <option>Đã xác nhận</option>
+            <option>Đã hủy</option>
+        </select>
+        <select class="filter-select">
+            <option>Thanh toán: Tất cả</option>
+            <option>Chưa thanh toán</option>
+            <option>Một phần</option>
+            <option>Đã thanh toán</option>
+        </select>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã vận đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Tuyến đường</th>
+                    <th>Ngày vận chuyển</th>
+                    <th>Giá trị</th>
+                    <th>Trạng thái</th>
+                    <th>Thanh toán</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="td-mono">VD-20240115-0001</span></td>
+                    <td>Công ty ABC</td>
+                    <td>
+                        <div style="font-size:13px">HCM → Cần Thơ</div>
+                        <div style="font-size:11px;color:var(--text-muted)">178.5 km • Hàng thường</div>
+                    </td>
+                    <td>20/01/2024</td>
+                    <td style="font-family:monospace;font-weight:600">3.200.000đ</td>
+                    <td><span class="badge badge-confirmed">Xác nhận</span></td>
+                    <td><span class="badge badge-paid">Đã TT</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('vandon-detail')">Chi tiết</button></td>
+                </tr>
+                <tr>
+                    <td><span class="td-mono">VD-20240115-0002</span></td>
+                    <td>Công ty XYZ</td>
+                    <td>
+                        <div style="font-size:13px">HCM → Đà Lạt</div>
+                        <div style="font-size:11px;color:var(--text-muted)">302 km • Hàng lạnh</div>
+                    </td>
+                    <td>21/01/2024</td>
+                    <td style="font-family:monospace;font-weight:600">5.600.000đ</td>
+                    <td><span class="badge badge-confirmed">Xác nhận</span></td>
+                    <td><span class="badge badge-partial">Một phần</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('vandon-detail')">Chi tiết</button></td>
+                </tr>
+                <tr>
+                    <td><span class="td-mono">VD-20240114-0005</span></td>
+                    <td>Cty TNHH Bình Minh</td>
+                    <td>
+                        <div style="font-size:13px">HCM → Vũng Tàu</div>
+                        <div style="font-size:11px;color:var(--text-muted)">126 km • Hàng thường</div>
+                    </td>
+                    <td>18/01/2024</td>
+                    <td style="font-family:monospace;font-weight:600">1.800.000đ</td>
+                    <td><span class="badge badge-confirmed">Xác nhận</span></td>
+                    <td><span class="badge badge-unpaid">Chưa TT</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('vandon-detail')">Chi tiết</button></td>
+                </tr>
+                <tr>
+                    <td><span class="td-mono">VD-20240113-0003</span></td>
+                    <td>Cty Thái Sơn</td>
+                    <td>
+                        <div style="font-size:13px">HCM → Long An</div>
+                        <div style="font-size:11px;color:var(--text-muted)">40 km • Hàng cồng kềnh</div>
+                    </td>
+                    <td>15/01/2024</td>
+                    <td style="font-family:monospace;font-weight:600">980.000đ</td>
+                    <td><span class="badge badge-cancelled">Đã hủy</span></td>
+                    <td>—</td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('vandon-detail')">Chi tiết</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <div class="pagination-info">Hiển thị 1-4 của 87 vận đơn</div>
+            <div class="pagination-btns">
+                <button class="page-btn">‹</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">›</button>
+            </div>
+        </div>
+    </div>
+</div>

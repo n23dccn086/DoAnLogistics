@@ -1,0 +1,160 @@
+<div class="page" id="page-baogia-detail">
+    <div class="detail-header">
+        <div>
+            <div class="detail-id">Mã báo giá</div>
+            <div class="detail-title">BG-20240115-001</div>
+            <div style="display:flex;gap:8px;align-items:center">
+                <span class="badge badge-sent">Đã gửi</span>
+                <span style="font-size:13px;color:var(--text-muted)">Hết hạn: 22/01/2024</span>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost" onclick="previewPDF()">📄 Xem PDF</button>
+            <button class="btn btn-ghost" onclick="sendEmail()">📧 Gửi lại email</button>
+        </div>
+    </div>
+
+    <div class="detail-grid">
+        <div>
+            <!-- Thông tin chung -->
+            <div class="card" style="margin-bottom:20px">
+                <div style="font-weight:700;margin-bottom:16px;font-size:15px">Thông tin chung</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Khách hàng</div>
+                        <div class="info-value">Công ty ABC</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Mã số thuế</div>
+                        <div class="info-value" style="font-family:monospace">0123456789</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Người liên hệ</div>
+                        <div class="info-value">Nguyễn Văn A</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">abc@company.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Ngày tạo</div>
+                        <div class="info-value">15/01/2024</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Người tạo</div>
+                        <div class="info-value">Nguyễn Văn Hùng</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chi tiết tuyến -->
+            <div class="card">
+                <div style="font-weight:700;margin-bottom:16px;font-size:15px">Chi tiết tuyến vận chuyển</div>
+
+                <!-- Tuyến 1 -->
+                <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                        <div style="font-weight:700;color:var(--accent);font-size:13px;text-transform:uppercase">🚛 Tuyến 1</div>
+                        <span class="badge badge-accepted">Chấp nhận</span>
+                    </div>
+                    <div class="info-grid" style="gap:0">
+                        <div class="info-item">
+                            <div class="info-label">Điểm đi</div>
+                            <div class="info-value">123 Nguyễn Văn Linh, Q7, HCM</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Điểm đến</div>
+                            <div class="info-value">456 Trần Hưng Đạo, Cần Thơ</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Loại hàng</div>
+                            <div class="info-value">Hàng thường</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Trọng lượng</div>
+                            <div class="info-value">3.000 kg</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Khoảng cách</div>
+                            <div class="info-value" style="font-family:monospace">178.5 km</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Đơn giá</div>
+                            <div class="info-value" style="font-family:monospace">500 đ/km/kg</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:12px 16px;text-align:right;margin-top:12px">
+                        <span style="font-size:12px;color:var(--text-muted)">Thành tiền: </span>
+                        <span style="font-family:monospace;font-size:18px;font-weight:700;color:var(--accent)">3.200.000đ</span>
+                    </div>
+                    <div style="margin-top:12px;display:flex;gap:8px">
+                        <button class="btn btn-accent btn-sm" onclick="createVanDon()">📦 Tạo vận đơn</button>
+                    </div>
+                </div>
+
+                <!-- Tuyến 2 -->
+                <div style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;padding:18px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                        <div style="font-weight:700;color:var(--accent);font-size:13px;text-transform:uppercase">🚛 Tuyến 2</div>
+                        <span class="badge badge-draft">Chờ xác nhận</span>
+                    </div>
+                    <div class="info-grid" style="gap:0">
+                        <div class="info-item">
+                            <div class="info-label">Điểm đi</div>
+                            <div class="info-value">789 Lê Văn Việt, Q9, HCM</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Điểm đến</div>
+                            <div class="info-value">321 Nguyễn Huệ, Đà Lạt</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Loại hàng</div>
+                            <div class="info-value">Hàng lạnh</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Trọng lượng</div>
+                            <div class="info-value">2.000 kg</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Khoảng cách</div>
+                            <div class="info-value" style="font-family:monospace">302 km</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Đơn giá</div>
+                            <div class="info-value" style="font-family:monospace">1.200 đ/km/kg</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:8px;padding:12px 16px;text-align:right;margin-top:12px">
+                        <span style="font-size:12px;color:var(--text-muted)">Thành tiền: </span>
+                        <span style="font-family:monospace;font-size:18px;font-weight:700;color:var(--accent)">4.800.000đ</span>
+                    </div>
+                    <div style="margin-top:12px;display:flex;gap:8px">
+                        <button class="btn btn-accent btn-sm" onclick="acceptTuyen()">✓ Khách chấp nhận</button>
+                        <button class="btn btn-danger btn-sm" onclick="rejectTuyen()">✕ Khách từ chối</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar tổng kết -->
+        <div>
+            <div class="summary-card">
+                <div class="summary-header">Tổng kết</div>
+                <div class="summary-body">
+                    <div class="summary-row">
+                        <span class="label">Tuyến 1</span>
+                        <span style="font-family:monospace">3.200.000đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Tuyến 2</span>
+                        <span style="font-family:monospace">4.800.000đ</span>
+                    </div>
+                    <div class="summary-total">
+                        <div class="total-label">Tổng cộng</div>
+                        <div class="total-value">8.000.000đ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

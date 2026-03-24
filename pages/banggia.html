@@ -1,0 +1,75 @@
+<div class="page" id="page-banggia">
+    <div class="filter-bar">
+        <select class="filter-select">
+            <option>Tất cả loại hàng</option>
+            <option>Hàng thường</option>
+            <option>Hàng cồng kềnh</option>
+            <option>Hàng dễ vỡ</option>
+            <option>Hàng lạnh</option>
+        </select>
+        <button class="btn btn-accent" onclick="showModal('bgModal')">+ Thêm mức giá</button>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Loại hàng</th>
+                    <th>Từ (kg)</th>
+                    <th>Đến (kg)</th>
+                    <th>Đơn giá (đ/km/kg)</th>
+                    <th>Ngày áp dụng</th>
+                    <th>Ngày hết hạn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight:600">Hàng thường</td>
+                    <td style="font-family:monospace">0</td>
+                    <td style="font-family:monospace">5.000</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">500</td>
+                    <td>01/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600">Hàng thường</td>
+                    <td style="font-family:monospace">5.001</td>
+                    <td style="font-family:monospace">10.000</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">450</td>
+                    <td>01/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600">Hàng cồng kềnh</td>
+                    <td style="font-family:monospace">0</td>
+                    <td style="font-family:monospace">5.000</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">700</td>
+                    <td>01/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600">Hàng dễ vỡ</td>
+                    <td style="font-family:monospace">0</td>
+                    <td style="font-family:monospace">3.000</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">800</td>
+                    <td>01/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
+                </tr>
+                <tr>
+                    <td style="font-weight:600">Hàng lạnh</td>
+                    <td style="font-family:monospace">0</td>
+                    <td style="font-family:monospace">5.000</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">1.200</td>
+                    <td>01/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+<div class="page" id="page-baogia-create">
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start">
+        
+        <!-- Phần trái - Form -->
+        <div>
+            <!-- Thông tin chung -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>1</span> Thông tin chung
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Khách hàng *</label>
+                        <input type="text" class="form-input" placeholder="Tìm theo tên hoặc SĐT..." id="bgKhachHang">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày lập</label>
+                        <input type="date" class="form-input" value="2024-01-15">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Thông tin khách hàng</label>
+                        <input type="text" class="form-input" placeholder="Sẽ tự động điền sau khi chọn" id="bgKhachHangInfo" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hạn hiệu lực</label>
+                        <input type="date" class="form-input" value="2024-01-22" disabled>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Ghi chú</label>
+                        <textarea class="form-input" placeholder="Ghi chú thêm (nếu có)..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chi tiết tuyến -->
+            <div class="form-section">
+                <div class="form-section-title">
+                    <span>2</span> Chi tiết các tuyến vận chuyển
+                </div>
+
+                <div id="tuyenList">
+                    <!-- Tuyến mặc định đầu tiên -->
+                    <div class="tuyen-card">
+                        <div class="tuyen-header">
+                            <div class="tuyen-title">🚛 Tuyến 1</div>
+                            <button class="btn btn-danger btn-sm" onclick="removeTuyen(this)">✕ Xóa</button>
+                        </div>
+                        <div class="form-grid" style="margin-bottom:14px">
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="form-label">Điểm đi *</label>
+                                <input type="text" class="form-input" placeholder="VD: 123 Nguyễn Văn Linh, Q7, HCM" oninput="calcKm(this)">
+                            </div>
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="form-label">Điểm đến *</label>
+                                <input type="text" class="form-input" placeholder="VD: 456 Trần Hưng Đạo, Cần Thơ" oninput="calcKm(this)">
+                            </div>
+                        </div>
+                        <div class="form-grid-3" style="margin-bottom:14px">
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="form-label">Loại hàng *</label>
+                                <select class="form-input filter-select" style="width:100%" onchange="calcThanhTien(this)">
+                                    <option value="">Chọn loại hàng</option>
+                                    <option value="500">Hàng thường (500đ/km/kg)</option>
+                                    <option value="700">Hàng cồng kềnh (700đ/km/kg)</option>
+                                    <option value="800">Hàng dễ vỡ (800đ/km/kg)</option>
+                                    <option value="1200">Hàng lạnh (1.200đ/km/kg)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="form-label">Trọng lượng (kg) *</label>
+                                <input type="number" class="form-input" placeholder="0" min="0" oninput="calcThanhTien(this)">
+                            </div>
+                            <div class="form-group" style="margin-bottom:0">
+                                <label class="form-label">Khoảng cách</label>
+                                <div style="display:flex;gap:8px">
+                                    <input type="number" class="form-input km-input" placeholder="0" style="flex:1" oninput="calcThanhTien(this)">
+                                    <button class="btn btn-ghost btn-sm" onclick="getKm(this)">📍 Tính km</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                            <div>
+                                <div class="form-label" style="margin-bottom:8px">Đơn giá áp dụng</div>
+                                <div class="km-display">
+                                    <span>💰</span>
+                                    <span class="km-value don-gia-display">—</span>
+                                    <span style="color:var(--text-muted);font-size:12px">đ/km/kg</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-label" style="margin-bottom:8px">Thành tiền</div>
+                                <div class="thanh-tien-display tuyen-thanh-tien">0đ</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-tuyen-btn" onclick="addTuyen()">+ Thêm tuyến vận chuyển</button>
+            </div>
+        </div>
+
+        <!-- Summary Sidebar -->
+        <div class="summary-sidebar">
+            <div class="summary-card">
+                <div class="summary-header">Tổng kết báo giá</div>
+                <div class="summary-body">
+                    <div class="summary-row">
+                        <span class="label">Số tuyến</span>
+                        <span id="soTuyen">1</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Ngày hết hạn</span>
+                        <span>22/01/2024</span>
+                    </div>
+                    <div class="summary-total">
+                        <div class="total-label">Tổng cộng</div>
+                        <div class="total-value" id="tongGiaTri">0đ</div>
+                    </div>
+                    <div class="summary-actions">
+                        <button class="btn btn-accent" onclick="saveBaoGia()">💾 Lưu báo giá</button>
+                        <button class="btn btn-ghost" onclick="previewPDF()">📄 Xem trước PDF</button>
+                        <button class="btn btn-ghost" onclick="sendEmail()">📧 Gửi email khách</button>
+                        <div class="divider" style="margin:10px 0"></div>
+                        <button class="btn btn-ghost" onclick="showPage('baogia-list')" style="color:var(--danger)">✕ Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #181c27;
+  --bg-card: #1e2336;
+  --bg-hover: #252b3d;
+  --accent: #f97316;
+  --accent-dark: #c2570a;
+  --accent-light: #fbbf6a;
+  --text-primary: #f1f3f8;
+  --text-secondary: #8892a4;
+  --text-muted: #4d5568;
+  --border: #2a3147;
+  --border-light: #353d55;
+  --success: #22c55e;
+  --warning: #eab308;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  --sidebar-w: 240px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}

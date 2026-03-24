@@ -1,0 +1,105 @@
+<div class="page" id="page-congno">
+    <div class="filter-bar">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Tìm khách hàng...">
+        </div>
+        <select class="filter-select">
+            <option>Tất cả</option>
+            <option>Chưa TT</option>
+            <option>Một phần</option>
+            <option>Quá hạn</option>
+        </select>
+        <button class="btn btn-ghost">📥 Xuất báo cáo</button>
+        <button class="btn btn-accent" onclick="showPage('phieuthu-create')">+ Tạo phiếu thu</button>
+    </div>
+
+    <!-- Tổng quan công nợ -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+        <div class="card" style="text-align:center;padding:20px">
+            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Tổng công nợ</div>
+            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800;color:var(--danger)">50.000.000đ</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px">
+            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Khách hàng nợ</div>
+            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800">8</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px">
+            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Quá hạn >30 ngày</div>
+            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800;color:var(--warning)">3</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Khách hàng</th>
+                    <th>Số VĐ chưa TT</th>
+                    <th>Tổng nợ</th>
+                    <th>VĐ cũ nhất</th>
+                    <th>Quá hạn</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="font-weight:600">Công ty ABC</div>
+                        <div style="font-size:12px;color:var(--text-muted)">abc@company.com</div>
+                    </td>
+                    <td style="text-align:center">3</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--danger)">15.000.000đ</td>
+                    <td>01/01/2024</td>
+                    <td><span class="overdue-badge">⚠ 45 ngày</span></td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="viewCongNo()">Xem chi tiết</button>
+                        <button class="btn btn-accent btn-sm" onclick="showPage('phieuthu-create')" style="margin-left:6px">Thu tiền</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="font-weight:600">Cty TNHH Bình Minh</div>
+                        <div style="font-size:12px;color:var(--text-muted)">binhminh@company.com</div>
+                    </td>
+                    <td style="text-align:center">2</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--danger)">12.500.000đ</td>
+                    <td>05/01/2024</td>
+                    <td><span class="overdue-badge">⚠ 41 ngày</span></td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="viewCongNo()">Xem chi tiết</button>
+                        <button class="btn btn-accent btn-sm" onclick="showPage('phieuthu-create')" style="margin-left:6px">Thu tiền</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="font-weight:600">Công ty XYZ</div>
+                        <div style="font-size:12px;color:var(--text-muted)">xyz@company.com</div>
+                    </td>
+                    <td style="text-align:center">2</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--warning)">8.200.000đ</td>
+                    <td>10/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="viewCongNo()">Xem chi tiết</button>
+                        <button class="btn btn-accent btn-sm" onclick="showPage('phieuthu-create')" style="margin-left:6px">Thu tiền</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="font-weight:600">Cty Thái Sơn</div>
+                        <div style="font-size:12px;color:var(--text-muted)">thaison@company.com</div>
+                    </td>
+                    <td style="text-align:center">1</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--warning)">5.600.000đ</td>
+                    <td>12/01/2024</td>
+                    <td style="color:var(--text-muted)">—</td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="viewCongNo()">Xem chi tiết</button>
+                        <button class="btn btn-accent btn-sm" onclick="showPage('phieuthu-create')" style="margin-left:6px">Thu tiền</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

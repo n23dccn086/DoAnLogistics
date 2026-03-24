@@ -1,0 +1,117 @@
+<div class="page" id="page-phieuthu-create">
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:24px">
+
+        <!-- Phần trái -->
+        <div>
+            <!-- Thông tin phiếu thu -->
+            <div class="form-section">
+                <div class="form-section-title"><span>1</span> Thông tin phiếu thu</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Khách hàng *</label>
+                        <input type="text" class="form-input" placeholder="Tìm khách hàng..." id="ptKhachHang">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngày thu *</label>
+                        <input type="date" class="form-input" value="2024-01-18">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hình thức *</label>
+                        <select class="form-input filter-select" style="width:100%">
+                            <option>Chuyển khoản</option>
+                            <option>Tiền mặt</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Số tham chiếu</label>
+                        <input type="text" class="form-input" placeholder="Số CK / mã giao dịch">
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Tổng số tiền thu *</label>
+                        <div class="amount-input-wrapper">
+                            <input type="text" class="form-input" placeholder="0" id="ptTongTien" oninput="updatePTSummary()">
+                            <span class="currency">VNĐ</span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Ghi chú</label>
+                        <textarea class="form-input" placeholder="Ghi chú..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phân bổ cho vận đơn -->
+            <div class="form-section">
+                <div class="form-section-title"><span>2</span> Phân bổ cho vận đơn</div>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Chọn các vận đơn chưa thanh toán và nhập số tiền phân bổ</p>
+
+                <div class="vandon-select-item selected">
+                    <input type="checkbox" checked>
+                    <div style="flex:1">
+                        <div style="font-weight:600;font-size:14px">VD-20240115-0002</div>
+                        <div style="font-size:12px;color:var(--text-muted)">Công ty XYZ • HCM → Đà Lạt • Còn nợ: 3.600.000đ</div>
+                    </div>
+                    <div class="amount-input-wrapper" style="width:160px">
+                        <input type="text" class="form-input" value="3600000" style="font-size:13px" oninput="updatePTSummary()">
+                        <span class="currency" style="font-size:11px">đ</span>
+                    </div>
+                </div>
+
+                <div class="vandon-select-item selected">
+                    <input type="checkbox" checked>
+                    <div style="flex:1">
+                        <div style="font-weight:600;font-size:14px">VD-20240114-0005</div>
+                        <div style="font-size:12px;color:var(--text-muted)">Cty Bình Minh • HCM → Vũng Tàu • Còn nợ: 1.800.000đ</div>
+                    </div>
+                    <div class="amount-input-wrapper" style="width:160px">
+                        <input type="text" class="form-input" value="1400000" style="font-size:13px" oninput="updatePTSummary()">
+                        <span class="currency" style="font-size:11px">đ</span>
+                    </div>
+                </div>
+
+                <div class="vandon-select-item">
+                    <input type="checkbox">
+                    <div style="flex:1">
+                        <div style="font-weight:600;font-size:14px">VD-20240113-0004</div>
+                        <div style="font-size:12px;color:var(--text-muted)">Công ty XYZ • HCM → Cần Thơ • Còn nợ: 2.800.000đ</div>
+                    </div>
+                    <div class="amount-input-wrapper" style="width:160px">
+                        <input type="text" class="form-input" placeholder="0" style="font-size:13px" disabled>
+                        <span class="currency" style="font-size:11px">đ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar tổng kết -->
+        <div class="summary-sidebar">
+            <div class="summary-card">
+                <div class="summary-header">Tổng kết phiếu thu</div>
+                <div class="summary-body">
+                    <div class="summary-row">
+                        <span class="label">Tổng thu</span>
+                        <span style="font-family:monospace" id="ptSoTien">5.000.000đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Tổng phân bổ</span>
+                        <span style="font-family:monospace" id="ptPhanBo">5.000.000đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="label">Chênh lệch</span>
+                        <span style="font-family:monospace;color:var(--success)" id="ptChenhLech">0đ</span>
+                    </div>
+                    <div style="margin:16px 0">
+                        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Tiến độ phân bổ</div>
+                        <div class="congno-bar">
+                            <div class="congno-bar-fill" id="ptProgressBar" style="width:100%;background:var(--success)"></div>
+                        </div>
+                    </div>
+                    <div class="summary-actions">
+                        <button class="btn btn-accent" onclick="savePhieuThu()">💾 Lưu phiếu thu</button>
+                        <button class="btn btn-ghost" onclick="showPage('congno')" style="color:var(--danger)">✕ Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

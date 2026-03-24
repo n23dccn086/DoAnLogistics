@@ -1,0 +1,124 @@
+<div class="page active" id="page-dashboard">
+    <div class="stats-grid">
+        <div class="stat-card orange">
+            <div class="stat-icon orange">📦</div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Vận đơn hôm nay</div>
+            <div class="stat-change up">↑ 3 so với hôm qua</div>
+        </div>
+        <div class="stat-card blue">
+            <div class="stat-icon blue">📋</div>
+            <div class="stat-value">87</div>
+            <div class="stat-label">Vận đơn tháng này</div>
+            <div class="stat-change up">↑ 12% so với tháng trước</div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-icon green">💵</div>
+            <div class="stat-value">250M</div>
+            <div class="stat-label">Doanh thu tháng này</div>
+            <div class="stat-change up">↑ 8% so với tháng trước</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-icon red">⚠️</div>
+            <div class="stat-value">50M</div>
+            <div class="stat-label">Tổng công nợ</div>
+            <div class="stat-change down">↑ 5M so với tháng trước</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Vận đơn gần đây -->
+        <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                <div style="font-weight:700;font-size:15px">Vận đơn gần đây</div>
+                <button class="btn btn-ghost btn-sm" onclick="showPage('vandon-list')">Xem tất cả →</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã vận đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Tuyến</th>
+                        <th>Giá trị</th>
+                        <th>Thanh toán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="td-mono">VD-20240115-0001</span></td>
+                        <td>Công ty ABC</td>
+                        <td>HCM → Cần Thơ</td>
+                        <td style="font-family:monospace">3.200.000đ</td>
+                        <td><span class="badge badge-paid">Đã TT</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="td-mono">VD-20240115-0002</span></td>
+                        <td>Công ty XYZ</td>
+                        <td>HCM → Đà Lạt</td>
+                        <td style="font-family:monospace">5.600.000đ</td>
+                        <td><span class="badge badge-partial">Một phần</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="td-mono">VD-20240114-0005</span></td>
+                        <td>Cty TNHH Bình Minh</td>
+                        <td>HCM → Vũng Tàu</td>
+                        <td style="font-family:monospace">1.800.000đ</td>
+                        <td><span class="badge badge-unpaid">Chưa TT</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="td-mono">VD-20240114-0004</span></td>
+                        <td>Cty Thái Sơn</td>
+                        <td>HCM → Long An</td>
+                        <td style="font-family:monospace">980.000đ</td>
+                        <td><span class="badge badge-paid">Đã TT</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top 5 công nợ -->
+        <div class="card">
+            <div style="font-weight:700;font-size:15px;margin-bottom:20px">Top 5 công nợ cao nhất</div>
+            <div class="congno-item">
+                <div class="congno-rank top">1</div>
+                <div class="congno-info">
+                    <div class="congno-company">Công ty ABC</div>
+                    <div style="font-size:12px;color:var(--text-muted)">3 vận đơn chưa TT</div>
+                </div>
+                <div class="congno-amount">15.000.000đ</div>
+            </div>
+            <div class="congno-item">
+                <div class="congno-rank top">2</div>
+                <div class="congno-info">
+                    <div class="congno-company">Cty TNHH Bình Minh</div>
+                    <div style="font-size:12px;color:var(--text-muted)">2 vận đơn chưa TT</div>
+                </div>
+                <div class="congno-amount">12.500.000đ</div>
+            </div>
+            <div class="congno-item">
+                <div class="congno-rank">3</div>
+                <div class="congno-info">
+                    <div class="congno-company">Công ty XYZ</div>
+                    <div style="font-size:12px;color:var(--text-muted)">2 vận đơn chưa TT</div>
+                </div>
+                <div class="congno-amount">8.200.000đ</div>
+            </div>
+            <div class="congno-item">
+                <div class="congno-rank">4</div>
+                <div class="congno-info">
+                    <div class="congno-company">Cty Thái Sơn</div>
+                    <div style="font-size:12px;color:var(--text-muted)">1 vận đơn chưa TT</div>
+                </div>
+                <div class="congno-amount">5.600.000đ</div>
+            </div>
+            <div class="congno-item">
+                <div class="congno-rank">5</div>
+                <div class="congno-info">
+                    <div class="congno-company">Cty Phú Quý</div>
+                    <div style="font-size:12px;color:var(--text-muted)">1 vận đơn chưa TT</div>
+                </div>
+                <div class="congno-amount">3.800.000đ</div>
+            </div>
+        </div>
+    </div>
+</div>
