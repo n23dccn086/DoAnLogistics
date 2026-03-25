@@ -1,86 +1,77 @@
 <div class="page" id="page-baogia-list">
-    <div class="filter-bar">
-        <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" placeholder="Tìm theo khách hàng, mã báo giá...">
-        </div>
-        <select class="filter-select">
-            <option>Tất cả trạng thái</option>
-            <option>DRAFT</option>
-            <option>SENT</option>
-            <option>ACCEPTED</option>
-            <option>REJECTED</option>
-        </select>
-        <button class="btn btn-accent" onclick="showPage('baogia-create')">+ Tạo báo giá</button>
-    </div>
+  <div class="filter-bar">
+    <div
+      style="
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex: 1;
+        flex-wrap: wrap;
+      "
+    >
+      <!-- Thanh tìm kiếm -->
+      <div class="search-wrapper" style="flex: 1; min-width: 300px">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          class="search-input"
+          id="searchBaoGia"
+          placeholder="Tìm theo mã báo giá (ví dụ: 001 hoặc BG-...)"
+          style="flex: 1"
+        />
+      </div>
 
-    <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Mã báo giá</th>
-                    <th>Khách hàng</th>
-                    <th>Ngày tạo</th>
-                    <th>Hết hạn</th>
-                    <th>Số tuyến</th>
-                    <th>Tổng giá trị</th>
-                    <th>Trạng thái</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span class="td-mono">BG-20240115-001</span></td>
-                    <td><div style="font-weight:600">Công ty ABC</div><div style="font-size:12px;color:var(--text-muted)">0901234567</div></td>
-                    <td>15/01/2024</td>
-                    <td>22/01/2024</td>
-                    <td style="text-align:center">2</td>
-                    <td style="font-family:monospace;font-weight:600">8.000.000đ</td>
-                    <td><span class="badge badge-sent">Đã gửi</span></td>
-                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('baogia-detail')">Chi tiết</button></td>
-                </tr>
-                <tr>
-                    <td><span class="td-mono">BG-20240114-003</span></td>
-                    <td><div style="font-weight:600">Công ty XYZ</div><div style="font-size:12px;color:var(--text-muted)">0912345678</div></td>
-                    <td>14/01/2024</td>
-                    <td>21/01/2024</td>
-                    <td style="text-align:center">1</td>
-                    <td style="font-family:monospace;font-weight:600">5.600.000đ</td>
-                    <td><span class="badge badge-accepted">Chấp nhận</span></td>
-                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('baogia-detail')">Chi tiết</button></td>
-                </tr>
-                <tr>
-                    <td><span class="td-mono">BG-20240113-002</span></td>
-                    <td><div style="font-weight:600">Cty TNHH Bình Minh</div><div style="font-size:12px;color:var(--text-muted)">0923456789</div></td>
-                    <td>13/01/2024</td>
-                    <td>20/01/2024</td>
-                    <td style="text-align:center">1</td>
-                    <td style="font-family:monospace;font-weight:600">1.800.000đ</td>
-                    <td><span class="badge badge-draft">Nháp</span></td>
-                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('baogia-detail')">Chi tiết</button></td>
-                </tr>
-                <tr>
-                    <td><span class="td-mono">BG-20240112-001</span></td>
-                    <td><div style="font-weight:600">Cty Thái Sơn</div><div style="font-size:12px;color:var(--text-muted)">0934567890</div></td>
-                    <td>12/01/2024</td>
-                    <td>19/01/2024</td>
-                    <td style="text-align:center">3</td>
-                    <td style="font-family:monospace;font-weight:600">14.200.000đ</td>
-                    <td><span class="badge badge-rejected">Từ chối</span></td>
-                    <td><button class="btn btn-ghost btn-sm" onclick="showPage('baogia-detail')">Chi tiết</button></td>
-                </tr>
-            </tbody>
-        </table>
+      <!-- Nút Tìm kiếm -->
+      <button class="btn btn-accent" onclick="searchBaoGiaList()">
+        🔎 Tìm kiếm
+      </button>
 
-        <div class="pagination">
-            <div class="pagination-info">Hiển thị 1-4 của 28 báo giá</div>
-            <div class="pagination-btns">
-                <button class="page-btn">‹</button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">›</button>
-            </div>
-        </div>
+      <!-- Lọc trạng thái -->
+      <select
+        class="filter-select"
+        id="filterStatus"
+        onchange="loadDanhSachBaoGia()"
+      >
+        <option value="">Tất cả trạng thái</option>
+        <option value="Chưa duyệt">Chưa duyệt</option>
+        <option value="Đã gửi">Đã gửi</option>
+        <option value="Chấp nhận">Chấp nhận</option>
+        <option value="Từ chối">Từ chối</option>
+      </select>
+
+      <!-- Nút tạo mới -->
+      <button class="btn btn-accent" onclick="showPage('baogia-create')">
+        + Tạo báo giá mới
+      </button>
     </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Mã báo giá</th>
+          <th>Khách hàng</th>
+          <th>Ngày tạo</th>
+          <th>Hết hạn</th>
+          <th>Số tuyến</th>
+          <th>Tổng giá trị</th>
+          <th>Trạng thái</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="baogia-table-body">
+        <!-- Dữ liệu sẽ được load động bằng JavaScript -->
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <div class="pagination-info" id="pagination-info">
+        Hiển thị 0 của 0 báo giá
+      </div>
+      <div class="pagination-btns">
+        <!-- Có thể mở rộng sau -->
+      </div>
+    </div>
+  </div>
 </div>

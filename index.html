@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HHH - Hệ thống quản lý vận tải chuyên nghiệp">
     <title>HHH - Quản lý Vận tải</title>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+
+    <!-- CSS nội bộ -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -19,7 +28,7 @@
   <div class="login-card fade-in">
     <div class="login-logo">
       <div class="logo-icon">🚛</div>
-      <div class="logo-text">Van<span>Tai</span> Pro</div>
+      <div class="logo-text">HHH <span style="color:var(--accent)">Logistics</span></div>
     </div>
     <div class="login-title">Đăng nhập hệ thống</div>
     <div class="login-sub">Quản lý đơn hàng vận tải chuyên nghiệp</div>
@@ -42,39 +51,55 @@
   <aside class="sidebar">
     <div class="sidebar-logo">
       <div class="logo-icon">🚛</div>
-      <div class="logo-text">HHH</br>Logistics</div>
+      <div class="logo-text">HHH <span style="color:var(--accent)">Logistics</span></div>
     </div>
 
     <nav class="sidebar-nav">
       <div class="nav-section">
         <div class="nav-section-title">Tổng quan</div>
-        <a class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="nav-icon">📊</span> Dashboard</a>
+        <a class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Báo giá</div>
-        <a class="nav-item" onclick="showPage('baogia-list')" id="nav-baogia-list"><span class="nav-icon">📋</span> Danh sách báo giá</a>
-        <a class="nav-item" onclick="showPage('baogia-create')" id="nav-baogia-create"><span class="nav-icon">✏️</span> Tạo báo giá</a>
+        <a class="nav-item" onclick="showPage('baogia-list')" id="nav-baogia-list">
+          <span class="nav-icon">📋</span> Danh sách báo giá
+        </a>
+        <a class="nav-item" onclick="showPage('baogia-create')" id="nav-baogia-create">
+          <span class="nav-icon">✏️</span> Tạo báo giá
+        </a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Vận đơn</div>
-        <a class="nav-item" onclick="showPage('vandon-list')" id="nav-vandon-list"><span class="nav-icon">📦</span> Danh sách vận đơn</a>
+        <a class="nav-item" onclick="showPage('vandon-list')" id="nav-vandon-list">
+          <span class="nav-icon">📦</span> Danh sách vận đơn
+        </a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Thu tiền</div>
-        <a class="nav-item" onclick="showPage('congno')" id="nav-congno"><span class="nav-icon">💰</span> Công nợ khách hàng</a>
-        <a class="nav-item" onclick="showPage('phieuthu-create')" id="nav-phieuthu-create"><span class="nav-icon">🧾</span> Tạo phiếu thu</a>
+        <a class="nav-item" onclick="showPage('congno')" id="nav-congno">
+          <span class="nav-icon">💰</span> Công nợ khách hàng
+        </a>
+        <a class="nav-item" onclick="showPage('phieuthu-create')" id="nav-phieuthu-create">
+          <span class="nav-icon">🧾</span> Tạo phiếu thu
+        </a>
       </div>
       <div class="nav-section">
         <div class="nav-section-title">Danh mục</div>
-        <a class="nav-item" onclick="showPage('khachhang')" id="nav-khachhang"><span class="nav-icon">🏢</span> Khách hàng</a>
-        <a class="nav-item" onclick="showPage('banggia')" id="nav-banggia"><span class="nav-icon">💲</span> Bảng giá cước</a>
+        <a class="nav-item" onclick="showPage('khachhang')" id="nav-khachhang">
+          <span class="nav-icon">🏢</span> Khách hàng
+        </a>
+        <a class="nav-item" onclick="showPage('banggia')" id="nav-banggia">
+          <span class="nav-icon">💲</span> Bảng giá cước
+        </a>
       </div>
     </nav>
 
     <div class="sidebar-user">
       <div class="user-avatar">H</div>
       <div class="user-info">
-        <div class="user-name">Nguyễn Văn Hùng</div>
+        <div class="user-name">Võ Văn Hoàng</div>
         <div class="user-role">Nhân viên Sale</div>
       </div>
       <button class="logout-btn" onclick="doLogout()" title="Đăng xuất">⏻</button>
@@ -100,6 +125,8 @@
   <span id="toastMsg">Thao tác thành công!</span>
 </div>
 
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/navigation.js"></script>

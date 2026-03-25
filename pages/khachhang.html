@@ -1,11 +1,33 @@
 <div class="page" id="page-khachhang">
     <div class="filter-bar">
-        <div class="search-wrapper">
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        
+        <!-- Combobox chọn tiêu chí -->
+        <select id="searchCriteria" class="form-input" style="width: 180px;">
+            <option value="tenCongTy">Tên công ty</option>
+            <option value="maSoThue">Mã số thuế</option>
+            <option value="soDienThoai">Số điện thoại</option>
+        </select>
+
+        <!-- Ô nhập từ khóa -->
+        <div class="search-wrapper" style="flex: 1; min-width: 280px;">
             <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" placeholder="Tìm theo tên, MST, SĐT...">
+            <input type="text" class="search-input" id="searchKhachHang" 
+                   placeholder="Nhập từ khóa tìm kiếm..." 
+                   style="flex:1;">
         </div>
-        <button class="btn btn-accent" onclick="showModal('khModal')">+ Thêm khách hàng</button>
+
+        <!-- Nút tìm kiếm -->
+        <button class="btn btn-accent" onclick="searchKhachHang()">
+            🔎 Tìm kiếm
+        </button>
+
+        <!-- Nút thêm mới -->
+        <button class="btn btn-accent" onclick="showAddKhachHangModal()">
+            + Thêm khách hàng mới
+        </button>
     </div>
+</div>
 
     <div class="card">
         <table>
@@ -17,38 +39,52 @@
                     <th>Điện thoại</th>
                     <th>Email</th>
                     <th>Tổng vận đơn</th>
-                    <th></th>
+                    <th>Thao tác</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight:600">Công ty ABC</td>
-                    <td style="font-family:monospace;font-size:13px">0123456789</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>0901234567</td>
-                    <td style="font-size:13px;color:var(--text-muted)">abc@company.com</td>
-                    <td style="text-align:center;font-weight:600">24</td>
-                    <td><button class="btn btn-ghost btn-sm">Chỉnh sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Công ty XYZ</td>
-                    <td style="font-family:monospace;font-size:13px">0987654321</td>
-                    <td>Trần Thị B</td>
-                    <td>0912345678</td>
-                    <td style="font-size:13px;color:var(--text-muted)">xyz@company.com</td>
-                    <td style="text-align:center;font-weight:600">18</td>
-                    <td><button class="btn btn-ghost btn-sm">Chỉnh sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Cty TNHH Bình Minh</td>
-                    <td style="font-family:monospace;font-size:13px">0456789123</td>
-                    <td>Lê Văn C</td>
-                    <td>0923456789</td>
-                    <td style="font-size:13px;color:var(--text-muted)">binhminh@company.com</td>
-                    <td style="text-align:center;font-weight:600">12</td>
-                    <td><button class="btn btn-ghost btn-sm">Chỉnh sửa</button></td>
-                </tr>
-            </tbody>
+            <tbody id="khachhang-table-body"></tbody>
         </table>
+    </div>
+
+    <!-- ==================== MODAL THÊM / SỬA KHÁCH HÀNG ==================== -->
+    <div id="modalKhachHang" class="modal-overlay">
+        <div class="modal" style="width:520px">
+            <div class="modal-header">
+                <div class="modal-title" id="modalKhachHangTitle">Thêm khách hàng mới</div>
+                <button class="modal-close" onclick="hideKhachHangModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Tên công ty <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="khTenCongTy">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mã số thuế <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="khMaSoThue">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Người liên hệ</label>
+                        <input type="text" class="form-input" id="khNguoiLienHe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Số điện thoại <span class="req">*</span></label>
+                        <input type="text" class="form-input" id="khSoDienThoai">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="khEmail">
+                    </div>
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Địa chỉ</label>
+                        <textarea class="form-input" id="khDiaChi" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:20px 24px; border-top:1px solid var(--border); display:flex; gap:10px; justify-content:flex-end">
+                <button class="btn btn-ghost" onclick="hideKhachHangModal()">Hủy</button>
+                <button class="btn btn-accent" id="btnSaveKhachHang" onclick="saveKhachHang()">Lưu</button>
+            </div>
+        </div>
     </div>
 </div>

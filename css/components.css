@@ -294,3 +294,84 @@ tbody td {
   color: var(--accent);
   background: rgba(249,115,22,0.05);
 }
+/* ===== Address Autocomplete Dropdown ===== */
+.address-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  z-index: 500;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.address-option {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.4;
+  transition: background 0.15s;
+}
+
+.address-option:last-child { border-bottom: none; }
+
+.address-option:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ===== Tuyen Header ===== */
+.tuyen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tuyen-title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+/* ===== KM display ===== */
+.km-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.km-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.thanh-tien-display {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--accent);
+  background: rgba(249,115,22,0.1);
+  border: 1px solid rgba(249,115,22,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+/* Summary sidebar sticky */
+.summary-sidebar {
+  position: sticky;
+  top: 80px;
+}
