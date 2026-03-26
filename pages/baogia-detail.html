@@ -1,58 +1,66 @@
 <div class="page" id="page-baogia-detail">
-    
-    <!-- Header -->
-    <div class="detail-header">
-        <button class="btn btn-ghost" onclick="showPage('baogia-list')" style="margin-bottom:16px;">
-            ← Quay lại danh sách báo giá
-        </button>
-        
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:20px">
+    <button class="btn btn-ghost" onclick="showPage('baogia-list')" style="margin-bottom:20px;">
+        ← Quay lại danh sách báo giá
+    </button>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+            <h2 id="detailMaBaoGia" style="margin:0 0 8px 0; font-size:24px;">#BG000000</h2>
             <div>
-                <div class="detail-id">Mã báo giá</div>
-                <div class="detail-title" id="detailMaBaoGia">#BG000000</div>
-                <div style="display:flex; gap:12px; align-items:center; margin-top:8px">
-                    <span class="badge" id="detailTrangThai">Chưa duyệt</span>
-                    <span style="font-size:14px; color:var(--text-muted)" id="detailHanHieuLuc">
-                        Hết hạn: --
-                    </span>
-                </div>
+                <span class="badge" id="detailTrangThai" style="margin-right:12px;">Chưa duyệt</span>
+                <span id="detailHanHieuLuc" style="color:var(--text-muted);">Hết hạn: --</span>
             </div>
-            
-            <div style="display:flex; gap:10px">
-                <button class="btn btn-ghost" onclick="previewPDF()">📄 Xem PDF</button>
-                <button class="btn btn-ghost" onclick="sendEmail()">📧 Gửi lại email</button>
-            </div>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn btn-accent" onclick="previewPDFAndDownload()">
+                📄 Xem trước PDF / Tải PDF
+            </button>
+            <button class="btn btn-info" onclick="sendEmailWithPDF()" id="btnSendEmail">
+                📧 Gửi email khách
+            </button>
+            <button class="btn btn-success" onclick="acceptBaoGia()" id="btnAccept">
+                ✓ Chấp nhận
+            </button>
+            <button class="btn btn-danger" onclick="rejectBaoGia()" id="btnReject">
+                ✗ Từ chối
+            </button>
         </div>
     </div>
 
-    <!-- Nội dung chính -->
-    <div class="detail-grid">
-        <div>
-            <!-- Thông tin chung -->
-            <div class="card" style="margin-bottom:24px">
-                <div class="card-title">Thông tin chung</div>
-                <div class="info-grid" id="infoChung">
-                    <!-- JS sẽ điền dữ liệu vào đây -->
-                </div>
-            </div>
+    <div class="card">
+        <div class="card-title">Thông tin chung</div>
+        <div id="infoChung" class="info-grid"></div>
+    </div>
 
-            <!-- Danh sách tuyến -->
-            <div class="card">
-                <div class="card-title">Chi tiết tuyến vận chuyển</div>
-                <div id="tuyenListDetail">
-                    <!-- JS sẽ tạo các tuyến động -->
-                </div>
-            </div>
+    <div class="card" style="margin-top:24px">
+        <div class="card-title">Chi tiết tuyến vận chuyển</div>
+        <div id="tuyenListDetail"></div>
+    </div>
+
+     <div class="card" style="margin-top:24px">
+        <div class="card-title">Ghi chú</div>
+        <div id="ghiChuDetail" style="padding:16px; background:var(--bg-secondary); border-radius:10px;"></div>
+    </div>
+
+    <div class="card" style="margin-top:24px">
+        <div class="card-title">Tổng kết</div>
+        <div id="summaryBody" style="padding:20px; background:var(--bg-secondary); border-radius:10px;"></div>
+    </div>
+</div>
+
+<!-- Modal xem PDF -->
+<div id="pdfModal" class="modal-overlay">
+    <div class="modal" style="width: 90%; max-width: 900px;">
+        <div class="modal-header">
+            <div class="modal-title">Xem trước báo giá</div>
+            <button class="modal-close" onclick="closePdfModal()">✕</button>
         </div>
-
-        <!-- Sidebar tổng kết -->
-        <div class="summary-sidebar">
-            <div class="summary-card">
-                <div class="summary-header">Tổng kết báo giá</div>
-                <div class="summary-body" id="summaryBody">
-                    <!-- JS sẽ điền tổng kết -->
-                </div>
-            </div>
+        <div class="modal-body" id="pdfPreviewContainer" style="max-height: 70vh; overflow-y: auto;">
+            <div id="pdfContent" style="background: white; color: black; padding: 40px; border-radius: 8px;"></div>
+        </div>
+        <div style="padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end;">
+            <button class="btn btn-ghost" onclick="closePdfModal()">Đóng</button>
+            <button class="btn btn-accent" onclick="downloadPDF()">💾 Tải PDF</button>
         </div>
     </div>
 </div>

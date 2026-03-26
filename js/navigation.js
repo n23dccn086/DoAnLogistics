@@ -23,7 +23,7 @@ async function showPage(pageId) {
   };
 
   const pageTitle = document.getElementById("pageTitle");
-  if (pageTitle) pageTitle.textContent = titles[pageId] || "VanTai Pro";
+  if (pageTitle) pageTitle.textContent = titles[pageId] || "HHH Logistics";
 
   const contentArea = document.getElementById("pageContent");
   if (!contentArea) return;
@@ -75,11 +75,32 @@ async function showPage(pageId) {
     }, 150);
   }
 
+if (pageId === "vandon-list") {
+    setTimeout(() => {
+        if (typeof loadDanhSachVanDon === "function") {
+            console.log("🔄 Gọi loadDanhSachVanDon");
+            loadDanhSachVanDon();
+        } else {
+            console.error("❌ loadDanhSachVanDon không tồn tại");
+        }
+    }, 150);
+}
+
+
   if (pageId === "baogia-create") {
     setTimeout(() => {
       if (typeof initBaoGiaCreatePage === "function") {
         initBaoGiaCreatePage();
       }
     }, 150);
+  }
+
+  // ====================== TỰ ĐỘNG LOAD CHI TIẾT BÁO GIÁ ======================
+  if (pageId === "baogia-detail") {
+    setTimeout(() => {
+      if (typeof loadBaoGiaDetail === "function") {
+        loadBaoGiaDetail();
+      }
+    }, 200);
   }
 }

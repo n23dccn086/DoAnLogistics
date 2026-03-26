@@ -9,6 +9,12 @@
         flex-wrap: wrap;
       "
     >
+      <!-- 👇👇👇 THÊM COMBOBOX CHỌN TIÊU CHÍ 👇👇👇 -->
+      <select id="searchCriteria" class="filter-select" style="width: 150px">
+        <option value="maBaoGia">Mã báo giá</option>
+        <option value="khachHang">Khách hàng</option>
+      </select>
+
       <!-- Thanh tìm kiếm -->
       <div class="search-wrapper" style="flex: 1; min-width: 300px">
         <span class="search-icon">🔍</span>
@@ -16,7 +22,7 @@
           type="text"
           class="search-input"
           id="searchBaoGia"
-          placeholder="Tìm theo mã báo giá (ví dụ: 001 hoặc BG-...)"
+          placeholder="Tìm theo mã báo giá hoặc tên khách hàng..."
           style="flex: 1"
         />
       </div>
@@ -57,6 +63,7 @@
           <th>Số tuyến</th>
           <th>Tổng giá trị</th>
           <th>Trạng thái</th>
+          <th>Thao tác</th>
           <th></th>
         </tr>
       </thead>
@@ -64,14 +71,5 @@
         <!-- Dữ liệu sẽ được load động bằng JavaScript -->
       </tbody>
     </table>
-
-    <div class="pagination">
-      <div class="pagination-info" id="pagination-info">
-        Hiển thị 0 của 0 báo giá
-      </div>
-      <div class="pagination-btns">
-        <!-- Có thể mở rộng sau -->
-      </div>
-    </div>
   </div>
 </div>
