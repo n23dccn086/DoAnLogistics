@@ -445,14 +445,22 @@ function saveBaoGia() {
     tuyen: [],
   };
 
-  // Thu thập tuyến
-  document.querySelectorAll(".tuyen-card").forEach((card) => {
+// Thu thập tuyến
+document.querySelectorAll(".tuyen-card").forEach((card) => {
+    const select = card.querySelector('select');
+    const loaiHangText = select.options[select.selectedIndex]?.text || '';
+    const donGia = parseFloat(select.value) || 0;
+    const trongLuong = parseFloat(card.querySelector('input[type="number"]:not(.km-input)').value) || 0;
+    
     baoGiaData.tuyen.push({
-      diemDi: card.querySelector(".start-address").value,
-      diemDen: card.querySelector(".end-address").value,
-      khoangCach: card.querySelector(".km-input").value,
+        diemDi: card.querySelector(".start-address").value,
+        diemDen: card.querySelector(".end-address").value,
+        khoangCach: card.querySelector(".km-input").value,
+        loaiHang: loaiHangText,
+        trongLuong: trongLuong,
+        donGia: donGia
     });
-  });
+});
 
   let danhSachBaoGia = JSON.parse(localStorage.getItem("danhSachBaoGia")) || [];
   danhSachBaoGia.unshift(baoGiaData);
@@ -1271,10 +1279,9 @@ function acceptBaoGia() {
 function createVanDonFromBaoGia(bg) {
     console.log("🔧 Đang tạo vận đơn cho báo giá:", bg.id);
     
-    // Kiểm tra xem báo giá này đã có vận đơn chưa
+    // Kiểm tra trùng
     let danhSachVanDon = JSON.parse(localStorage.getItem('danhSachVanDon')) || [];
     const vanDonTonTai = danhSachVanDon.some(vd => vd.maBaoGia === bg.id);
-    
     if (vanDonTonTai) {
         console.log("⚠️ Báo giá này đã có vận đơn, không tạo mới");
         return null;
@@ -1288,13 +1295,18 @@ function createVanDonFromBaoGia(bg) {
     }
     console.log("📦 Khách hàng:", tenKhach);
     
-    // Lấy tuyến đường
-    let tuyen = '';
+    // Lấy thông tin từ tuyến đầu tiên (nếu có)
+    let diemDi = '', diemDen = '', loaiHang = '', trongLuong = 0, khoangCach = 0, donGia = 0, tuyen = '';
     if (bg.tuyen && bg.tuyen.length > 0) {
-        tuyen = `${bg.tuyen[0].diemDi} → ${bg.tuyen[0].diemDen}`;
-        if (bg.tuyen.length > 1) {
-            tuyen += ` (+${bg.tuyen.length - 1} tuyến)`;
-        }
+        const tuyenDau = bg.tuyen[0];
+        diemDi = tuyenDau.diemDi || '';
+        diemDen = tuyenDau.diemDen || '';
+        khoangCach = parseFloat(tuyenDau.khoangCach) || 0;
+        loaiHang = tuyenDau.loaiHang || '';
+        trongLuong = parseFloat(tuyenDau.trongLuong) || 0;
+        donGia = parseFloat(tuyenDau.donGia) || 0;
+        tuyen = `${diemDi} → ${diemDen}`;
+        if (bg.tuyen.length > 1) tuyen += ` (+${bg.tuyen.length-1} tuyến)`;
     }
     
     // Tạo mã vận đơn
@@ -1313,13 +1325,27 @@ function createVanDonFromBaoGia(bg) {
         giaTri: bg.tongGiaTri,
         trangThai: "Đã xác nhận",
         trangThaiThanhToan: "Chưa thanh toán",
-        ngayTao: new Date().toISOString().split('T')[0]
+        ngayTao: new Date().toISOString().split('T')[0],
+        daThu: 0,
+        // Các trường chi tiết (từ báo giá)
+        diemDi: diemDi,
+        diemDen: diemDen,
+        loaiHang: loaiHang,
+        trongLuong: trongLuong,
+        khoangCach: khoangCach,
+        donGia: donGia,
+        // Các trường thực tế (sẽ nhập sau)
+        diaChiLayHang: '',
+        diaChiGiaoHang: '',
+        nguoiLienHeLay_Ten: '',
+        nguoiLienHeLay_SDT: '',
+        nguoiLienHeGiao_Ten: '',
+        nguoiLienHeGiao_SDT: '',
+        ghiChu: ''
     };
     
-    // Lưu vào localStorage
     danhSachVanDon.unshift(vanDon);
     localStorage.setItem('danhSachVanDon', JSON.stringify(danhSachVanDon));
-    
     console.log("✅ Đã lưu vận đơn mới");
     console.log("📦 Tổng số vận đơn hiện tại:", danhSachVanDon.length);
     

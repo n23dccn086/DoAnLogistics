@@ -49,58 +49,58 @@ async function showPage(pageId) {
 
   window.scrollTo(0, 0);
 
-  // ==================== TỰ ĐỘNG LOAD DỮ LIỆU KHI CHUYỂN TAB ====================
+  // ==================== TỰ ĐỘNG LOAD DỮ LIỆU KHI CHUYỂN TRANG ====================
   if (pageId === "khachhang") {
     setTimeout(() => {
-      if (typeof loadDanhSachKhachHang === "function") {
-        loadDanhSachKhachHang();
-      }
+      if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
     }, 100);
   }
 
   if (pageId === "baogia-create") {
     setTimeout(() => {
-      if (typeof loadDanhSachKhachHang === "function") {
-        loadDanhSachKhachHang();
-      }
-    }, 100);
+      if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
+      if (typeof initBaoGiaCreatePage === "function") initBaoGiaCreatePage();
+    }, 150);
   }
 
-  // ==================== TỰ ĐỘNG LOAD DỮ LIỆU KHI CHUYỂN TRANG ====================
   if (pageId === "baogia-list") {
     setTimeout(() => {
-      if (typeof loadDanhSachBaoGia === "function") {
-        loadDanhSachBaoGia();
+      if (typeof loadDanhSachBaoGia === "function") loadDanhSachBaoGia();
+    }, 150);
+  }
+
+  if (pageId === "vandon-list") {
+    setTimeout(() => {
+      if (typeof loadDanhSachVanDon === "function") {
+        console.log("🔄 Gọi loadDanhSachVanDon");
+        loadDanhSachVanDon();
+      } else {
+        console.error("❌ loadDanhSachVanDon không tồn tại");
       }
     }, 150);
   }
 
-if (pageId === "vandon-list") {
+if (pageId === "vandon-detail") {
     setTimeout(() => {
-        if (typeof loadDanhSachVanDon === "function") {
-            console.log("🔄 Gọi loadDanhSachVanDon");
-            loadDanhSachVanDon();
-        } else {
-            console.error("❌ loadDanhSachVanDon không tồn tại");
-        }
-    }, 150);
+        if (typeof loadVanDonDetail === "function") loadVanDonDetail();
+    }, 200);
 }
 
-
-  if (pageId === "baogia-create") {
+  if (pageId === "baogia-detail") {
     setTimeout(() => {
-      if (typeof initBaoGiaCreatePage === "function") {
-        initBaoGiaCreatePage();
-      }
+      if (typeof loadBaoGiaDetail === "function") loadBaoGiaDetail();
+    }, 200);
+  }
+
+  if (pageId === "congno") {
+    setTimeout(() => {
+      if (typeof loadCongNo === "function") loadCongNo();
     }, 150);
   }
 
-  // ====================== TỰ ĐỘNG LOAD CHI TIẾT BÁO GIÁ ======================
-  if (pageId === "baogia-detail") {
+  if (pageId === "phieuthu-create") {
     setTimeout(() => {
-      if (typeof loadBaoGiaDetail === "function") {
-        loadBaoGiaDetail();
-      }
-    }, 200);
+      if (typeof initPhieuThuCreate === "function") initPhieuThuCreate();
+    }, 150);
   }
 }
