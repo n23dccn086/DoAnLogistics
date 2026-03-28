@@ -60,9 +60,18 @@ function calcThanhTien(input) {
     const kgInput = card.querySelector('input[type="number"]:not(.km-input)');
     const kmInput = card.querySelector('.km-input');
 
-    const donGia = parseFloat(select.value) || 0;
+    const loaiHang = select.options[select.selectedIndex]?.text || '';
     const kg = parseFloat(kgInput.value) || 0;
     const km = parseFloat(kmInput.value) || 0;
+
+    // Lấy bảng giá từ localStorage
+    const bangGiaCuoc = JSON.parse(localStorage.getItem("bangGiaCuoc")) || [];
+    const giaPhuHop = bangGiaCuoc.find(gia => 
+        gia.loaiHang === loaiHang && 
+        kg >= gia.kgTu && 
+        kg <= gia.kgDen
+    );
+    const donGia = giaPhuHop ? giaPhuHop.donGia : 0;
 
     const thanhTien = km * donGia * kg;
 
@@ -80,7 +89,6 @@ function calcThanhTien(input) {
 
     updateTongGiaTri();
 }
-
 /**
  * Tính khoảng cách (demo - dùng random)
  */

@@ -10,6 +10,8 @@ function tinhCongNo() {
     const today = new Date();
 
     vanDonList.forEach(vd => {
+        // Chỉ tính vận đơn chưa thanh toán đủ và trạng thái chưa hủy (Đã xác nhận hoặc Đã chốt)
+        if (vd.trangThai !== 'Đã xác nhận' && vd.trangThai !== 'Đã chốt') return;
         let giaTri = parseFloat(vd.giaTri.replace(/[^0-9]/g, '')) || 0;
         let daThu = vd.daThu || 0;
         let conNo = giaTri - daThu;

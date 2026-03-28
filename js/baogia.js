@@ -408,50 +408,60 @@ function validateBaoGia() {
  * LƯU BÁO GIÁ - ĐÃ CÓ VALIDATION + LƯU VÀO LOCALSTORAGE
  */
 function saveBaoGia() {
-  if (!validateBaoGia()) {
-    return;
-  }
-
-  // 👇👇👇 SỬA LẠI: LẤY ĐÚNG TEXTAREA GHI CHÚ 👇👇👇
-  // Tìm textarea trong form tạo báo giá (không phải textarea readonly)
-  let ghiChuRieng = "";
-  const allTextareas = document.querySelectorAll(
-    "#page-baogia-create textarea",
-  );
-  for (let i = 0; i < allTextareas.length; i++) {
-    const textarea = allTextareas[i];
-    // Textarea ghi chú là textarea không có thuộc tính readonly
-    if (!textarea.hasAttribute("readonly")) {
-      ghiChuRieng = textarea.value.trim();
-      break;
+    if (!validateBaoGia()) {
+        return;
     }
-  }
 
-  console.log("📝 Ghi chú từ textarea:", ghiChuRieng); // Debug: kiểm tra giá trị lấy được
+    // Lấy ghi chú
+    let ghiChuRieng = "";
+    const allTextareas = document.querySelectorAll("#page-baogia-create textarea");
+    for (let i = 0; i < allTextareas.length; i++) {
+        const textarea = allTextareas[i];
+        if (!textarea.hasAttribute("readonly")) {
+            ghiChuRieng = textarea.value.trim();
+            break;
+        }
+    }
 
-  // Lấy thông tin khách hàng (textarea readonly)
-  const khachHangInfo =
-    document.getElementById("bgKhachHangInfo").value || "Khách hàng không rõ";
+    // Lấy thông tin khách hàng
+    const khachHangInfo = document.getElementById("bgKhachHangInfo").value || "Khách hàng không rõ";
 
-  const baoGiaData = {
-    id: Date.now(),
-    ngayLap: document.getElementById("ngayLap").value,
-    hanHieuLuc: document.getElementById("hanHieuLuc").value,
-    khachHangInfo: khachHangInfo, // Thông tin khách hàng
-    ghiChuRieng: ghiChuRieng, // Ghi chú riêng từ textarea nhập
-    tongGiaTri: document.getElementById("tongGiaTri").textContent.trim(),
-    trangThai: "Chưa duyệt",
-    ngayTao: new Date().toISOString(),
-    tuyen: [],
-  };
+    const baoGiaData = {
+        id: Date.now(),
+        ngayLap: document.getElementById("ngayLap").value,
+        hanHieuLuc: document.getElementById("hanHieuLuc").value,
+        khachHangInfo: khachHangInfo,
+        ghiChuRieng: ghiChuRieng,
+        tongGiaTri: document.getElementById("tongGiaTri").textContent.trim(),
+        trangThai: "Chưa duyệt",
+        ngayTao: new Date().toISOString(),
+        tuyen: [],
+    };
 
-// Thu thập tuyến
-document.querySelectorAll(".tuyen-card").forEach((card) => {
+    // Lấy bảng giá cước từ localStorage
+    // Thu thập tuyến và tính đơn giá từ bảng giá
+const bangGiaCuoc = JSON.parse(localStorage.getItem("bangGiaCuoc")) || [];
+
+const tuyenCards = document.querySelectorAll(".tuyen-card");
+for (let card of tuyenCards) {
     const select = card.querySelector('select');
     const loaiHangText = select.options[select.selectedIndex]?.text || '';
-    const donGia = parseFloat(select.value) || 0;
     const trongLuong = parseFloat(card.querySelector('input[type="number"]:not(.km-input)').value) || 0;
-    
+
+    // Tìm đơn giá phù hợp
+    let donGia = 0;
+    const giaPhuHop = bangGiaCuoc.find(gia => 
+        gia.loaiHang === loaiHangText && 
+        trongLuong >= gia.kgTu && 
+        trongLuong <= gia.kgDen
+    );
+    if (giaPhuHop) {
+        donGia = giaPhuHop.donGia;
+    } else {
+        showToast(`Không tìm thấy bảng giá cho loại hàng "${loaiHangText}" với trọng lượng ${trongLuong}kg`, "error");
+        return;
+    }
+
     baoGiaData.tuyen.push({
         diemDi: card.querySelector(".start-address").value,
         diemDen: card.querySelector(".end-address").value,
@@ -460,17 +470,18 @@ document.querySelectorAll(".tuyen-card").forEach((card) => {
         trongLuong: trongLuong,
         donGia: donGia
     });
-});
+}
 
-  let danhSachBaoGia = JSON.parse(localStorage.getItem("danhSachBaoGia")) || [];
-  danhSachBaoGia.unshift(baoGiaData);
-  localStorage.setItem("danhSachBaoGia", JSON.stringify(danhSachBaoGia));
+    // Lưu báo giá
+    let danhSachBaoGia = JSON.parse(localStorage.getItem("danhSachBaoGia")) || [];
+    danhSachBaoGia.unshift(baoGiaData);
+    localStorage.setItem("danhSachBaoGia", JSON.stringify(danhSachBaoGia));
 
-  showToast("✅ Báo giá đã được lưu thành công!", "success");
+    showToast("✅ Báo giá đã được lưu thành công!", "success");
 
-  setTimeout(() => {
-    showPage("baogia-list");
-  }, 600);
+    setTimeout(() => {
+        showPage("baogia-list");
+    }, 600);
 }
 
 function previewPDF() {
@@ -1296,18 +1307,18 @@ function createVanDonFromBaoGia(bg) {
     console.log("📦 Khách hàng:", tenKhach);
     
     // Lấy thông tin từ tuyến đầu tiên (nếu có)
-    let diemDi = '', diemDen = '', loaiHang = '', trongLuong = 0, khoangCach = 0, donGia = 0, tuyen = '';
-    if (bg.tuyen && bg.tuyen.length > 0) {
-        const tuyenDau = bg.tuyen[0];
-        diemDi = tuyenDau.diemDi || '';
-        diemDen = tuyenDau.diemDen || '';
-        khoangCach = parseFloat(tuyenDau.khoangCach) || 0;
-        loaiHang = tuyenDau.loaiHang || '';
-        trongLuong = parseFloat(tuyenDau.trongLuong) || 0;
-        donGia = parseFloat(tuyenDau.donGia) || 0;
-        tuyen = `${diemDi} → ${diemDen}`;
-        if (bg.tuyen.length > 1) tuyen += ` (+${bg.tuyen.length-1} tuyến)`;
-    }
+let diemDi = '', diemDen = '', loaiHang = '', trongLuong = 0, khoangCach = 0, donGia = 0, tuyen = '';
+if (bg.tuyen && bg.tuyen.length > 0) {
+    const tuyenDau = bg.tuyen[0];
+    diemDi = tuyenDau.diemDi || '';
+    diemDen = tuyenDau.diemDen || '';
+    khoangCach = parseFloat(tuyenDau.khoangCach) || 0;
+    loaiHang = tuyenDau.loaiHang || '';          // Lấy loại hàng
+    trongLuong = parseFloat(tuyenDau.trongLuong) || 0; // Lấy trọng lượng
+    donGia = parseFloat(tuyenDau.donGia) || 0;   // Lấy đơn giá
+    tuyen = `${diemDi} → ${diemDen}`;
+    if (bg.tuyen.length > 1) tuyen += ` (+${bg.tuyen.length-1} tuyến)`;
+}
     
     // Tạo mã vận đơn
     const maVanDon = generateVanDonId();

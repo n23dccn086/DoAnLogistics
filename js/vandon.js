@@ -155,24 +155,33 @@ function viewVanDonDetail(id) {
 
 // Load chi tiết vận đơn
 function loadVanDonDetail() {
+    console.log("loadVanDonDetail bắt đầu");
     const data = localStorage.getItem('currentVanDonDetail');
+    console.log("currentVanDonDetail:", data);
     if (!data) {
         const infoDiv = document.getElementById('infoVanDonCoDinh');
-        if (infoDiv) infoDiv.innerHTML = '<p style="color:red">Không tìm thấy dữ liệu vận đơn!</p>';
+        if (infoDiv) infoDiv.innerHTML = '<p style="color:red">Không tìm thấy dữ liệu vận đơn! Hãy chọn vận đơn từ danh sách.</p>';
+        // Ẩn các phần khác nếu không có dữ liệu
         return;
     }
     currentVanDon = JSON.parse(data);
     const vd = currentVanDon;
+    console.log("Vận đơn đã tải:", vd);
 
     // Cập nhật header
-    document.getElementById('detailMaVanDon').textContent = vd.id;
-    document.getElementById('detailTrangThaiVanDon').textContent = vd.trangThai || 'Đã xác nhận';
-    const thanhToanClass = vd.trangThaiThanhToan === 'Đã thanh toán' ? 'badge-paid' :
-                           vd.trangThaiThanhToan === 'Một phần' ? 'badge-partial' : 'badge-unpaid';
-    document.getElementById('detailTrangThaiThanhToan').textContent = vd.trangThaiThanhToan;
-    document.getElementById('detailTrangThaiThanhToan').className = `badge ${thanhToanClass}`;
+    const maEl = document.getElementById('detailMaVanDon');
+    if (maEl) maEl.textContent = vd.id;
+    const trangThaiEl = document.getElementById('detailTrangThaiVanDon');
+    if (trangThaiEl) trangThaiEl.textContent = vd.trangThai || 'Đã xác nhận';
+    const thanhToanEl = document.getElementById('detailTrangThaiThanhToan');
+    if (thanhToanEl) {
+        thanhToanEl.textContent = vd.trangThaiThanhToan;
+        const thanhToanClass = vd.trangThaiThanhToan === 'Đã thanh toán' ? 'badge-paid' :
+                               vd.trangThaiThanhToan === 'Một phần' ? 'badge-partial' : 'badge-unpaid';
+        thanhToanEl.className = `badge ${thanhToanClass}`;
+    }
 
-    // Thông tin cố định (từ báo giá)
+    // Thông tin cố định
     const infoCoDinh = `
         <div class="info-item"><div class="info-label">Khách hàng</div><div class="info-value">${escapeHtml(vd.khachHang || 'Không rõ')}</div></div>
         <div class="info-item"><div class="info-label">Ngày tạo vận đơn</div><div class="info-value">${escapeHtml(vd.ngayTao || vd.ngayVanChuyen || '--')}</div></div>
@@ -195,36 +204,40 @@ function loadVanDonDetail() {
     document.getElementById('nguoiLienHeGiao_SDT').value = vd.nguoiLienHeGiao_SDT || '';
     document.getElementById('ghiChuVanDon').value = vd.ghiChu || '';
 
-    // Cập nhật thanh toán
+    // Cập nhật thanh toán và lịch sử
     updateThanhToanUI(vd);
     renderLichSuThanhToan(vd.id);
 
-    // Hiển thị lý do hủy (nếu có)
-const lyDoHuyDiv = document.getElementById('lyDoHuyDetail');
-if (lyDoHuyDiv) {
-    if (vd.trangThai === 'Đã hủy' && vd.lyDoHuy) {
-        lyDoHuyDiv.innerHTML = `
-            <div style="margin-top:16px; padding:12px; background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); border-radius: 8px;">
-                <div style="font-weight: 600; margin-bottom: 8px; color: var(--danger);">❌ Lý do hủy:</div>
-                <div style="font-style: italic;">${escapeHtml(vd.lyDoHuy)}</div>
-            </div>
-        `;
-    } else {
-        lyDoHuyDiv.innerHTML = '';
-    }
-}
-    
-    // Hiển thị nút Chốt đơn nếu đủ điều kiện
-    const btnChotDon = document.getElementById('btnChotDon');
-    if (btnChotDon) {
-        const giaTri = parseFloat(vd.giaTri.replace(/[^0-9]/g, '')) || 0;
-        const daThu = vd.daThu || 0;
-        if (daThu >= giaTri && vd.trangThai === 'Đã xác nhận') {
-            btnChotDon.style.display = 'inline-flex';
+    // Hiển thị lý do hủy
+    const lyDoHuyDiv = document.getElementById('lyDoHuyDetail');
+    if (lyDoHuyDiv) {
+        if (vd.trangThai === 'Đã hủy' && vd.lyDoHuy) {
+            lyDoHuyDiv.innerHTML = `
+                <div style="margin-top:16px; padding:12px; background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: var(--danger);">❌ Lý do hủy:</div>
+                    <div style="font-style: italic;">${escapeHtml(vd.lyDoHuy)}</div>
+                </div>
+            `;
         } else {
-            btnChotDon.style.display = 'none';
+            lyDoHuyDiv.innerHTML = '';
         }
     }
+
+    // Hiển thị nút Chốt đơn và Khôi phục
+const btnChotDon = document.getElementById('btnChotDon');
+const btnKhoiPhuc = document.getElementById('btnKhoiPhuc');
+if (btnChotDon) btnChotDon.style.display = 'none';
+if (btnKhoiPhuc) btnKhoiPhuc.style.display = 'none';
+
+if (vd.trangThai === 'Đã xác nhận') {
+    const giaTri = parseFloat(vd.giaTri.replace(/[^0-9]/g, '')) || 0;
+    const daThu = vd.daThu || 0;
+    if (daThu >= giaTri) {
+        if (btnChotDon) btnChotDon.style.display = 'inline-flex';
+    }
+} else if (vd.trangThai === 'Đã hủy') {
+    if (btnKhoiPhuc) btnKhoiPhuc.style.display = 'inline-flex';
+}
 }
 
 // Cập nhật UI thanh toán
@@ -387,7 +400,10 @@ function xacNhanHuyVanDon() {
         showToast('Vui lòng nhập lý do hủy', 'error');
         return;
     }
-    if (!currentVanDon) return;
+    if (!currentVanDon) {
+        showToast('Không có dữ liệu vận đơn!', 'error');
+        return;
+    }
     currentVanDon.trangThai = 'Đã hủy';
     currentVanDon.lyDoHuy = lyDo;
     let vanDonList = JSON.parse(localStorage.getItem('danhSachVanDon')) || [];
@@ -397,14 +413,37 @@ function xacNhanHuyVanDon() {
     localStorage.setItem('currentVanDonDetail', JSON.stringify(currentVanDon));
     closeHuyModal();
     showToast('Vận đơn đã được hủy', 'success');
-    if (document.getElementById('page-vandon-detail')) {
-        loadVanDonDetail();
-    }
+    loadVanDonDetail(); // Tải lại chi tiết để hiển thị lý do
+
+    // Cập nhật danh sách vận đơn và công nợ nếu đang mở
+    if (document.getElementById('page-vandon-list')) loadDanhSachVanDon();
+    if (document.getElementById('page-congno') && typeof loadCongNo === 'function') loadCongNo();
+
     setTimeout(() => {
-        if (document.getElementById('page-vandon-detail')) {
-            showPage('vandon-list');
-        }
+        if (document.getElementById('page-vandon-detail')) showPage('vandon-list');
     }, 1500);
+}
+
+// Khôi phục vận đơn đã hủy
+function khoiPhucVanDon() {
+    if (!currentVanDon) return;
+    if (currentVanDon.trangThai !== 'Đã hủy') {
+        showToast('Chỉ có thể khôi phục vận đơn đã hủy', 'error');
+        return;
+    }
+    currentVanDon.trangThai = 'Đã xác nhận';
+    // Xóa lý do hủy
+    delete currentVanDon.lyDoHuy;
+    let vanDonList = JSON.parse(localStorage.getItem('danhSachVanDon')) || [];
+    const index = vanDonList.findIndex(v => v.id === currentVanDon.id);
+    if (index !== -1) vanDonList[index] = currentVanDon;
+    localStorage.setItem('danhSachVanDon', JSON.stringify(vanDonList));
+    localStorage.setItem('currentVanDonDetail', JSON.stringify(currentVanDon));
+    showToast('Đã khôi phục vận đơn', 'success');
+    loadVanDonDetail(); // Cập nhật giao diện
+    // Cập nhật danh sách vận đơn và công nợ nếu đang mở
+    if (document.getElementById('page-vandon-list')) loadDanhSachVanDon();
+    if (document.getElementById('page-congno') && typeof loadCongNo === 'function') loadCongNo();
 }
 
 // Chốt đơn

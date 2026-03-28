@@ -1,75 +1,66 @@
 <div class="page" id="page-banggia">
     <div class="filter-bar">
-        <select class="filter-select">
-            <option>Tất cả loại hàng</option>
-            <option>Hàng thường</option>
-            <option>Hàng cồng kềnh</option>
-            <option>Hàng dễ vỡ</option>
-            <option>Hàng lạnh</option>
+        <select id="filterLoaiHang" class="filter-select" onchange="loadBangGia()">
+            <option value="">Tất cả loại hàng</option>
+            <option value="Hàng thường">Hàng thường</option>
+            <option value="Hàng cồng kềnh">Hàng cồng kềnh</option>
+            <option value="Hàng dễ vỡ">Hàng dễ vỡ</option>
+            <option value="Hàng lạnh">Hàng lạnh</option>
         </select>
-        <button class="btn btn-accent" onclick="showModal('bgModal')">+ Thêm mức giá</button>
+        <button class="btn btn-accent" onclick="showModalBangGia()">+ Thêm mức giá</button>
     </div>
 
     <div class="card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Loại hàng</th>
-                    <th>Từ (kg)</th>
-                    <th>Đến (kg)</th>
-                    <th>Đơn giá (đ/km/kg)</th>
-                    <th>Ngày áp dụng</th>
-                    <th>Ngày hết hạn</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-weight:600">Hàng thường</td>
-                    <td style="font-family:monospace">0</td>
-                    <td style="font-family:monospace">5.000</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">500</td>
-                    <td>01/01/2024</td>
-                    <td style="color:var(--text-muted)">—</td>
-                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Hàng thường</td>
-                    <td style="font-family:monospace">5.001</td>
-                    <td style="font-family:monospace">10.000</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">450</td>
-                    <td>01/01/2024</td>
-                    <td style="color:var(--text-muted)">—</td>
-                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Hàng cồng kềnh</td>
-                    <td style="font-family:monospace">0</td>
-                    <td style="font-family:monospace">5.000</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">700</td>
-                    <td>01/01/2024</td>
-                    <td style="color:var(--text-muted)">—</td>
-                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Hàng dễ vỡ</td>
-                    <td style="font-family:monospace">0</td>
-                    <td style="font-family:monospace">3.000</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">800</td>
-                    <td>01/01/2024</td>
-                    <td style="color:var(--text-muted)">—</td>
-                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
-                </tr>
-                <tr>
-                    <td style="font-weight:600">Hàng lạnh</td>
-                    <td style="font-family:monospace">0</td>
-                    <td style="font-family:monospace">5.000</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--accent)">1.200</td>
-                    <td>01/01/2024</td>
-                    <td style="color:var(--text-muted)">—</td>
-                    <td><button class="btn btn-ghost btn-sm">Sửa</button></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Loại hàng</th>
+                        <th>Từ (kg)</th>
+                        <th>Đến (kg)</th>
+                        <th>Đơn giá (đ/km/kg)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="banggia-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal thêm/sửa mức giá -->
+<div id="modalBangGia" class="modal-overlay">
+    <div class="modal" style="width:500px">
+        <div class="modal-header">
+            <div class="modal-title" id="modalBangGiaTitle">Thêm mức giá</div>
+            <button class="modal-close" onclick="hideModalBangGia()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">Loại hàng *</label>
+                <select id="bgLoaiHang" class="form-input">
+                    <option value="Hàng thường">Hàng thường</option>
+                    <option value="Hàng cồng kềnh">Hàng cồng kềnh</option>
+                    <option value="Hàng dễ vỡ">Hàng dễ vỡ</option>
+                    <option value="Hàng lạnh">Hàng lạnh</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Từ (kg) *</label>
+                <input type="number" id="bgKgTu" class="form-input" min="0" step="0.1" value="0">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Đến (kg) *</label>
+                <input type="number" id="bgKgDen" class="form-input" min="0" step="0.1" value="0">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Đơn giá (đ/km/kg) *</label>
+                <input type="number" id="bgDonGia" class="form-input" min="1" step="1" value="0">
+            </div>
+        </div>
+        <div style="padding:20px; border-top:1px solid var(--border); display:flex; gap:10px; justify-content:flex-end">
+            <button class="btn btn-ghost" onclick="hideModalBangGia()">Hủy</button>
+            <button class="btn btn-accent" onclick="saveBangGia()">Lưu</button>
+        </div>
     </div>
 </div>
