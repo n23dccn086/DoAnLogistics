@@ -1,102 +1,176 @@
 <div class="page" id="page-phieuthu-create">
-    <div style="display:grid; grid-template-columns:1fr 380px; gap:24px;">
-        <!-- Phần trái -->
-        <div>
-            <!-- Thông tin phiếu thu -->
-            <div class="form-section">
-                <div class="form-section-title"><span>1</span> Thông tin phiếu thu</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Khách hàng *</label>
-                        <select class="form-input" id="khachHangSelect" onchange="loadVanDonCuaKhach()">
-                            <option value="">-- Chọn khách hàng --</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Ngày thu *</label>
-                        <input type="date" class="form-input" id="ngayThu" value="">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Hình thức *</label>
-                        <select class="form-input" id="hinhThucThu" onchange="toggleSoThamChieu()">
-                            <option value="TIEN_MAT">Tiền mặt</option>
-                            <option value="CHUYEN_KHOAN">Chuyển khoản</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Số tham chiếu</label>
-                        <input type="text" class="form-input" id="soThamChieu" placeholder="Số CK / mã giao dịch">
-                    </div>
-                    <div class="form-group form-group-full">
-                        <label class="form-label">Tổng số tiền thu *</label>
-                        <div class="amount-input-wrapper">
-                            <input type="number" class="form-input" id="tongSoTienThu" placeholder="0" min="0" step="1000" oninput="tinhChonhLech()">
-                            <span class="currency">VNĐ</span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-full">
-                        <label class="form-label">Ghi chú</label>
-                        <textarea class="form-input" id="ghiChuPhieuThu" rows="2" placeholder="Ghi chú..."></textarea>
-                    </div>
-                </div>
+  <div style="display: grid; grid-template-columns: 1fr 380px; gap: 24px">
+    <!-- Phần trái -->
+    <div>
+      <!-- Thông tin phiếu thu -->
+      <div class="form-section">
+        <div class="form-section-title"><span>1</span> Thông tin phiếu thu</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Khách hàng *</label>
+            <select
+              class="form-input"
+              id="khachHangSelect"
+              onchange="loadVanDonCuaKhach()"
+            >
+              <option value="">-- Chọn khách hàng --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ngày thu *</label>
+            <input type="date" class="form-input" id="ngayThu" value="" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hình thức *</label>
+            <select
+              class="form-input"
+              id="hinhThucThu"
+              onchange="toggleSoThamChieu()"
+            >
+              <option value="TIEN_MAT">Tiền mặt</option>
+              <option value="CHUYEN_KHOAN">Chuyển khoản</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Số tham chiếu</label>
+            <input
+              type="text"
+              class="form-input"
+              id="soThamChieu"
+              placeholder="Số CK / mã giao dịch"
+            />
+          </div>
+          <div class="form-group form-group-full">
+            <label class="form-label">Tổng số tiền thu *</label>
+            <div class="amount-input-wrapper">
+              <input
+                type="number"
+                class="form-input"
+                id="tongSoTienThu"
+                placeholder="0"
+                min="0"
+                step="1000"
+                oninput="tinhChonhLech()"
+              />
+              <span class="currency">VNĐ</span>
             </div>
-
-            <!-- Phân bổ cho vận đơn -->
-            <div class="form-section">
-                <div class="form-section-title"><span>2</span> Phân bổ cho vận đơn</div>
-                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
-                    Chọn các vận đơn chưa thanh toán và nhập số tiền phân bổ.
-                </p>
-                <div id="danhSachVanDonPhanBo"></div>
-            </div>
+          </div>
+          <div class="form-group form-group-full">
+            <label class="form-label">Ghi chú</label>
+            <textarea
+              class="form-input"
+              id="ghiChuPhieuThu"
+              rows="2"
+              placeholder="Ghi chú..."
+            ></textarea>
+          </div>
         </div>
+      </div>
 
-        <!-- Sidebar tổng kết -->
-        <div class="summary-sidebar">
-            <div class="summary-card">
-                <div class="summary-header">Tổng kết phiếu thu</div>
-                <div class="summary-body">
-                    <div class="summary-row">
-                        <span class="label">Tổng thu</span>
-                        <span style="font-family:monospace" id="tongThuDisplay">0đ</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="label">Tổng phân bổ</span>
-                        <span style="font-family:monospace" id="tongPhanBoDisplay">0đ</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="label">Chênh lệch</span>
-                        <span style="font-family:monospace; font-weight:bold" id="chenhLechDisplay">0đ</span>
-                    </div>
-                    <div style="margin:16px 0">
-                        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Tiến độ phân bổ</div>
-                        <div class="congno-bar">
-                            <div class="congno-bar-fill" id="progressBarPhanBo" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div class="summary-actions">
-                        <button class="btn btn-accent" onclick="luuPhieuThu()">💾 Lưu phiếu thu</button>
-                        <button class="btn btn-ghost" onclick="showPage('congno')" style="color:var(--danger)">✕ Hủy</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <!-- Phân bổ cho vận đơn -->
+      <div class="form-section">
+        <div class="form-section-title"><span>2</span> Phân bổ cho vận đơn</div>
+        <p
+          style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px"
+        >
+          Chọn các vận đơn chưa thanh toán và nhập số tiền phân bổ.
+        </p>
+        <div id="danhSachVanDonPhanBo"></div>
+      </div>
     </div>
+
+    <!-- Sidebar tổng kết -->
+    <div class="summary-sidebar">
+      <div class="summary-card">
+        <div class="summary-header">Tổng kết phiếu thu</div>
+        <div class="summary-body">
+          <div class="summary-row">
+            <span class="label">Tổng thu</span>
+            <span style="font-family: monospace" id="tongThuDisplay">0đ</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Tổng phân bổ</span>
+            <span style="font-family: monospace" id="tongPhanBoDisplay"
+              >0đ</span
+            >
+          </div>
+          <div class="summary-row">
+            <span class="label">Chênh lệch</span>
+            <span
+              style="font-family: monospace; font-weight: bold"
+              id="chenhLechDisplay"
+              >0đ</span
+            >
+          </div>
+          <div style="margin: 16px 0">
+            <div
+              style="
+                font-size: 12px;
+                color: var(--text-muted);
+                margin-bottom: 6px;
+              "
+            >
+              Tiến độ phân bổ
+            </div>
+            <div class="congno-bar">
+              <div
+                class="congno-bar-fill"
+                id="progressBarPhanBo"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+          <div class="summary-actions">
+            <button class="btn btn-accent" onclick="luuPhieuThu()">
+              💾 Lưu phiếu thu
+            </button>
+            <button
+              class="btn btn-ghost"
+              onclick="showPage('congno')"
+              style="color: var(--danger)"
+            >
+              ✕ Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal xem PDF phiếu thu -->
 <div id="pdfPhieuThuModal" class="modal-overlay">
-    <div class="modal" style="width: 90%; max-width: 900px;">
-        <div class="modal-header">
-            <div class="modal-title">Xem trước phiếu thu</div>
-            <button class="modal-close" onclick="closePdfPhieuThuModal()">✕</button>
-        </div>
-        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-            <div id="pdfPhieuThuContent" style="background: white; color: black; padding: 40px; border-radius: 8px;"></div>
-        </div>
-        <div style="padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn btn-ghost" onclick="closePdfPhieuThuModal()">Đóng</button>
-            <button class="btn btn-accent" onclick="downloadPhieuThuPDF()">💾 Tải PDF</button>
-        </div>
+  <div class="modal" style="width: 90%; max-width: 900px">
+    <div class="modal-header">
+      <div class="modal-title">Xem trước phiếu thu</div>
+      <button class="modal-close" onclick="closePdfPhieuThuModal()">✕</button>
     </div>
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto">
+      <div
+        id="pdfPhieuThuContent"
+        style="
+          background: white;
+          color: black;
+          padding: 40px;
+          border-radius: 8px;
+        "
+      ></div>
+    </div>
+    <div
+      style="
+        padding: 20px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      "
+    >
+      <button class="btn btn-ghost" onclick="closePdfPhieuThuModal()">
+        Đóng
+      </button>
+      <button class="btn btn-accent" onclick="downloadPhieuThuPDF()">
+        💾 Tải PDF
+      </button>
+    </div>
+  </div>
 </div>

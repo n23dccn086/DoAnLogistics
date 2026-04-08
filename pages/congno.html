@@ -1,85 +1,184 @@
 <div class="page" id="page-congno">
-    <div class="filter-bar">
-        <div class="search-wrapper" style="flex:1; min-width:200px;">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="searchCongNo" placeholder="Tìm khách hàng...">
-        </div>
-        <button class="btn btn-accent" onclick="timKiemCongNo()">🔎 Tìm kiếm</button>
-
-        <select class="filter-select" id="filterTrangThaiNo" onchange="loadCongNo()">
-            <option value="">Tất cả công nợ</option>
-            <option value="quaHan">Quá hạn</option>
-        </select>
-
-        <select class="filter-select" id="sortCongNo" onchange="loadCongNo()">
-            <option value="giam">Sắp xếp theo tổng nợ (giảm dần)</option>
-            <option value="tang">Sắp xếp theo tổng nợ (tăng dần)</option>
-        </select>
-
-        <button class="btn btn-ghost" onclick="xuatBaoCaoCongNoPDF()">📥 Xuất báo cáo</button>
+  <div class="filter-bar">
+    <div class="search-wrapper" style="flex: 1; min-width: 200px">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        class="search-input"
+        id="searchCongNo"
+        placeholder="Tìm khách hàng..."
+      />
     </div>
+    <button class="btn btn-accent" onclick="timKiemCongNo()">
+      🔎 Tìm kiếm
+    </button>
 
-    <!-- Tổng quan công nợ -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
-        <div class="card" style="text-align:center;padding:20px">
-            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Tổng công nợ</div>
-            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800;color:var(--danger)" id="tongCongNo">0đ</div>
-        </div>
-        <div class="card" style="text-align:center;padding:20px">
-            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Khách hàng nợ</div>
-            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800" id="soKhachNo">0</div>
-        </div>
-        <div class="card" style="text-align:center;padding:20px">
-            <div style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Quá hạn >30 ngày</div>
-            <div style="font-family:'Barlow Condensed';font-size:32px;font-weight:800;color:var(--warning)" id="soKhachQuaHan">0</div>
-        </div>
-    </div>
+    <select
+      class="filter-select"
+      id="filterTrangThaiNo"
+      onchange="loadCongNo()"
+    >
+      <option value="">Tất cả công nợ</option>
+      <option value="quaHan">Quá hạn</option>
+    </select>
 
-    <div class="card">
-        <div class="table-wrapper">
-            <table style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Khách hàng</th>
-                        <th>Số VĐ chưa TT</th>
-                        <th>Tổng nợ</th>
-                        <th>VĐ cũ nhất</th>
-                        <th>Quá hạn</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="congno-table-body"></tbody>
-            </table>
-        </div>
+    <select class="filter-select" id="sortCongNo" onchange="loadCongNo()">
+      <option value="giam">Sắp xếp theo tổng nợ (giảm dần)</option>
+      <option value="tang">Sắp xếp theo tổng nợ (tăng dần)</option>
+    </select>
+
+    <button class="btn btn-ghost" onclick="xuatBaoCaoCongNoPDF()">
+      📥 Xuất báo cáo
+    </button>
+  </div>
+
+  <!-- Tổng quan công nợ -->
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    "
+  >
+    <div class="card" style="text-align: center; padding: 20px">
+      <div
+        style="
+          font-size: 12px;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin-bottom: 8px;
+        "
+      >
+        Tổng công nợ
+      </div>
+      <div
+        style="
+          font-family: &quot;Barlow Condensed&quot;;
+          font-size: 32px;
+          font-weight: 800;
+          color: var(--danger);
+        "
+        id="tongCongNo"
+      >
+        0đ
+      </div>
     </div>
+    <div class="card" style="text-align: center; padding: 20px">
+      <div
+        style="
+          font-size: 12px;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin-bottom: 8px;
+        "
+      >
+        Khách hàng nợ
+      </div>
+      <div
+        style="
+          font-family: &quot;Barlow Condensed&quot;;
+          font-size: 32px;
+          font-weight: 800;
+        "
+        id="soKhachNo"
+      >
+        0
+      </div>
+    </div>
+    <div class="card" style="text-align: center; padding: 20px">
+      <div
+        style="
+          font-size: 12px;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          margin-bottom: 8px;
+        "
+      >
+        Quá hạn >30 ngày
+      </div>
+      <div
+        style="
+          font-family: &quot;Barlow Condensed&quot;;
+          font-size: 32px;
+          font-weight: 800;
+          color: var(--warning);
+        "
+        id="soKhachQuaHan"
+      >
+        0
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="table-wrapper">
+      <table style="width: 100%">
+        <thead>
+          <tr>
+            <th>Khách hàng</th>
+            <th>Số VĐ chưa TT</th>
+            <th>Tổng nợ</th>
+            <th>VĐ cũ nhất</th>
+            <th>Quá hạn</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="congno-table-body"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- Modal chi tiết công nợ -->
 <div id="modalChiTietCongNo" class="modal-overlay">
-    <div class="modal" style="width:600px">
-        <div class="modal-header">
-            <div class="modal-title">Chi tiết công nợ</div>
-            <button class="modal-close" onclick="closeModalChiTiet()">✕</button>
-        </div>
-        <div class="modal-body" id="chiTietCongNoBody">
-            <!-- Nội dung sẽ được load động -->
-        </div>
+  <div class="modal" style="width: 600px">
+    <div class="modal-header">
+      <div class="modal-title">Chi tiết công nợ</div>
+      <button class="modal-close" onclick="closeModalChiTiet()">✕</button>
     </div>
+    <div class="modal-body" id="chiTietCongNoBody">
+      <!-- Nội dung sẽ được load động -->
+    </div>
+  </div>
 </div>
 
 <!-- Modal PDF báo cáo -->
 <div id="pdfBaoCaoModal" class="modal-overlay">
-    <div class="modal" style="width: 90%; max-width: 900px;">
-        <div class="modal-header">
-            <div class="modal-title">Báo cáo công nợ</div>
-            <button class="modal-close" onclick="closePdfBaoCaoModal()">✕</button>
-        </div>
-        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-            <div id="pdfBaoCaoContent" style="background: white; color: black; padding: 40px; border-radius: 8px;"></div>
-        </div>
-        <div style="padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn btn-ghost" onclick="closePdfBaoCaoModal()">Đóng</button>
-            <button class="btn btn-accent" onclick="downloadBaoCaoPDF()">💾 Tải PDF</button>
-        </div>
+  <div class="modal" style="width: 90%; max-width: 900px">
+    <div class="modal-header">
+      <div class="modal-title">Báo cáo công nợ</div>
+      <button class="modal-close" onclick="closePdfBaoCaoModal()">✕</button>
     </div>
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto">
+      <div
+        id="pdfBaoCaoContent"
+        style="
+          background: white;
+          color: black;
+          padding: 40px;
+          border-radius: 8px;
+        "
+      ></div>
+    </div>
+    <div
+      style="
+        padding: 20px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      "
+    >
+      <button class="btn btn-ghost" onclick="closePdfBaoCaoModal()">
+        Đóng
+      </button>
+      <button class="btn btn-accent" onclick="downloadBaoCaoPDF()">
+        💾 Tải PDF
+      </button>
+    </div>
+  </div>
 </div>

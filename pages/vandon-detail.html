@@ -1,160 +1,224 @@
 <div class="page" id="page-vandon-detail">
-    <button class="btn btn-ghost" onclick="showPage('vandon-list')" style="margin-bottom:20px;">
-        ← Quay lại danh sách vận đơn
-    </button>
+  <button
+    class="btn btn-ghost"
+    onclick="showPage('vandon-list')"
+    style="margin-bottom: 20px"
+  >
+    ← Quay lại danh sách vận đơn
+  </button>
 
-    <div class="detail-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <div>
-            <div class="detail-id">Mã vận đơn</div>
-            <div class="detail-title" id="detailMaVanDon">--</div>
-            <div style="display:flex;gap:8px;align-items:center; margin-top:8px;">
-                <span class="badge badge-confirmed" id="detailTrangThaiVanDon">--</span>
-                <span class="badge badge-unpaid" id="detailTrangThaiThanhToan">--</span>
-            </div>
+  <div
+    class="detail-header"
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    "
+  >
+    <div>
+      <div class="detail-id">Mã vận đơn</div>
+      <div class="detail-title" id="detailMaVanDon">--</div>
+      <div
+        style="display: flex; gap: 8px; align-items: center; margin-top: 8px"
+      >
+        <span class="badge badge-confirmed" id="detailTrangThaiVanDon">--</span>
+        <span class="badge badge-unpaid" id="detailTrangThaiThanhToan">--</span>
+      </div>
+    </div>
+    <div style="display: flex; gap: 10px">
+      <button class="btn btn-ghost" onclick="previewVanDonPDF()">
+        📄 Xuất PDF
+      </button>
+      <button class="btn btn-info" onclick="sendVanDonEmail()">
+        📧 Gửi email
+      </button>
+      <button class="btn btn-danger" onclick="showHuyVanDonModal()">
+        ✕ Hủy vận đơn
+      </button>
+      <button
+        class="btn btn-success"
+        id="btnKhoiPhuc"
+        style="display: none"
+        onclick="khoiPhucVanDon()"
+      >
+        ↻ Khôi phục
+      </button>
+      <button
+        class="btn btn-accent"
+        id="btnChotDon"
+        style="display: none"
+        onclick="chotDonVanDon()"
+      >
+        🔒 Chốt đơn
+      </button>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div>
+      <!-- Thông tin cố định (từ báo giá) -->
+      <div class="card" style="margin-bottom: 20px">
+        <div class="card-title">🔒 Thông tin cố định (từ báo giá)</div>
+        <div class="info-grid" id="infoVanDonCoDinh"></div>
+      </div>
+
+      <!-- Thông tin có thể nhập -->
+      <!-- Thông tin vận chuyển thực tế (hiển thị từng tuyến) -->
+      <!-- Thông tin vận chuyển thực tế (động theo từng tuyến) -->
+      <div class="card" style="margin-bottom: 20px">
+        <div class="card-title">✏️ Thông tin vận chuyển thực tế</div>
+        <div id="tuyenThucTeContainer"></div>
+        <div style="margin-top: 16px; text-align: right">
+          <button class="btn btn-accent" onclick="saveVanDonInfo()">
+            💾 Lưu thông tin
+          </button>
         </div>
-        <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost" onclick="previewVanDonPDF()">📄 Xuất PDF</button>
-            <button class="btn btn-info" onclick="sendVanDonEmail()">📧 Gửi email</button>
-            <button class="btn btn-danger" onclick="showHuyVanDonModal()">✕ Hủy vận đơn</button>
-            <button class="btn btn-success" id="btnKhoiPhuc" style="display:none;" onclick="khoiPhucVanDon()">↻ Khôi phục</button>
-            <button class="btn btn-accent" id="btnChotDon" style="display:none;" onclick="chotDonVanDon()">🔒 Chốt đơn</button>
+      </div>
+
+      <div id="lyDoHuyDetail"></div>
+
+      <!-- Lịch sử thanh toán -->
+      <div class="card">
+        <div class="card-title">📜 Lịch sử thanh toán</div>
+        <div class="table-wrapper">
+          <table style="width: 100%">
+            <thead>
+              <tr>
+                <th>Mã phiếu thu</th>
+                <th>Ngày thu</th>
+                <th>Hình thức</th>
+                <th>Số tiền</th>
+                <th>Số tham chiếu</th>
+              </tr>
+            </thead>
+            <tbody id="lichSuThanhToanBody">
+              <tr>
+                <td colspan="5" style="text-align: center">
+                  Chưa có thanh toán
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
 
-    <div class="detail-grid">
-        <div>
-            <!-- Thông tin cố định (từ báo giá) -->
-            <div class="card" style="margin-bottom:20px">
-                <div class="card-title">🔒 Thông tin cố định (từ báo giá)</div>
-                <div class="info-grid" id="infoVanDonCoDinh"></div>
+    <!-- Sidebar thanh toán (chỉ hiển thị thông tin, không nhập) -->
+    <div class="summary-sidebar">
+      <div class="summary-card">
+        <div class="summary-header">💰 Thanh toán</div>
+        <div class="summary-body">
+          <div class="summary-row">
+            <span class="label">Giá trị vận đơn</span>
+            <span style="font-family: monospace" id="giaTriVanDon">0đ</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Đã thanh toán</span>
+            <span
+              style="font-family: monospace; color: var(--success)"
+              id="daThanhToan"
+              >0đ</span
+            >
+          </div>
+          <div class="summary-row">
+            <span class="label">Còn nợ</span>
+            <span style="font-family: monospace; font-weight: 700" id="conNo"
+              >0đ</span
+            >
+          </div>
+          <div style="margin: 16px 0">
+            <div
+              style="
+                font-size: 12px;
+                color: var(--text-muted);
+                margin-bottom: 6px;
+              "
+            >
+              Tiến độ thanh toán
             </div>
-
-            <!-- Thông tin có thể nhập -->
-            <div class="card" style="margin-bottom:20px">
-                <div class="card-title">✏️ Thông tin vận chuyển thực tế</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Địa chỉ lấy hàng *</label>
-                        <input type="text" class="form-input" id="diaChiLayHang" placeholder="Số nhà, đường, phường/xã">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Địa chỉ giao hàng *</label>
-                        <input type="text" class="form-input" id="diaChiGiaoHang" placeholder="Số nhà, đường, phường/xã">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Người liên hệ (lấy hàng) - Họ tên *</label>
-                        <input type="text" class="form-input" id="nguoiLienHeLay_Ten" placeholder="Họ tên">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Người liên hệ (lấy hàng) - Số điện thoại *</label>
-                        <input type="text" class="form-input" id="nguoiLienHeLay_SDT" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Người liên hệ (giao hàng) - Họ tên *</label>
-                        <input type="text" class="form-input" id="nguoiLienHeGiao_Ten" placeholder="Họ tên">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Người liên hệ (giao hàng) - Số điện thoại *</label>
-                        <input type="text" class="form-input" id="nguoiLienHeGiao_SDT" placeholder="Số điện thoại">
-                    </div>
-                    <div class="form-group form-group-full">
-                        <label class="form-label">Ghi chú</label>
-                        <textarea class="form-input" id="ghiChuVanDon" rows="2" placeholder="Ghi chú thêm..."></textarea>
-                    </div>
-                </div>
-                <div style="margin-top:16px; text-align:right">
-                    <button class="btn btn-accent" onclick="saveVanDonInfo()">💾 Lưu thông tin</button>
-                </div>
+            <div class="congno-bar">
+              <div
+                class="congno-bar-fill"
+                id="progressBar"
+                style="width: 0%"
+              ></div>
             </div>
-
-            <div id="lyDoHuyDetail"></div>
-
-            <!-- Lịch sử thanh toán -->
-            <div class="card">
-                <div class="card-title">📜 Lịch sử thanh toán</div>
-                <div class="table-wrapper">
-                    <table style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Mã phiếu thu</th>
-                                <th>Ngày thu</th>
-                                <th>Hình thức</th>
-                                <th>Số tiền</th>
-                                <th>Số tham chiếu</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lichSuThanhToanBody">
-                            <tr>
-                                <td colspan="5" style="text-align:center">Chưa có thanh toán</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+          </div>
         </div>
-
-        <!-- Sidebar thanh toán (chỉ hiển thị thông tin, không nhập) -->
-        <div class="summary-sidebar">
-            <div class="summary-card">
-                <div class="summary-header">💰 Thanh toán</div>
-                <div class="summary-body">
-                    <div class="summary-row">
-                        <span class="label">Giá trị vận đơn</span>
-                        <span style="font-family:monospace" id="giaTriVanDon">0đ</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="label">Đã thanh toán</span>
-                        <span style="font-family:monospace; color:var(--success)" id="daThanhToan">0đ</span>
-                    </div>
-                    <div class="summary-row">
-                        <span class="label">Còn nợ</span>
-                        <span style="font-family:monospace; font-weight:700" id="conNo">0đ</span>
-                    </div>
-                    <div style="margin:16px 0">
-                        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Tiến độ thanh toán</div>
-                        <div class="congno-bar">
-                            <div class="congno-bar-fill" id="progressBar" style="width:0%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Modal hủy vận đơn -->
 <div id="huyVanDonModal" class="modal-overlay">
-    <div class="modal" style="width:500px">
-        <div class="modal-header">
-            <div class="modal-title">Hủy vận đơn</div>
-            <button class="modal-close" onclick="closeHuyModal()">✕</button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label class="form-label">Lý do hủy *</label>
-                <textarea class="form-input" id="lyDoHuy" rows="3" placeholder="Nhập lý do hủy vận đơn..."></textarea>
-            </div>
-        </div>
-        <div style="padding:20px; border-top:1px solid var(--border); display:flex; gap:10px; justify-content:flex-end">
-            <button class="btn btn-ghost" onclick="closeHuyModal()">Hủy bỏ</button>
-            <button class="btn btn-danger" onclick="xacNhanHuyVanDon()">Xác nhận hủy</button>
-        </div>
+  <div class="modal" style="width: 500px">
+    <div class="modal-header">
+      <div class="modal-title">Hủy vận đơn</div>
+      <button class="modal-close" onclick="closeHuyModal()">✕</button>
     </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Lý do hủy *</label>
+        <textarea
+          class="form-input"
+          id="lyDoHuy"
+          rows="3"
+          placeholder="Nhập lý do hủy vận đơn..."
+        ></textarea>
+      </div>
+    </div>
+    <div
+      style="
+        padding: 20px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      "
+    >
+      <button class="btn btn-ghost" onclick="closeHuyModal()">Hủy bỏ</button>
+      <button class="btn btn-danger" onclick="xacNhanHuyVanDon()">
+        Xác nhận hủy
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal PDF vận đơn -->
 <div id="pdfVanDonModal" class="modal-overlay">
-    <div class="modal" style="width: 90%; max-width: 900px;">
-        <div class="modal-header">
-            <div class="modal-title">Xem trước vận đơn</div>
-            <button class="modal-close" onclick="closePdfVanDonModal()">✕</button>
-        </div>
-        <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-            <div id="pdfVanDonContent" style="background: white; color: black; padding: 40px; border-radius: 8px;"></div>
-        </div>
-        <div style="padding: 20px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end;">
-            <button class="btn btn-ghost" onclick="closePdfVanDonModal()">Đóng</button>
-            <button class="btn btn-accent" onclick="downloadVanDonPDF()">💾 Tải PDF</button>
-        </div>
+  <div class="modal" style="width: 90%; max-width: 900px">
+    <div class="modal-header">
+      <div class="modal-title">Xem trước vận đơn</div>
+      <button class="modal-close" onclick="closePdfVanDonModal()">✕</button>
     </div>
+    <div class="modal-body" style="max-height: 70vh; overflow-y: auto">
+      <div
+        id="pdfVanDonContent"
+        style="
+          background: white;
+          color: black;
+          padding: 40px;
+          border-radius: 8px;
+        "
+      ></div>
+    </div>
+    <div
+      style="
+        padding: 20px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      "
+    >
+      <button class="btn btn-ghost" onclick="closePdfVanDonModal()">
+        Đóng
+      </button>
+      <button class="btn btn-accent" onclick="downloadVanDonPDF()">
+        💾 Tải PDF
+      </button>
+    </div>
+  </div>
 </div>

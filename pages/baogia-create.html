@@ -11,35 +11,53 @@
     <!-- Phần trái -->
     <div>
       <!-- Thông tin chung -->
-<!-- Thông tin chung -->
-<div class="form-section">
-    <div class="form-section-title"><span>1</span> Thông tin chung</div>
-    <div class="form-grid">
-        <div class="form-group">
+      <!-- Thông tin chung -->
+      <div class="form-section">
+        <div class="form-section-title"><span>1</span> Thông tin chung</div>
+        <div class="form-grid">
+          <div class="form-group">
             <label class="form-label">Khách hàng *</label>
-            <select class="form-input" id="bgKhachHang" onchange="tuDongDienThongTinKhachHang()">
-                <option value="">-- Chọn khách hàng --</option>
+            <select
+              class="form-input"
+              id="bgKhachHang"
+              onchange="tuDongDienThongTinKhachHang()"
+            >
+              <option value="">-- Chọn khách hàng --</option>
             </select>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label class="form-label">Ngày lập *</label>
-            <input type="date" class="form-input" id="ngayLap" max="" onchange="capNhatHanHieuLuc()">
-        </div>
-        <div class="form-group">
+            <input
+              type="date"
+              class="form-input"
+              id="ngayLap"
+              max=""
+              onchange="capNhatHanHieuLuc()"
+            />
+          </div>
+          <div class="form-group">
             <label class="form-label">Thông tin khách hàng</label>
-            <textarea class="form-input" id="bgKhachHangInfo" rows="3" readonly 
-                      placeholder="Thông tin sẽ tự động hiển thị sau khi chọn khách hàng"></textarea>
-        </div>
-        <div class="form-group">
+            <textarea
+              class="form-input"
+              id="bgKhachHangInfo"
+              rows="3"
+              readonly
+              placeholder="Thông tin sẽ tự động hiển thị sau khi chọn khách hàng"
+            ></textarea>
+          </div>
+          <div class="form-group">
             <label class="form-label">Hạn hiệu lực</label>
-            <input type="date" class="form-input" id="hanHieuLuc" readonly>
-        </div>
-        <div class="form-group form-group-full">
+            <input type="date" class="form-input" id="hanHieuLuc" readonly />
+          </div>
+          <div class="form-group form-group-full">
             <label class="form-label">Ghi chú</label>
-            <textarea class="form-input" placeholder="Ghi chú thêm cho báo giá..."></textarea>
+            <textarea
+              class="form-input"
+              placeholder="Ghi chú thêm cho báo giá..."
+            ></textarea>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
       <!-- Chi tiết tuyến + Bản đồ -->
       <div class="form-section">

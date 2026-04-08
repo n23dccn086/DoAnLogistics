@@ -18,10 +18,14 @@
   --sidebar-w: 240px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;

@@ -1,61 +1,73 @@
 <div class="page" id="page-vandon-list">
-    <div class="filter-bar">
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-            <!-- Combobox chọn tiêu chí -->
-            <select id="searchCriteria" class="filter-select" style="width: 150px;">
-                <option value="maVanDon">Mã vận đơn</option>
-                <option value="khachHang">Khách hàng</option>
-            </select>
+  <div class="filter-bar">
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+      <!-- Combobox chọn tiêu chí -->
+      <select id="searchCriteria" class="filter-select" style="width: 150px">
+        <option value="maVanDon">Mã vận đơn</option>
+        <option value="khachHang">Khách hàng</option>
+      </select>
 
-            <!-- Ô nhập từ khóa -->
-            <div class="search-wrapper" style="flex: 1; min-width: 280px;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" id="searchVanDon" 
-                       placeholder="Nhập từ khóa tìm kiếm...">
-            </div>
+      <!-- Ô nhập từ khóa -->
+      <div class="search-wrapper" style="flex: 1; min-width: 280px">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          class="search-input"
+          id="searchVanDon"
+          placeholder="Nhập từ khóa tìm kiếm..."
+        />
+      </div>
 
-            <!-- Nút Tìm kiếm -->
-            <button class="btn btn-accent" onclick="searchVanDonList()">
-                🔎 Tìm kiếm
-            </button>
+      <!-- Nút Tìm kiếm -->
+      <button class="btn btn-accent" onclick="searchVanDonList()">
+        🔎 Tìm kiếm
+      </button>
 
-            <!-- Lọc trạng thái vận đơn -->
-            <select class="filter-select" id="filterStatus" onchange="loadDanhSachVanDon()">
-                <option value="">Tất cả trạng thái</option>
-                <option value="Đã xác nhận">Đã xác nhận</option>
-                <option value="Đã hủy">Đã hủy</option>
-                 <option value="Đã chốt">Đã chốt</option>
-            </select>
+      <!-- Lọc trạng thái vận đơn -->
+      <select
+        class="filter-select"
+        id="filterStatus"
+        onchange="loadDanhSachVanDon()"
+      >
+        <option value="">Tất cả trạng thái</option>
+        <option value="Đã xác nhận">Đã xác nhận</option>
+        <option value="Đã hủy">Đã hủy</option>
+        <option value="Đã chốt">Đã chốt</option>
+      </select>
 
-            <!-- Lọc thanh toán -->
-            <select class="filter-select" id="filterThanhToan" onchange="loadDanhSachVanDon()">
-                <option value="">Tất cả thanh toán</option>
-                <option value="Chưa thanh toán">Chưa thanh toán</option>
-                <option value="Một phần">Một phần</option>
-                <option value="Đã thanh toán">Đã thanh toán</option>
-            </select>
-        </div>
+      <!-- Lọc thanh toán -->
+      <select
+        class="filter-select"
+        id="filterThanhToan"
+        onchange="loadDanhSachVanDon()"
+      >
+        <option value="">Tất cả thanh toán</option>
+        <option value="Chưa thanh toán">Chưa thanh toán</option>
+        <option value="Một phần">Một phần</option>
+        <option value="Đã thanh toán">Đã thanh toán</option>
+      </select>
     </div>
+  </div>
 
-    <div class="card">
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mã vận đơn</th>
-                        <th>Khách hàng</th>
-                        <th>Tuyến đường</th>
-                        <th>Ngày vận chuyển</th>
-                        <th>Giá trị</th>
-                        <th>Trạng thái</th>
-                        <th>Thanh toán</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="vandon-table-body">
-                    <!-- Dữ liệu sẽ được load động -->
-                </tbody>
-            </table>
-        </div>
+  <div class="card">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã vận đơn</th>
+            <th>Khách hàng</th>
+            <th>Tuyến đường</th>
+            <th>Ngày vận chuyển</th>
+            <th>Giá trị</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="vandon-table-body">
+          <!-- Dữ liệu sẽ được load động -->
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>

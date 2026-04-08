@@ -52,10 +52,10 @@ async function showPage(pageId) {
   // ==================== TỰ ĐỘNG LOAD DỮ LIỆU KHI CHUYỂN TRANG ====================
   if (pageId === "dashboard") {
     setTimeout(() => {
-        if (typeof loadDashboard === "function") loadDashboard();
+      if (typeof loadDashboard === "function") loadDashboard();
     }, 150);
-}
-  
+  }
+
   if (pageId === "khachhang") {
     setTimeout(() => {
       if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
@@ -86,13 +86,13 @@ async function showPage(pageId) {
     }, 150);
   }
 
-if (pageId === "vandon-detail") {
+  if (pageId === "vandon-detail") {
     setTimeout(() => {
-        console.log("Gọi loadVanDonDetail");
-        if (typeof loadVanDonDetail === "function") loadVanDonDetail();
-        else console.error("loadVanDonDetail không tồn tại");
+      console.log("Gọi loadVanDonDetail");
+      if (typeof loadVanDonDetail === "function") loadVanDonDetail();
+      else console.error("loadVanDonDetail không tồn tại");
     }, 300);
-}
+  }
 
   if (pageId === "baogia-detail") {
     setTimeout(() => {
@@ -114,8 +114,8 @@ if (pageId === "vandon-detail") {
 
   if (pageId === "banggia") {
     setTimeout(() => {
-        if (typeof loadBangGia === "function") loadBangGia();
-        if (typeof loadLoaiHangFilter === "function") loadLoaiHangFilter();
+      if (typeof loadBangGia === "function") loadBangGia();
+      if (typeof loadLoaiHangFilter === "function") loadLoaiHangFilter();
     }, 150);
-}
+  }
 }

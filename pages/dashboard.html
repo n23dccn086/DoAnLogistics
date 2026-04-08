@@ -1,61 +1,73 @@
 <div class="page active" id="page-dashboard">
-    <div class="stats-grid">
-        <div class="stat-card orange">
-            <div class="stat-icon orange">📦</div>
-            <div class="stat-value" id="statHomNay">0</div>
-            <div class="stat-label">Vận đơn hôm nay</div>
-            <div class="stat-change up" id="changeHomNay">↑ 0</div>
-        </div>
-        <div class="stat-card blue">
-            <div class="stat-icon blue">📋</div>
-            <div class="stat-value" id="statThangNay">0</div>
-            <div class="stat-label">Vận đơn tháng này</div>
-            <div class="stat-change up" id="changeThangNay">↑ 0%</div>
-        </div>
-        <div class="stat-card green">
-            <div class="stat-icon green">💵</div>
-            <div class="stat-value" id="statDoanhThu">0đ</div>
-            <div class="stat-label">Doanh thu tháng này</div>
-            <div class="stat-change up" id="changeDoanhThu">↑ 0%</div>
-        </div>
-        <div class="stat-card red">
-            <div class="stat-icon red">⚠️</div>
-            <div class="stat-value" id="statCongNo">0đ</div>
-            <div class="stat-label">Tổng công nợ</div>
-            <div class="stat-change down" id="changeCongNo">↑ 0%</div>
-        </div>
+  <div class="stats-grid">
+    <div class="stat-card orange">
+      <div class="stat-icon orange">📦</div>
+      <div class="stat-value" id="statHomNay">0</div>
+      <div class="stat-label">Vận đơn hôm nay</div>
+      <div class="stat-change up" id="changeHomNay">↑ 0</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-icon blue">📋</div>
+      <div class="stat-value" id="statThangNay">0</div>
+      <div class="stat-label">Vận đơn tháng này</div>
+      <div class="stat-change up" id="changeThangNay">↑ 0%</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-icon green">💵</div>
+      <div class="stat-value" id="statDoanhThu">0đ</div>
+      <div class="stat-label">Doanh thu tháng này</div>
+      <div class="stat-change up" id="changeDoanhThu">↑ 0%</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-icon red">⚠️</div>
+      <div class="stat-value" id="statCongNo">0đ</div>
+      <div class="stat-label">Tổng công nợ</div>
+      <div class="stat-change down" id="changeCongNo">↑ 0%</div>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Vận đơn gần đây -->
+    <div class="card">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+        "
+      >
+        <div style="font-weight: 700; font-size: 15px">Vận đơn gần đây</div>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('vandon-list')">
+          Xem tất cả →
+        </button>
+      </div>
+      <div class="table-wrapper">
+        <table style="width: 100%">
+          <thead>
+            <tr>
+              <th>Mã vận đơn</th>
+              <th>Khách hàng</th>
+              <th>Tuyến</th>
+              <th>Giá trị</th>
+              <th>Thanh toán</th>
+            </tr>
+          </thead>
+          <tbody id="vanDonGanDayBody">
+            <!-- Sẽ load động -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <div class="dashboard-grid">
-        <!-- Vận đơn gần đây -->
-        <div class="card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
-                <div style="font-weight:700;font-size:15px">Vận đơn gần đây</div>
-                <button class="btn btn-ghost btn-sm" onclick="showPage('vandon-list')">Xem tất cả →</button>
-            </div>
-            <div class="table-wrapper">
-                <table style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Mã vận đơn</th>
-                            <th>Khách hàng</th>
-                            <th>Tuyến</th>
-                            <th>Giá trị</th>
-                            <th>Thanh toán</th>
-                         </thead>
-                    <tbody id="vanDonGanDayBody">
-                        <!-- Sẽ load động -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Top 5 công nợ -->
-        <div class="card">
-            <div style="font-weight:700;font-size:15px;margin-bottom:20px">Top 5 công nợ cao nhất</div>
-            <div id="topCongNoBody">
-                <!-- Sẽ load động -->
-            </div>
-        </div>
+    <!-- Top 5 công nợ -->
+    <div class="card">
+      <div style="font-weight: 700; font-size: 15px; margin-bottom: 20px">
+        Top 5 công nợ cao nhất
+      </div>
+      <div id="topCongNoBody">
+        <!-- Sẽ load động -->
+      </div>
     </div>
+  </div>
 </div>
