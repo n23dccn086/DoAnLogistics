@@ -56,24 +56,14 @@ function tinhCongNo() {
 }
 
 // Load và hiển thị công nợ
+// ==================== loadCongNo() - ĐÃ SỬA ====================
 async function loadCongNo() {
     const tbody = document.getElementById("congno-table-body");
     if (!tbody) return;
 
-    const search = document.getElementById("searchCongNo")?.value.trim().toLowerCase() || "";
-    const filter = document.getElementById("filterTrangThaiNo")?.value || "";
-    const sort = document.getElementById("sortCongNo")?.value || "giam";
-
-    let url = 'congno';
-    const params = new URLSearchParams();
-    if (search) params.append('search', search);
-    if (filter) params.append('filter', filter);
-    if (sort) params.append('sort', sort);
-    if (params.toString()) url += `?${params.toString()}`;
-
     try {
-        const data = await callAPI(url);
-        const list = data.data || [];
+        const data = await callAPI('congno');
+        const list = data?.data || [];
 
         // Cập nhật tổng quan
         const tongCongNo = list.reduce((sum, item) => sum + (item.tongNo || 0), 0);
@@ -86,7 +76,7 @@ async function loadCongNo() {
 
         // Lấy danh sách khách hàng đang hoạt động
         const khachData = await callAPI('khachhang?all=true');
-        const activeKhachSet = new Set(khachData.data.map(kh => kh.tenCongTy));
+        const activeKhachSet = new Set((khachData?.data || []).map(kh => kh.tenCongTy));
 
         if (list.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:60px;">Không có dữ liệu công nợ</td></tr>';
@@ -98,6 +88,7 @@ async function loadCongNo() {
             const isKhachDeleted = !activeKhachSet.has(item.ten);
             const rowClass = isQuaHan ? 'style="background: rgba(239,68,68,0.15);"' : "";
             const quaHanText = isQuaHan ? `<span class="overdue-badge">⚠ ${item.soNgayQuaHanMax} ngày</span>` : "—";
+            
             const tenDisplay = isKhachDeleted
                 ? `<span style="color: var(--danger);">${escapeHtml(item.ten)}</span><span style="display:block; font-size:10px; color: var(--warning);">⚠️ Đã ngưng hợp tác</span>`
                 : `<strong>${escapeHtml(item.ten)}</strong>`;
@@ -116,10 +107,13 @@ async function loadCongNo() {
                 </tr>
             `;
         }).join("");
+
     } catch (error) {
         console.error("Lỗi load công nợ:", error);
-        showToast("Không thể tải dữ liệu công nợ", "error");
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:80px;color:var(--text-muted);">Lỗi tải dữ liệu.</td></tr>';
+        if (!error.message?.includes("401")) {
+            showToast("Không thể tải dữ liệu công nợ", "error");
+        }
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:80px;color:var(--danger);">Không thể tải dữ liệu công nợ.</td></tr>`;
     }
 }
 

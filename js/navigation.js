@@ -2,6 +2,18 @@
  * Chuyển đổi giữa các trang
  */
 async function showPage(pageId) {
+  // ==================== KIỂM TRA TOKEN TRƯỚC KHI CHUYỂN TRANG ====================
+  const token = localStorage.getItem("token");
+
+  console.log(`🔄 showPage('${pageId}') được gọi | Token tồn tại: ${!!token}`);
+
+  if (!token && pageId !== "login") {
+    console.warn(`🚫 Không có token → Chuyển về login`);
+    goToLogin();
+    return;
+  }
+
+  // ==================== PHẦN CODE CŨ (giữ nguyên) ====================
   document
     .querySelectorAll(".nav-item")
     .forEach((item) => item.classList.remove("active"));
@@ -33,89 +45,56 @@ async function showPage(pageId) {
     if (!response.ok) throw new Error("Page not found");
     const html = await response.text();
     contentArea.innerHTML = html;
-
-    // Gọi init cho từng trang cần khởi tạo thêm
-    if (pageId === "baogia-create" && typeof initBaoGiaCreate === "function") {
-      initBaoGiaCreate();
-    }
   } catch (error) {
     contentArea.innerHTML = `
             <div style="text-align:center;padding:80px 20px;color:var(--text-muted);">
                 <p style="font-size:18px;">Không tìm thấy trang "${pageId}"</p>
-                <p style="margin-top:10px;">Vui lòng kiểm tra lại đường dẫn file.</p>
             </div>`;
     console.error("Load page error:", error);
   }
 
   window.scrollTo(0, 0);
 
-  // ==================== TỰ ĐỘNG LOAD DỮ LIỆU KHI CHUYỂN TRANG ====================
+  // ==================== TỰ ĐỘNG LOAD DỮ LIỆU ====================
   if (pageId === "dashboard") {
     setTimeout(() => {
       if (typeof loadDashboard === "function") loadDashboard();
-    }, 150);
+    }, 100);
   }
-
   if (pageId === "khachhang") {
     setTimeout(() => {
       if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
     }, 100);
   }
-
-  if (pageId === "baogia-create") {
-    setTimeout(() => {
-      if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
-      if (typeof initBaoGiaCreatePage === "function") initBaoGiaCreatePage();
-    }, 150);
-  }
-
   if (pageId === "baogia-list") {
     setTimeout(() => {
       if (typeof loadDanhSachBaoGia === "function") loadDanhSachBaoGia();
     }, 150);
   }
-
   if (pageId === "vandon-list") {
     setTimeout(() => {
-      if (typeof loadDanhSachVanDon === "function") {
-        console.log("🔄 Gọi loadDanhSachVanDon");
-        loadDanhSachVanDon();
-      } else {
-        console.error("❌ loadDanhSachVanDon không tồn tại");
-      }
+      if (typeof loadDanhSachVanDon === "function") loadDanhSachVanDon();
     }, 150);
   }
-
-  if (pageId === "vandon-detail") {
-    setTimeout(() => {
-      console.log("Gọi loadVanDonDetail");
-      if (typeof loadVanDonDetail === "function") loadVanDonDetail();
-      else console.error("loadVanDonDetail không tồn tại");
-    }, 300);
-  }
-
-  if (pageId === "baogia-detail") {
-    setTimeout(() => {
-      if (typeof loadBaoGiaDetail === "function") loadBaoGiaDetail();
-    }, 200);
-  }
-
   if (pageId === "congno") {
     setTimeout(() => {
       if (typeof loadCongNo === "function") loadCongNo();
     }, 150);
   }
-
-  if (pageId === "phieuthu-create") {
-    setTimeout(() => {
-      if (typeof initPhieuThuCreate === "function") initPhieuThuCreate();
-    }, 150);
-  }
-
   if (pageId === "banggia") {
     setTimeout(() => {
       if (typeof loadBangGia === "function") loadBangGia();
-      if (typeof loadLoaiHangFilter === "function") loadLoaiHangFilter();
+    }, 150);
+  }
+  if (pageId === "baogia-create") {
+    setTimeout(() => {
+      if (typeof loadDanhSachKhachHang === "function") loadDanhSachKhachHang();
+      if (typeof initBaoGiaCreate === "function") initBaoGiaCreate();
+    }, 150);
+  }
+  if (pageId === "phieuthu-create") {
+    setTimeout(() => {
+      if (typeof initPhieuThuCreate === "function") initPhieuThuCreate();
     }, 150);
   }
 }

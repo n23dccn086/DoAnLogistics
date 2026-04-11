@@ -23,15 +23,15 @@ function escapeHtml(str) {
  * Tạo mã vận đơn theo format VD-YYYYMMDD-XXXX
  * @param {Array} existingIds - Danh sách các id vận đơn đã có (để tìm số thứ tự lớn nhất trong ngày)
  */
+
 function generateVanDonId(existingIds = []) {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const dateStr = `${year}${month}${day}`;
-    
-    let maxSeq = 0;
     const prefix = `VD-${dateStr}-`;
+    let maxSeq = 0;
     existingIds.forEach(id => {
         if (id.startsWith(prefix)) {
             const seq = parseInt(id.slice(-4));
@@ -41,6 +41,8 @@ function generateVanDonId(existingIds = []) {
     const newSeq = String(maxSeq + 1).padStart(4, '0');
     return `${prefix}${newSeq}`;
 }
+
+module.exports = { generateVanDonId };
 
 /**
  * Tính số ngày quá hạn (dựa trên ngày tạo vận đơn)

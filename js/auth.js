@@ -1,3 +1,4 @@
+// js/auth.js
 async function doLogin() {
     const username = document.getElementById("loginUser").value.trim();
     const password = document.getElementById("loginPass").value.trim();
@@ -8,6 +9,8 @@ async function doLogin() {
     }
 
     try {
+        console.log(`🔐 Đang đăng nhập với username: ${username}`);
+
         const data = await callAPI("auth/login", {
             method: "POST",
             body: JSON.stringify({ 
@@ -16,13 +19,21 @@ async function doLogin() {
             }),
         });
 
+        console.log("📦 Dữ liệu trả về từ server:", data);
+
         if (data && data.accessToken) {
+            // Lưu token và user
             localStorage.setItem("token", data.accessToken);
-            localStorage.setItem("user", JSON.stringify(data.nguoiDung || {}));
+            
+            if (data.nguoiDung) {
+                localStorage.setItem("user", JSON.stringify(data.nguoiDung));
+            }
+
+            console.log("✅ Token đã lưu thành công:", data.accessToken.substring(0, 20) + "...");
 
             showToast("Đăng nhập thành công!", "success");
 
-            // Ẩn trang login và hiển thị app layout
+            // Ẩn login, hiện app
             document.getElementById("loginPage").style.display = "none";
             document.getElementById("appLayout").style.display = "flex";
 
@@ -32,11 +43,12 @@ async function doLogin() {
             }, 300);
 
         } else {
+            console.error("❌ Server không trả về accessToken");
             throw new Error("Server không trả về token");
         }
     } catch (error) {
-        console.error("Login failed:", error);
-        showToast(error.message || "Đăng nhập thất bại", "error");
+        console.error("💥 Login failed:", error);
+        showToast(error.message || "Đăng nhập thất bại. Kiểm tra lại thông tin.", "error");
     }
 }
 

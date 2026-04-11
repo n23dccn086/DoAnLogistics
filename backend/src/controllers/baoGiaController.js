@@ -1,5 +1,8 @@
+// controllers/baoGiaController.js
 const BaoGiaModel = require('../models/BaoGiaModel');
 const KhachHangModel = require('../models/KhachHangModel');
+const VanDonModel = require('../models/VanDonModel');
+const { generateVanDonId } = require('../utils/helpers');
 
 // Danh sách báo giá
 const list = async (req, res) => {
@@ -74,7 +77,7 @@ const create = async (req, res) => {
     }
 };
 
-// Cập nhật trạng thái báo giá
+// Cập nhật trạng thái báo giá (và tự động tạo vận đơn nếu được chấp nhận)
 const updateStatus = async (req, res) => {
     try {
         const { id } = req.params;
@@ -83,10 +86,59 @@ const updateStatus = async (req, res) => {
         if (!allowed.includes(trangThai)) {
             return res.status(400).json({ error: { code: 'INVALID_STATUS', message: 'Trạng thái không hợp lệ' } });
         }
+
         const success = await BaoGiaModel.updateStatus(id, trangThai);
         if (!success) {
             return res.status(404).json({ error: { code: 'NOT_FOUND', message: 'Báo giá không tồn tại' } });
         }
+
+        // Nếu trạng thái mới là "Chấp nhận", tự động tạo vận đơn
+        if (trangThai === 'Chấp nhận') {
+            const baoGia = await BaoGiaModel.findById(id);
+            if (baoGia) {
+                // Kiểm tra xem vận đơn cho báo giá này đã tồn tại chưa
+                const existingVanDons = await VanDonModel.findAll();
+                const alreadyExists = existingVanDons.some(v => v.ma_bao_gia === id);
+                if (!alreadyExists) {
+                    const existingIds = existingVanDons.map(v => v.id);
+                    const newVanDonId = generateVanDonId(existingIds);
+                    
+                    // Tạo chuỗi tóm tắt các tuyến
+                    const tuyenText = baoGia.tuyen.map(t => `${t.diemDi} → ${t.diemDen}`).join('; ');
+                    
+                    const vanDonData = {
+                        id: newVanDonId,
+                        maBaoGia: id,
+                        khachHang: baoGia.tenCongTy,
+                        tuyen: tuyenText,
+                        giaTri: baoGia.tongGiaTri,
+                        trangThai: 'Đã xác nhận',
+                        trangThaiThanhToan: 'Chưa thanh toán',
+                        ngayTao: new Date().toISOString().split('T')[0],
+                        daThu: 0,
+                        lyDoHuy: null,
+                        tuyenChiTiet: baoGia.tuyen.map(t => ({
+                            diemDi: t.diemDi,
+                            diemDen: t.diemDen,
+                            khoangCach: t.khoangCach,
+                            loaiHang: t.loaiHang,
+                            trongLuong: t.trongLuong,
+                            donGia: t.donGia,
+                            thanhTien: t.thanhTien,
+                            diaChiLayHang: '',
+                            diaChiGiaoHang: '',
+                            nguoiLienHeLay_Ten: '',
+                            nguoiLienHeLay_SDT: '',
+                            nguoiLienHeGiao_Ten: '',
+                            nguoiLienHeGiao_SDT: '',
+                            ghiChu: ''
+                        }))
+                    };
+                    await VanDonModel.create(vanDonData);
+                }
+            }
+        }
+
         res.json({ message: 'Cập nhật trạng thái thành công' });
     } catch (error) {
         console.error('Lỗi cập nhật trạng thái báo giá:', error);

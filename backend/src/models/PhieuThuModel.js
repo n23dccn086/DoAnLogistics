@@ -16,11 +16,15 @@ class PhieuThuModel {
         const connection = await pool.getConnection();
         try {
             await connection.beginTransaction();
-            const [result] = await connection.query(
-                `INSERT INTO phieu_thus (ma_phieu_thu, khach_hang, ngay_thu, hinh_thuc, so_tham_chieu, tong_so_tien, ghi_chu)
-                 VALUES (?, ?, ?, ?, ?, ?, ?)`,
-                [data.maPhieuThu, data.khachHang, data.ngayThu, data.hinhThuc, data.soThamChieu, data.tongSoTien, data.ghiChu]
-            );
+            const [maxRow] = await connection.query(`SELECT COUNT(*) as count FROM phieu_thus`);
+        const count = maxRow[0].count + 1;
+        const maPhieuThu = `PT-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${String(count).padStart(4,'0')}`;
+        
+        const [result] = await connection.query(
+            `INSERT INTO phieu_thus (data.ma_phieu_thu, khach_hang, ngay_thu, hinh_thuc, so_tham_chieu, tong_so_tien, ghi_chu)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [maPhieuThu, data.khachHang, data.ngayThu, data.hinhThuc, data.soThamChieu, data.tongSoTien, data.ghiChu]
+        );
             const phieuThuId = result.insertId;
             for (const ct of data.chiTiet) {
                 await connection.query(
@@ -29,7 +33,7 @@ class PhieuThuModel {
                 );
             }
             await connection.commit();
-            return { id: phieuThuId };
+            return { id: result.insertId, maPhieuThu  };
         } catch (error) {
             await connection.rollback();
             throw error;

@@ -1,24 +1,26 @@
 const jwt = require('jsonwebtoken');
-const NguoiDungModel = require('../models/NguoiDungModel');
 
 const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Chưa đăng nhập' } });
-        }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await NguoiDungModel.findById(decoded.id);
-        if (!user) {
+        const authHeader = req.headers.authorization;
+        console.log("🔑 Auth Header nhận được:", authHeader);
+
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            console.log("❌ Không có Bearer token");
             return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Token không hợp lệ' } });
         }
-        req.user = user;
+
+        const token = authHeader.split(' ')[1];
+        console.log("🔑 Token nhận được (20 ký tự đầu):", token.substring(0, 40) + "...");
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'my_super_secret_key_123456');
+        console.log("✅ Token verify thành công! User ID:", decoded.id);
+
+        req.user = decoded;
         next();
     } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-            return res.status(401).json({ error: { code: 'TOKEN_EXPIRED', message: 'Phiên đăng nhập hết hạn' } });
-        }
-        return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Token không hợp lệ' } });
+        console.error("💥 JWT Verify lỗi:", error.message);
+        return res.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Token không hợp lệ hoặc hết hạn' } });
     }
 };
 

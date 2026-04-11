@@ -34,6 +34,7 @@ function rejectTuyen() {
 let currentVanDon = null; // lưu vận đơn đang xem
 
 // Load danh sách vận đơn (không phân trang)
+// ==================== loadDanhSachVanDon() - ĐÃ SỬA ====================
 async function loadDanhSachVanDon() {
     const tbody = document.getElementById("vandon-table-body");
     if (!tbody) return;
@@ -49,26 +50,28 @@ async function loadDanhSachVanDon() {
 
     try {
         const data = await callAPI(url);
-        const list = data.data || [];
+        const list = data?.data || [];
 
-        // Lấy danh sách khách hàng đang hoạt động
+        // Lấy danh sách khách hàng để kiểm tra khách bị xóa
         const khachData = await callAPI('khachhang?all=true');
-        const activeKhachSet = new Set(khachData.data.map(kh => kh.tenCongTy));
+        const activeKhachSet = new Set(
+            (khachData?.data || []).map(kh => kh.tenCongTy)
+        );
 
         if (list.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:80px;">Không có vận đơn phù hợp</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:80px;">Không có vận đơn nào</td></tr>`;
             return;
         }
 
         tbody.innerHTML = list.map(vd => {
             const ngayHienThi = vd.ngayTao || vd.ngayVanChuyen || "--";
             const thanhToanClass = vd.trangThaiThanhToan === "Đã thanh toán" ? "badge-paid" :
-                                   vd.trangThaiThanhToan === "Một phần" ? "badge-partial" : "badge-unpaid";
+                                  vd.trangThaiThanhToan === "Một phần" ? "badge-partial" : "badge-unpaid";
             const trangThaiClass = vd.trangThai === "Đã chốt" ? "badge-paid" :
-                                   vd.trangThai === "Đã hủy" ? "badge-cancelled" : "badge-confirmed";
+                                  vd.trangThai === "Đã hủy" ? "badge-cancelled" : "badge-confirmed";
 
-            const isKhachHangDeleted = !activeKhachSet.has(vd.khachHang);
-            const khachDisplay = isKhachHangDeleted
+            const isKhachDeleted = !activeKhachSet.has(vd.khachHang);
+            const khachDisplay = isKhachDeleted
                 ? `<span style="color: var(--danger);">${escapeHtml(vd.khachHang || "Không rõ")}</span><span style="display:block; font-size:10px; color: var(--warning);">⚠️ Đã ngưng hợp tác</span>`
                 : `<strong>${escapeHtml(vd.khachHang || "Không rõ")}</strong>`;
 
@@ -85,10 +88,13 @@ async function loadDanhSachVanDon() {
                 </tr>
             `;
         }).join("");
+
     } catch (error) {
         console.error("Lỗi load danh sách vận đơn:", error);
-        showToast("Không thể tải danh sách vận đơn", "error");
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:80px;color:var(--text-muted);">Lỗi tải dữ liệu.</td></tr>';
+        if (!error.message?.includes("401")) {
+            showToast("Không thể tải danh sách vận đơn", "error");
+        }
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:80px;color:var(--danger);">Không thể tải dữ liệu vận đơn.</td></tr>`;
     }
 }
 

@@ -1343,12 +1343,15 @@ async function loadDanhSachBaoGia() {
     }
 
     try {
+        // Gọi API danh sách báo giá
         const data = await callAPI(url);
-        const list = data.data || [];
+        const list = data?.data || [];
 
-        // Lấy danh sách khách hàng đang hoạt động để kiểm tra xem khách có bị xóa không
+        // Gọi API lấy danh sách khách hàng (để kiểm tra khách bị xóa)
         const khachData = await callAPI('khachhang?all=true');
-        const activeKhachSet = new Set(khachData.data.map(kh => kh.tenCongTy));
+        const activeKhachSet = new Set(
+            (khachData?.data || []).map(kh => kh.tenCongTy)
+        );
 
         if (list.length === 0) {
             tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:80px;">Chưa có báo giá nào</td></tr>`;
@@ -1358,23 +1361,23 @@ async function loadDanhSachBaoGia() {
         tbody.innerHTML = list.map(bg => {
             let tenKhach = bg.tenCongTy || '';
             const isKhachDeleted = !activeKhachSet.has(tenKhach);
+            
             const khachHangDisplay = isKhachDeleted
                 ? `<span style="color: var(--danger);">${escapeHtml(tenKhach)}</span><span style="display:block; font-size:10px; color: var(--warning);">⚠️ Đã ngưng hợp tác</span>`
                 : escapeHtml(tenKhach);
 
-            const trangThaiViet = bg.trangThai; // backend trả về: Chưa duyệt, Đã gửi, Chấp nhận, Từ chối
+            const trangThaiViet = bg.trangThai || 'Chưa duyệt';
             let trangThaiClass = "badge-draft";
             if (trangThaiViet === "Chấp nhận") trangThaiClass = "badge-accepted";
             else if (trangThaiViet === "Từ chối") trangThaiClass = "badge-rejected";
             else if (trangThaiViet === "Đã gửi") trangThaiClass = "badge-sent";
-            // else "Chưa duyệt" -> badge-draft
 
             return `
                 <tr>
                     <td><span class="td-mono">#BG${bg.id.toString().slice(-6)}</span></td>
                     <td>${khachHangDisplay}</td>
-                    <td>${bg.ngayLap}</td>
-                    <td>${bg.ngayHetHan}</td>
+                    <td>${bg.ngayLap || '--'}</td>
+                    <td>${bg.ngayHetHan || '--'}</td>
                     <td style="text-align:center">${bg.soChiTiet || 0}</td>
                     <td style="font-weight:600;color:var(--accent)">${formatVND(bg.tongGiaTri)}</td>
                     <td><span class="badge ${trangThaiClass}">${trangThaiViet}</span></td>
@@ -1385,10 +1388,22 @@ async function loadDanhSachBaoGia() {
                 </tr>
             `;
         }).join("");
+
     } catch (error) {
         console.error("Lỗi load danh sách báo giá:", error);
-        showToast("Không thể tải danh sách báo giá", "error");
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:80px;color:var(--text-muted);">Lỗi tải dữ liệu.</td></tr>`;
+
+        // Nếu lỗi là do token (401) thì không cần hiện toast nữa vì api.js đã xử lý goToLogin
+        if (!error.message?.includes("401") && !error.message?.includes("Token")) {
+            showToast("Không thể tải danh sách báo giá", "error");
+        }
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" style="text-align:center;padding:80px;color:var(--danger);">
+                    Không thể tải dữ liệu báo giá.<br>
+                    <small>Vui lòng thử lại sau hoặc đăng nhập lại.</small>
+                </td>
+            </tr>`;
     }
 }
 

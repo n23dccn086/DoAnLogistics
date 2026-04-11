@@ -3,9 +3,13 @@ const router = express.Router();
 const khachHangController = require('../controllers/khachHangController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-router.get('/', authMiddleware, khachHangController.getAllActive);
-router.post('/', authMiddleware, khachHangController.create);
-router.put('/:id', authMiddleware, khachHangController.update);
-router.delete('/:id', authMiddleware, khachHangController.delete);
+// Áp dụng auth cho tất cả route
+router.use(authMiddleware);
+
+router.get('/', khachHangController.getAllActive);           // Danh sách
+router.get('/:id', khachHangController.getById);             // ← THÊM DÒNG NÀY (Chi tiết)
+router.post('/', khachHangController.create);                 // Thêm mới
+router.put('/:id', khachHangController.update);               // Sửa
+router.delete('/:id', khachHangController.delete);            // Xóa
 
 module.exports = router;

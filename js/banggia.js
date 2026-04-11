@@ -3,6 +3,7 @@
 let currentEditingBangGiaId = null;
 
 // Load danh sách bảng giá từ API
+// ==================== loadBangGia() - ĐÃ TỐI ƯU HOÀN CHỈNH ====================
 async function loadBangGia() {
     const tbody = document.getElementById("banggia-table-body");
     if (!tbody) return;
@@ -15,7 +16,7 @@ async function loadBangGia() {
 
     try {
         const data = await callAPI(url);
-        const list = data.data || [];
+        const list = data?.data || [];
 
         if (list.length === 0) {
             tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:60px;">Chưa có dữ liệu bảng giá</td></tr>';
@@ -25,19 +26,33 @@ async function loadBangGia() {
         tbody.innerHTML = list.map(item => `
             <tr>
                 <td><strong>${escapeHtml(item.loaiHang)}</strong></td>
-                <td>${item.kgTu.toLocaleString()}</td>
-                <td>${item.kgDen.toLocaleString()}</td>
-                <td style="font-family:monospace;font-weight:700;color:var(--accent)">${item.donGia.toLocaleString()}</td>
+                <td>${item.kgTu.toLocaleString('vi-VN')}</td>
+                <td>${item.kgDen.toLocaleString('vi-VN')}</td>
+                <td style="font-family:monospace;font-weight:700;color:var(--accent)">
+                    ${item.donGia.toLocaleString('vi-VN')}
+                </td>
                 <td>
                     <button class="btn btn-ghost btn-sm" onclick="editBangGia(${item.id})">Sửa</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteBangGia(${item.id})" style="margin-left:5px;">Xóa</button>
                 </td>
             </tr>
         `).join("");
+
     } catch (error) {
         console.error("Lỗi load bảng giá:", error);
-        showToast("Không thể tải bảng giá", "error");
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:80px;color:var(--text-muted);">Lỗi tải dữ liệu.</td></tr>';
+
+        // Không hiện toast nếu là lỗi token (401) vì api.js đã xử lý goToLogin
+        if (!error.message?.includes("401") && !error.message?.includes("Token")) {
+            showToast("Không thể tải bảng giá", "error");
+        }
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align:center;padding:80px;color:var(--danger);">
+                    Không thể tải dữ liệu bảng giá.<br>
+                    <small>Vui lòng thử lại sau.</small>
+                </td>
+            </tr>`;
     }
 }
 
